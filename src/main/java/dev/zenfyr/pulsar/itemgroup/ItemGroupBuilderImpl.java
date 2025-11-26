@@ -17,7 +17,7 @@ class ItemGroupBuilderImpl implements ItemGroupBuilder {
   private final ResourceLocation identifier;
   private Supplier<ItemStack> icon = () -> ItemStack.EMPTY;
   private String texture;
-  private DarkMatterEntries.Collector entries;
+  private PulsarEntries.Collector entries;
   private BooleanSupplier register = Utilities.getTruth();
   private Component displayName;
 
@@ -38,7 +38,7 @@ class ItemGroupBuilderImpl implements ItemGroupBuilder {
   }
 
   @Override
-  public ItemGroupBuilder entries(@NonNull DarkMatterEntries.Collector collector) {
+  public ItemGroupBuilder entries(@NonNull PulsarEntries.Collector collector) {
     this.entries = collector;
     return this;
   }
@@ -73,7 +73,7 @@ class ItemGroupBuilderImpl implements ItemGroupBuilder {
         () -> Component.translatable("itemGroup." + this.identifier.toString().replace(':', '.'))));
     if (this.texture != null) builder.backgroundSuffix(this.texture);
     builder.displayItems(
-        (displayContext, entries1) -> this.entries.collect(new DarkMatterEntriesImpl(entries1)));
+        (displayContext, entries1) -> this.entries.collect(new PulsarEntriesImpl(entries1)));
 
     CreativeModeTab group = builder.build();
     Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, this.identifier, group);

@@ -33,7 +33,7 @@ public abstract class CreativeInventoryScreenMixin
               shift = At.Shift.BEFORE),
       method = "renderTabButton",
       cancellable = true)
-  private void dark_matter$drawGroupIcon(
+  private void pulsar$drawGroupIcon(
       GuiGraphics context,
       CreativeModeTab group,
       CallbackInfo ci,
@@ -41,9 +41,9 @@ public abstract class CreativeInventoryScreenMixin
       @Local(index = 4) boolean bl2,
       @Local(index = 8) int l,
       @Local(index = 9) int m) {
-    if (((ItemGroupExtensions) group).dm$getIconAnimation() != null) {
+    if (((ItemGroupExtensions) group).pulsar$getIconAnimation() != null) {
       ((ItemGroupExtensions) group)
-          .dm$getIconAnimation()
+          .pulsar$getIconAnimation()
           .animateIcon(group, context, l, m, bl, bl2);
       ci.cancel();
     }

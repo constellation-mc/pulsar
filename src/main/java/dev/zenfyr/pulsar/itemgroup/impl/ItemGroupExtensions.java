@@ -8,11 +8,11 @@ import net.minecraft.world.item.CreativeModeTab;
 @Environment(EnvType.CLIENT)
 public interface ItemGroupExtensions {
 
-  default CreativeModeTab dm$setIconAnimation(ItemGroupAnimaton animation) {
+  default CreativeModeTab pulsar$setIconAnimation(ItemGroupAnimaton animation) {
     throw new IllegalStateException("Interface not implemented");
   }
 
-  default ItemGroupAnimaton dm$getIconAnimation() {
+  default ItemGroupAnimaton pulsar$getIconAnimation() {
     throw new IllegalStateException("Interface not implemented");
   }
 }

@@ -12,12 +12,12 @@ import net.minecraft.world.item.CreativeModeTab;
 public interface ItemGroupAnimaton {
 
   static CreativeModeTab setIconAnimation(CreativeModeTab group, ItemGroupAnimaton animation) {
-    ((ItemGroupExtensions) group).dm$setIconAnimation(animation);
+    ((ItemGroupExtensions) group).pulsar$setIconAnimation(animation);
     return group;
   }
 
   static Optional<ItemGroupAnimaton> getIconAnimation(CreativeModeTab group) {
-    return Optional.ofNullable(((ItemGroupExtensions) group).dm$getIconAnimation());
+    return Optional.ofNullable(((ItemGroupExtensions) group).pulsar$getIconAnimation());
   }
 
   /**

@@ -26,9 +26,9 @@ public class GameRendererMixin {
               target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V",
               ordinal = 1,
               shift = At.Shift.BEFORE))
-  private void dark_matter$renderScreenParticles(
+  private void pulsar$renderScreenParticles(
       float tickDelta, long startTime, boolean tick, CallbackInfo ci, @Local GuiGraphics context) {
-    this.minecraft.getProfiler().push("dark_matter_particles");
+    this.minecraft.getProfiler().push("pulsar_particles");
     ScreenParticleHelper.renderParticles(this.minecraft, context);
     this.minecraft.getProfiler().pop();
   }

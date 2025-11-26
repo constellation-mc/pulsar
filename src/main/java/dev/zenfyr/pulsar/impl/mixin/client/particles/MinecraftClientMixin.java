@@ -18,7 +18,7 @@ public abstract class MinecraftClientMixin {
               target =
                   "Lnet/minecraft/client/tutorial/Tutorial;onLookAt(Lnet/minecraft/client/multiplayer/ClientLevel;Lnet/minecraft/world/phys/HitResult;)V",
               shift = At.Shift.AFTER))
-  private void dark_matter$tickParticles(CallbackInfo ci) {
+  private void pulsar$tickParticles(CallbackInfo ci) {
     ScreenParticleHelper.tickParticles();
   }
 
@@ -28,7 +28,7 @@ public abstract class MinecraftClientMixin {
           @At(
               value = "INVOKE",
               target = "Lnet/minecraft/client/gui/screens/LevelLoadingScreen;tick()V"))
-  private void dark_matter$tickScreen(CallbackInfo ci) {
+  private void pulsar$tickScreen(CallbackInfo ci) {
     ScreenParticleHelper.tickParticles();
   }
 }

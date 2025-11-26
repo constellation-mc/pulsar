@@ -14,7 +14,7 @@ abstract class MinecraftServerMixin implements DataPackContentsAccessor {
   private MinecraftServer.ReloadableResources resources;
 
   @Override
-  public <T extends PreparableReloadListener> T dm$getReloader(ReloaderType<T> type) {
-    return ((DataPackContentsAccessor) resources.managers()).dm$getReloader(type);
+  public <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type) {
+    return ((DataPackContentsAccessor) resources.managers()).pulsar$getReloader(type);
   }
 }

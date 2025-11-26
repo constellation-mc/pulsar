@@ -17,7 +17,7 @@ public class ParticleManagerMixin {
               target =
                   "Lnet/minecraft/client/particle/ParticleEngine;level:Lnet/minecraft/client/multiplayer/ClientLevel;"),
       method = "makeParticle")
-  private ClientLevel dark_matter$modifyWorld(ClientLevel value) {
+  private ClientLevel pulsar$modifyWorld(ClientLevel value) {
     var w = VanillaParticle.WORLD.get();
     if (w != null) return w;
     return value;

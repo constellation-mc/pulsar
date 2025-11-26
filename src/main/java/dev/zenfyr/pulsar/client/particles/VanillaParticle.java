@@ -92,7 +92,7 @@ public class VanillaParticle extends AbstractScreenParticle {
       particle.render(bufferBuilder, CAMERA, client.getFrameTime());
     } catch (Throwable var17) {
       CrashReport crashReport =
-          CrashReport.forThrowable(var17, "[Dark Matter Glitter] Rendering Particle On Screen");
+          CrashReport.forThrowable(var17, "[Pulsar] Rendering Particle On Screen");
       CrashReportCategory crashReportSection =
           crashReport.addCategory("Particle being rendered on screen");
       crashReportSection.setDetail("Particle", particle::toString);
@@ -123,7 +123,7 @@ public class VanillaParticle extends AbstractScreenParticle {
     try {
       WORLD.set(FakeWorld.INSTANCE.get());
       particle = ((ParticleManagerAccessor) Minecraft.getInstance().particleEngine)
-          .dark_matter$createParticle(
+          .pulsar$createParticle(
               parameters,
               x / 24,
               (Minecraft.getInstance().getWindow().getGuiScaledHeight() - y) / 24,

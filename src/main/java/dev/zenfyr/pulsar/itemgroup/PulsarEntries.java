@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 
-public interface DarkMatterEntries {
+public interface PulsarEntries {
   void add(ItemStack stack, Visibility visibility);
 
   default void add(ItemStack stack) {
@@ -55,6 +55,6 @@ public interface DarkMatterEntries {
   }
 
   interface Collector {
-    void collect(DarkMatterEntries entries);
+    void collect(PulsarEntries entries);
   }
 }

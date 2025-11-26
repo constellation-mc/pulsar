@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-class DarkMatterEntriesImpl implements DarkMatterEntries {
+class PulsarEntriesImpl implements PulsarEntries {
 
   private final CreativeModeTab.Output entries;
 
-  public DarkMatterEntriesImpl(CreativeModeTab.Output entries) {
+  public PulsarEntriesImpl(CreativeModeTab.Output entries) {
     this.entries = entries;
 
     if (entries instanceof CreativeModeTab.ItemDisplayBuilder) {

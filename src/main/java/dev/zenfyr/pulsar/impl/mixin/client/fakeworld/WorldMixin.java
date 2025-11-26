@@ -19,7 +19,7 @@ public class WorldMixin {
               target =
                   "(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/damagesource/DamageSources;"),
       method = "<init>")
-  private DamageSources dark_matter$ignoreDamageSources(
+  private DamageSources pulsar$ignoreDamageSources(
       RegistryAccess registryManager, Operation<DamageSources> original) {
     if (FakeWorld.LOADING.get()) {
       return null;

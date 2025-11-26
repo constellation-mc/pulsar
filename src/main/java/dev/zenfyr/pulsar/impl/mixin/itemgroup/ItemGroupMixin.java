@@ -9,16 +9,16 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(CreativeModeTab.class)
 public class ItemGroupMixin implements ItemGroupExtensions {
 
-  @Unique private ItemGroupAnimaton dark_matter$animation;
+  @Unique private ItemGroupAnimaton pulsar$animation;
 
   @Override
-  public CreativeModeTab dm$setIconAnimation(ItemGroupAnimaton animation) {
-    this.dark_matter$animation = animation;
+  public CreativeModeTab pulsar$setIconAnimation(ItemGroupAnimaton animation) {
+    this.pulsar$animation = animation;
     return (CreativeModeTab) (Object) this;
   }
 
   @Override
-  public ItemGroupAnimaton dm$getIconAnimation() {
-    return dark_matter$animation;
+  public ItemGroupAnimaton pulsar$getIconAnimation() {
+    return pulsar$animation;
   }
 }

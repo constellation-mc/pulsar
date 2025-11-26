@@ -32,7 +32,7 @@ abstract class DataPackContentsMixin implements InternalContentsAccessor {
       reloadersByType = new IdentityHashMap<>();
 
   @Override
-  public <T extends PreparableReloadListener> T dm$getReloader(ReloaderType<T> type) {
+  public <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type) {
     var reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {
@@ -46,7 +46,7 @@ abstract class DataPackContentsMixin implements InternalContentsAccessor {
   }
 
   @Override
-  public void dark_matter$setReloaders(List<IdentifiableResourceReloadListener> reloaders) {
+  public void pulsar$setReloaders(List<IdentifiableResourceReloadListener> reloaders) {
     this.reloadersByIdentifier.clear();
     this.reloadersByType.clear();
 

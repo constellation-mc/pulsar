@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface ParticleManagerAccessor {
 
   @Invoker("makeParticle")
-  <T extends ParticleOptions> Particle dark_matter$createParticle(
+  <T extends ParticleOptions> Particle pulsar$createParticle(
       T parameters,
       double x,
       double y,

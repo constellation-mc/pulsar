@@ -42,7 +42,7 @@ public class ResourceManagerHelperImplMixin {
             toAdd.add(listener);
           },
           reloaderType ->
-              ((InternalContentsAccessor) internal.contents()).dm$getReloader(reloaderType));
+              ((InternalContentsAccessor) internal.contents()).pulsar$getReloader(reloaderType));
 
       ServerReloadersEvent.EVENT.invoker().onServerReloaders(context);
     }
@@ -55,7 +55,7 @@ public class ResourceManagerHelperImplMixin {
       var internal = InternalContext.LOCAL.get();
       var cls = IdentifiableResourceReloadListener.class;
       ((InternalContentsAccessor) internal.contents())
-          .dark_matter$setReloaders(
+          .pulsar$setReloaders(
               listeners.stream().filter(cls::isInstance).map(cls::cast).toList());
     }
   }

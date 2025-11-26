@@ -30,7 +30,7 @@ public interface ItemGroupBuilder {
 
   ItemGroupBuilder texture(String texture);
 
-  ItemGroupBuilder entries(DarkMatterEntries.Collector collector);
+  ItemGroupBuilder entries(PulsarEntries.Collector collector);
 
   ItemGroupBuilder displayName(Component displayName);
 

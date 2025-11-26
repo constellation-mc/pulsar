@@ -17,7 +17,7 @@ public class RegistriesMixin {
                   "Lnet/minecraft/core/RegistrySetBuilder$BuildState;reportRemainingUnreferencedValues()V"),
       method =
           "build(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/core/HolderLookup$Provider;")
-  private boolean dark_matter$validateRefs(RegistrySetBuilder.BuildState instance) {
+  private boolean pulsar$validateRefs(RegistrySetBuilder.BuildState instance) {
     return !FakeWorld.LOADING.get();
   }
 }
