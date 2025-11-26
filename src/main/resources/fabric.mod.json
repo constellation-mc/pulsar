@@ -25,5 +25,15 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    },
+    "loom:injected_interfaces": {
+      "net/minecraft/server/MinecraftServer": [
+        "dev/zenfyr/pulsar/resources/DataPackContentsAccessor"
+      ]
+    }
   }
 }
