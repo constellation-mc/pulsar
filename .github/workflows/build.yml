@@ -1,0 +1,10 @@
+
+name: build
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    uses: constellation-mc/actions/.github/workflows/gradle-build.yml@main
+    with:
+      java: 17
+      gradle_tasks: check

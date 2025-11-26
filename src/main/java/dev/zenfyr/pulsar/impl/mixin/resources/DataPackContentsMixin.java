@@ -1,0 +1,84 @@
+package dev.zenfyr.pulsar.impl.mixin.resources;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import dev.zenfyr.pulsar.resources.ReloaderType;
+import dev.zenfyr.pulsar.resources.impl.InternalContentsAccessor;
+import dev.zenfyr.pulsar.resources.impl.InternalContext;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.ReloadableServerResources;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ReloadInstance;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Unit;
+import net.minecraft.world.flag.FeatureFlagSet;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+
+@Mixin(value = ReloadableServerResources.class, priority = 1100)
+abstract class DataPackContentsMixin implements InternalContentsAccessor {
+
+  @Unique private final Map<ResourceLocation, IdentifiableResourceReloadListener> reloadersByIdentifier =
+      new HashMap<>();
+
+  @Unique private final IdentityHashMap<ReloaderType<?>, IdentifiableResourceReloadListener>
+      reloadersByType = new IdentityHashMap<>();
+
+  @Override
+  public <T extends PreparableReloadListener> T dm$getReloader(ReloaderType<T> type) {
+    var reloader = this.reloadersByType.get(type);
+    if (reloader == null) {
+      synchronized (this.reloadersByIdentifier) {
+        reloader = this.reloadersByIdentifier.get(type.identifier());
+        if (reloader == null)
+          throw new NoSuchElementException("Missing reloader %s".formatted(type.identifier()));
+        this.reloadersByType.put(type, reloader);
+      }
+    }
+    return (T) reloader;
+  }
+
+  @Override
+  public void dark_matter$setReloaders(List<IdentifiableResourceReloadListener> reloaders) {
+    this.reloadersByIdentifier.clear();
+    this.reloadersByType.clear();
+
+    for (IdentifiableResourceReloadListener reloader : reloaders) {
+      this.reloadersByIdentifier.put(reloader.getFabricId(), reloader);
+    }
+  }
+
+  @WrapOperation(
+      at =
+          @At(
+              value = "INVOKE",
+              target =
+                  "Lnet/minecraft/server/packs/resources/SimpleReloadInstance;create(Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/List;Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Z)Lnet/minecraft/server/packs/resources/ReloadInstance;"),
+      method = "loadResources")
+  private static ReloadInstance setContext(
+      ResourceManager manager,
+      List<PreparableReloadListener> reloaders,
+      Executor prepareExecutor,
+      Executor applyExecutor,
+      CompletableFuture<Unit> initialStage,
+      boolean profiled,
+      Operation<ReloadInstance> original,
+      @Local ReloadableServerResources contents,
+      @Local(argsOnly = true) RegistryAccess.Frozen registryManager,
+      @Local(argsOnly = true) FeatureFlagSet featureSet) {
+    try {
+      InternalContext.LOCAL.set(new InternalContext(registryManager, featureSet, contents));
+      return original.call(
+          manager, reloaders, prepareExecutor, applyExecutor, initialStage, profiled);
+    } finally {
+      InternalContext.LOCAL.remove();
+    }
+  }
+}

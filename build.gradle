@@ -1,0 +1,134 @@
+plugins {
+    id 'java-library'
+    alias libs.plugins.fabric.loom
+    id 'maven-publish'
+    alias libs.plugins.lombok
+    alias libs.plugins.spotless
+    alias libs.plugins.modmuss50.publish
+}
+
+def targetJavaVersion = 17
+def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER");
+
+group = project.maven_group
+version = "${project.mod_version}-${project.minecraft_version}-${local ? 'local' : "build.${System.getenv("GITHUB_RUN_NUMBER")}"}"
+
+base {
+    archivesName = project.archives_base_name
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation libs.fabric.loader
+
+    modImplementation libs.fabric.api
+}
+
+loom {
+    accessWidenerPath = file("${getRootProject().projectDir.absolutePath}/src/main/resources/pulsar.accesswidener")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        palantirJavaFormat('2.47.0').style("GOOGLE")
+        trimTrailingWhitespace()
+        formatAnnotations()
+    }
+}
+
+processResources {
+    def map = [
+            "version": project.version,
+            "minecraft_version": project.minecraft_version,
+            "loader_version": libs.fabric.loader.get().version,
+            "fabric_version": libs.fabric.api.get().version
+    ]
+    inputs.properties(map)
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand map
+    }
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    if (!local) {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = "https://maven.pkg.github.com/constellation-mc/dark-matter"
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+    }
+}
+
+import me.modmuss50.mpp.ReleaseType
+
+publishMods {
+    file = remapJar.archiveFile
+    additionalFiles.from(remapSourcesJar.archiveFile)
+
+    changelog = "https://github.com/constellation-mc/pulsar/blob/${{ providers.environmentVariable("GITHUB_SHA").getOrElse("main") }}/CHANGELOG.md"
+    type = ReleaseType.valueOf(providers.environmentVariable("VERSION_TYPE").getOrElse("BETA"))
+    modLoaders.add("fabric")
+
+    displayName = "${project.mod_version} (${project.minecraft_version})"
+
+    curseforge {
+        projectId = "1391698"
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        minecraftVersions.add("${project.minecraft_version}")
+    }
+    modrinth {
+        projectId = "FABvZJ1v"
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.add("${project.minecraft_version}")
+    }
+    github {
+        repository = "constellation-mc/pulsar"
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        commitish = providers.environmentVariable("GITHUB_SHA").getOrElse("${project.minecraft_version}")
+    }
+
+    dryRun = local
+}

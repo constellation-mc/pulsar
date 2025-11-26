@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.zenfyr.pulsar.impl.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "itemgroup.ItemGroupMixin",
+    "resources.DataPackContentsMixin",
+    "resources.MinecraftServerMixin",
+    "resources.ResourceManagerHelperImplMixin"
+  ],
+  "client": [
+    "client.events.MinecraftClientMixin",
+    "client.fakeworld.RegistriesMixin",
+    "client.fakeworld.WorldMixin",
+    "client.itemgroup.CreativeInventoryScreenMixin",
+    "client.particles.GameRendererMixin",
+    "client.particles.MinecraftClientMixin",
+    "client.particles.ParticleManagerAccessor",
+    "client.particles.ParticleManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
