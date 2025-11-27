@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.impl.mixin.itemgroup;
+package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 
 import dev.zenfyr.pulsar.itemgroup.ItemGroupAnimaton;
 import dev.zenfyr.pulsar.itemgroup.impl.ItemGroupExtensions;
