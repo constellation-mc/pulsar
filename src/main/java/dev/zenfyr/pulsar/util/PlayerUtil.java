@@ -16,36 +16,35 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class PlayerUtil {
 
-  public static List<Player> getPlayers(
-      TargetingConditions targetPredicate, Level world, AABB box) {
-    return world.players().stream()
+  public static List<Player> getPlayers(TargetingConditions conditions, Level level, AABB box) {
+    return level.players().stream()
         .filter(playerEntity ->
             box.contains(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ())
-                && targetPredicate.test(null, playerEntity))
+                && conditions.test(null, playerEntity))
         .collect(ImmutableList.toImmutableList());
   }
 
-  public static List<Player> findPlayersInRange(Level world, BlockPos pos, int range) {
+  public static List<Player> findPlayersInRange(Level level, BlockPos pos, int range) {
     return getPlayers(
-        TargetingConditions.forNonCombat().range(range), world, new AABB(pos).inflate(range));
+        TargetingConditions.forNonCombat().range(range), level, new AABB(pos).inflate(range));
   }
 
-  public static List<Player> findNonCreativePlayersInRange(Level world, BlockPos pos, int range) {
-    return findPlayersInRange(world, pos, range).stream()
+  public static List<Player> findNonCreativePlayersInRange(Level level, BlockPos pos, int range) {
+    return findPlayersInRange(level, pos, range).stream()
         .filter(player -> !player.isCreative())
         .collect(ImmutableList.toImmutableList());
   }
 
   public static @NotNull Optional<Player> findClosestPlayerInRange(
-      Level world, BlockPos pos, int range) {
-    return findPlayersInRange(world, pos, range).stream()
+      Level level, BlockPos pos, int range) {
+    return findPlayersInRange(level, pos, range).stream()
         .min(Comparator.comparingDouble(
             player -> player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ())));
   }
 
   public static @NotNull Optional<Player> findClosestNonCreativePlayerInRange(
-      Level world, BlockPos pos, int range) {
-    return findNonCreativePlayersInRange(world, pos, range).stream()
+      Level level, BlockPos pos, int range) {
+    return findNonCreativePlayersInRange(level, pos, range).stream()
         .min(Comparator.comparingDouble(
             player -> player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ())));
   }

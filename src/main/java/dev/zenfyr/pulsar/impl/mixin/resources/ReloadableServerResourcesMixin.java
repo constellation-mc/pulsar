@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = ReloadableServerResources.class, priority = 1100)
-abstract class DataPackContentsMixin implements InternalContentsAccessor {
+abstract class ReloadableServerResourcesMixin implements InternalContentsAccessor {
 
   @Unique private final Map<ResourceLocation, IdentifiableResourceReloadListener> reloadersByIdentifier =
       new HashMap<>();
@@ -36,9 +36,9 @@ abstract class DataPackContentsMixin implements InternalContentsAccessor {
     var reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {
-        reloader = this.reloadersByIdentifier.get(type.identifier());
+        reloader = this.reloadersByIdentifier.get(type.location());
         if (reloader == null)
-          throw new NoSuchElementException("Missing reloader %s".formatted(type.identifier()));
+          throw new NoSuchElementException("Missing reloader %s".formatted(type.location()));
         this.reloadersByType.put(type, reloader);
       }
     }

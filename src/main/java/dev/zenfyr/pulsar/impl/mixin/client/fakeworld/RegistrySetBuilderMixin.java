@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(RegistrySetBuilder.class)
-public class RegistriesMixin {
+public class RegistrySetBuilderMixin {
 
   @WrapWithCondition(
       at =
@@ -18,6 +18,6 @@ public class RegistriesMixin {
       method =
           "build(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/core/HolderLookup$Provider;")
   private boolean pulsar$validateRefs(RegistrySetBuilder.BuildState instance) {
-    return !FakeWorld.LOADING.get();
+    return !FakeWorld.isLoading();
   }
 }

@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import dev.zenfyr.pulsar.client.fakeworld.AlwaysBrightLightmapTextureManager;
 import dev.zenfyr.pulsar.client.fakeworld.FakeWorld;
-import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleManagerAccessor;
+import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.CrashReport;
@@ -19,24 +19,26 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.particles.ParticleOptions;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Render vanilla particle types on screen!
+ * Render vanilla particle types on screen! Please use the {@link ScreenParticleHelper} methods instead of this class!
  * <p>
  * Inspired by the removed {@code gesundheit} module of <a href="https://git.sleeping.town/unascribed-mods/Lib39">Lib39</a>
  */
+@ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 public class VanillaParticle extends AbstractScreenParticle {
 
-  public static final ThreadLocal<ClientLevel> WORLD = ThreadLocal.withInitial(() -> null);
+  public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
   private static final Camera CAMERA = new Camera();
   private final Particle particle;
 
   public VanillaParticle(
-      ParticleOptions parameters, double x, double y, double velX, double velY, double velZ) {
+      ParticleOptions options, double x, double y, double velX, double velY, double velZ) {
     super(0, 0, 0, 0);
 
-    this.particle = createScreenParticle(parameters, x, y, velX, velY, velZ);
+    this.particle = createScreenParticle(options, x, y, velX, velY, velZ);
     if (this.particle != null) {
       this.particle.hasPhysics = false;
     } else {
@@ -44,8 +46,8 @@ public class VanillaParticle extends AbstractScreenParticle {
     }
   }
 
-  public VanillaParticle(ParticleOptions parameters, double x, double y, double velX, double velY) {
-    this(parameters, x, y, velX, velY, 0);
+  public VanillaParticle(ParticleOptions options, double x, double y, double velX, double velY) {
+    this(options, x, y, velX, velY, 0);
   }
 
   public VanillaParticle(Particle particle) {
@@ -65,19 +67,19 @@ public class VanillaParticle extends AbstractScreenParticle {
   }
 
   @Override
-  public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-    PoseStack matrices = context.pose();
+  public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    PoseStack pose = graphics.pose();
     RenderSystem.disableCull();
     RenderSystem.enableDepthTest();
 
-    matrices.pushPose();
-    PoseStack matrixStack = RenderSystem.getModelViewStack();
-    matrixStack.pushPose();
-    matrixStack.translate(0, 0, 500);
-    matrixStack.scale(24, 24, 1);
-    matrixStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f, 0);
-    matrixStack.scale(1, -1, 1);
-    matrixStack.mulPoseMatrix(matrices.last().pose());
+    pose.pushPose();
+    PoseStack poseStack = RenderSystem.getModelViewStack();
+    poseStack.pushPose();
+    poseStack.translate(0, 0, 500);
+    poseStack.scale(24, 24, 1);
+    poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f, 0);
+    poseStack.scale(1, -1, 1);
+    poseStack.mulPoseMatrix(pose.last().pose());
     RenderSystem.applyModelViewMatrix();
 
     AlwaysBrightLightmapTextureManager.INSTANCE.turnOnLightLayer();
@@ -103,9 +105,9 @@ public class VanillaParticle extends AbstractScreenParticle {
     particle.getRenderType().end(tessellator);
 
     AlwaysBrightLightmapTextureManager.INSTANCE.turnOffLightLayer();
-    matrixStack.popPose();
+    poseStack.popPose();
     RenderSystem.applyModelViewMatrix();
-    matrices.popPose();
+    pose.popPose();
 
     RenderSystem.depthMask(true);
     RenderSystem.enableCull();
@@ -118,13 +120,13 @@ public class VanillaParticle extends AbstractScreenParticle {
   }
 
   public static <T extends ParticleOptions> Particle createScreenParticle(
-      T parameters, double x, double y, double velocityX, double velocityY, double velocityZ) {
+      T options, double x, double y, double velocityX, double velocityY, double velocityZ) {
     Particle particle;
     try {
-      WORLD.set(FakeWorld.INSTANCE.get());
-      particle = ((ParticleManagerAccessor) Minecraft.getInstance().particleEngine)
+      LEVEL.set(FakeWorld.INSTANCE.get());
+      particle = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine)
           .pulsar$createParticle(
-              parameters,
+              options,
               x / 24,
               (Minecraft.getInstance().getWindow().getGuiScaledHeight() - y) / 24,
               0,
@@ -132,7 +134,7 @@ public class VanillaParticle extends AbstractScreenParticle {
               velocityY,
               velocityZ);
     } finally {
-      WORLD.remove();
+      LEVEL.remove();
     }
     return particle;
   }

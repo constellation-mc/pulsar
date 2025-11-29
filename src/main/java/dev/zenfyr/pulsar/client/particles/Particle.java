@@ -19,12 +19,12 @@ public class Particle extends AbstractScreenParticle {
   }
 
   @Override
-  public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-    PoseStack matrices = context.pose();
+  public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    PoseStack matrices = graphics.pose();
     matrices.pushPose();
     float x = (float) Mth.lerp(delta, prevX, this.x);
     float y = (float) Mth.lerp(delta, prevY, this.y);
-    context.fillGradient((int) x, (int) y, (int) (x + 3), (int) (y + 3), 500, color, color);
+    graphics.fillGradient((int) x, (int) y, (int) (x + 3), (int) (y + 3), 500, color, color);
     matrices.popPose();
   }
 

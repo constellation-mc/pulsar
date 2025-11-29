@@ -56,8 +56,8 @@ public class RegistryUtil {
   }
 
   @Contract("null -> null")
-  public <T extends Item> T asItem(@Nullable ItemLike convertible) {
-    return convertible != null ? Utilities.cast(convertible.asItem()) : null;
+  public <T extends Item> T asItem(@Nullable ItemLike item) {
+    return item != null ? Utilities.cast(item.asItem()) : null;
   }
 
   public <T extends AbstractContainerMenu> Supplier<MenuType<T>> screenHandlerType(
@@ -71,22 +71,22 @@ public class RegistryUtil {
   }
 
   public <V, T extends V> @Nullable T register(
-      Registry<V> registry, ResourceLocation id, Supplier<T> entry) {
-    return register(true, registry, id, entry);
+      Registry<V> registry, ResourceLocation location, Supplier<T> entry) {
+    return register(true, registry, location, entry);
   }
 
   public <V, T extends V> @Nullable T register(
       @NotNull BooleanSupplier condition,
       Registry<V> registry,
-      ResourceLocation id,
+      ResourceLocation location,
       Supplier<T> entry) {
-    return register(condition.getAsBoolean(), registry, id, entry);
+    return register(condition.getAsBoolean(), registry, location, entry);
   }
 
   public <V, T extends V> @Nullable T register(
-      boolean condition, Registry<V> registry, ResourceLocation id, Supplier<T> entry) {
+      boolean condition, Registry<V> registry, ResourceLocation location, Supplier<T> entry) {
     if (condition) {
-      return Registry.register(registry, id, entry.get());
+      return Registry.register(registry, location, entry.get());
     }
     return null;
   }

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Level.class)
-public class WorldMixin {
+public class LevelMixin {
 
   @WrapOperation(
       at =
@@ -21,7 +21,7 @@ public class WorldMixin {
       method = "<init>")
   private DamageSources pulsar$ignoreDamageSources(
       RegistryAccess registryManager, Operation<DamageSources> original) {
-    if (FakeWorld.LOADING.get()) {
+    if (FakeWorld.isLoading()) {
       return null;
     }
     return original.call(registryManager);

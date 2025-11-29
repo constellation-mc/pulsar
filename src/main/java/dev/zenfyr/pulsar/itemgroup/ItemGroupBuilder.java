@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public interface ItemGroupBuilder {
 
   static ItemGroupBuilder create(@NonNull ResourceLocation identifier) {
-    return new ItemGroupBuilderImpl(identifier);
+    return new CreativeModeTabBuilderImpl(identifier);
   }
 
   default ItemGroupBuilder icon(ItemStack itemStack) {

@@ -4,20 +4,20 @@
   "package": "dev.zenfyr.pulsar.impl.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "resources.DataPackContentsMixin",
+    "resources.ReloadableServerResourcesMixin",
     "resources.MinecraftServerMixin",
     "resources.ResourceManagerHelperImplMixin"
   ],
   "client": [
-    "client.events.MinecraftClientMixin",
-    "client.fakeworld.RegistriesMixin",
-    "client.fakeworld.WorldMixin",
-    "client.itemgroup.CreativeInventoryScreenMixin",
-    "client.itemgroup.ItemGroupMixin",
+    "client.events.MinecraftMixin",
+    "client.fakeworld.RegistrySetBuilderMixin",
+    "client.fakeworld.LevelMixin",
+    "client.itemgroup.CreativeModeInventoryScreenMixin",
+    "client.itemgroup.CreativeModeTabMixin",
     "client.particles.GameRendererMixin",
-    "client.particles.MinecraftClientMixin",
-    "client.particles.ParticleManagerAccessor",
-    "client.particles.ParticleManagerMixin"
+    "client.particles.MinecraftMixin",
+    "client.particles.ParticleEngineAccessor",
+    "client.particles.ParticleEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1

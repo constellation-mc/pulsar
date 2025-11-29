@@ -6,7 +6,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 public interface DataPackContentsAccessor {
 
   static DataPackContentsAccessor get(MinecraftServer server) {
-    return ((DataPackContentsAccessor) server);
+    return server;
   }
 
   <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type);

@@ -29,7 +29,7 @@ public abstract class AbstractScreenParticle implements Renderable {
 
   @Override
   @ApiStatus.OverrideOnly
-  public abstract void render(GuiGraphics context, int mouseX, int mouseY, float delta);
+  public abstract void render(GuiGraphics graphics, int mouseX, int mouseY, float delta);
 
   @ApiStatus.OverrideOnly
   protected abstract void tick();
@@ -44,9 +44,9 @@ public abstract class AbstractScreenParticle implements Renderable {
   }
 
   @ApiStatus.Internal
-  public final void renderInternal(GuiGraphics context, int mouseX, int mouseY, float delta) {
+  public final void renderInternal(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
     if (removed || (screen != null && client.screen != screen)) return;
-    render(context, mouseX, mouseY, delta);
+    render(graphics, mouseX, mouseY, delta);
   }
 
   @ApiStatus.Internal

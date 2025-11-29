@@ -20,16 +20,16 @@ public class ItemStackParticle extends AbstractScreenParticle {
   }
 
   @Override
-  public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-    PoseStack matrices = context.pose();
+  public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    PoseStack pose = graphics.pose();
     float x = (float) Mth.lerp(delta, this.prevX, this.x);
     float y = (float) Mth.lerp(delta, this.prevY, this.y);
-    matrices.pushPose();
-    matrices.translate(x, y, 500);
+    pose.pushPose();
+    pose.translate(x, y, 500);
     float angle = (float) Math.toDegrees(Math.atan2(velY, velX) * 0.5);
-    matrices.mulPose(Axis.ZP.rotationDegrees(angle));
-    context.renderItem(stack, -8, -8);
-    matrices.popPose();
+    pose.mulPose(Axis.ZP.rotationDegrees(angle));
+    graphics.renderItem(stack, -8, -8);
+    pose.popPose();
   }
 
   @Override

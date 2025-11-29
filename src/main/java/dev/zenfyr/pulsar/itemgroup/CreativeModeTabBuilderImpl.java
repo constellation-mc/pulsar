@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-class ItemGroupBuilderImpl implements ItemGroupBuilder {
+class CreativeModeTabBuilderImpl implements ItemGroupBuilder {
 
   private final ResourceLocation identifier;
   private Supplier<ItemStack> icon = () -> ItemStack.EMPTY;
@@ -21,7 +21,7 @@ class ItemGroupBuilderImpl implements ItemGroupBuilder {
   private BooleanSupplier register = Utilities.getTruth();
   private Component displayName;
 
-  public ItemGroupBuilderImpl(ResourceLocation identifier) {
+  public CreativeModeTabBuilderImpl(ResourceLocation identifier) {
     this.identifier = identifier;
   }
 
@@ -66,7 +66,7 @@ class ItemGroupBuilderImpl implements ItemGroupBuilder {
 
     CreativeModeTab.Builder builder = new CreativeModeTab.Builder(null, -1);
     builder.displayItems((displayContext, operatorEnabled) -> {});
-    builder.icon(() -> ItemGroupBuilderImpl.this.icon.get());
+    builder.icon(() -> CreativeModeTabBuilderImpl.this.icon.get());
 
     builder.title(Objects.requireNonNullElseGet(
         this.displayName,

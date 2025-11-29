@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.itemgroup.impl.ItemGroupExtensions;
+import dev.zenfyr.pulsar.itemgroup.impl.CreativeModeTabExtensions;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
@@ -14,10 +14,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class CreativeInventoryScreenMixin
+public abstract class CreativeModeInventoryScreenMixin
     extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
 
-  public CreativeInventoryScreenMixin(
+  public CreativeModeInventoryScreenMixin(
       CreativeModeInventoryScreen.ItemPickerMenu screenHandler,
       Inventory playerInventory,
       Component text) {
@@ -41,8 +41,8 @@ public abstract class CreativeInventoryScreenMixin
       @Local(index = 4) boolean bl2,
       @Local(index = 8) int l,
       @Local(index = 9) int m) {
-    if (((ItemGroupExtensions) group).pulsar$getIconAnimation() != null) {
-      ((ItemGroupExtensions) group)
+    if (((CreativeModeTabExtensions) group).pulsar$getIconAnimation() != null) {
+      ((CreativeModeTabExtensions) group)
           .pulsar$getIconAnimation()
           .animateIcon(group, context, l, m, bl, bl2);
       ci.cancel();

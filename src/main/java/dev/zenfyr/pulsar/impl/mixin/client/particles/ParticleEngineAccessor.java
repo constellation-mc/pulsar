@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ParticleEngine.class)
-public interface ParticleManagerAccessor {
+public interface ParticleEngineAccessor {
 
   @Invoker("makeParticle")
   <T extends ParticleOptions> Particle pulsar$createParticle(

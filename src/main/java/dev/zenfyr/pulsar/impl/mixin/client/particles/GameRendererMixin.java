@@ -27,9 +27,9 @@ public class GameRendererMixin {
               ordinal = 1,
               shift = At.Shift.BEFORE))
   private void pulsar$renderScreenParticles(
-      float tickDelta, long startTime, boolean tick, CallbackInfo ci, @Local GuiGraphics context) {
+      float tickDelta, long startTime, boolean tick, CallbackInfo ci, @Local GuiGraphics graphics) {
     this.minecraft.getProfiler().push("pulsar_particles");
-    ScreenParticleHelper.renderParticles(this.minecraft, context);
+    ScreenParticleHelper.renderParticles(this.minecraft, graphics);
     this.minecraft.getProfiler().pop();
   }
 }

@@ -28,11 +28,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraft.world.level.levelgen.presets.WorldPresets;
+import org.jetbrains.annotations.ApiStatus;
 
 @UtilityClass
 public class FakeWorld {
 
-  public static final ThreadLocal<Boolean> LOADING = ThreadLocal.withInitial(() -> false);
+  private static final ThreadLocal<Boolean> LOADING = ThreadLocal.withInitial(() -> false);
 
   public static final Supplier<ClientLevel> INSTANCE = Suppliers.memoize(() -> {
     try {
@@ -70,6 +71,14 @@ public class FakeWorld {
       LOADING.remove();
     }
   });
+
+  /**
+   * Returns if the current loading world is the fake {@link ClientLevel}.
+   * @return if the current loading world is the fake {@link ClientLevel}.
+   */
+  public static boolean isLoading() {
+    return LOADING.get();
+  }
 
   private static LayeredRegistryAccess<RegistryLayer> getRegistries() {
     LayeredRegistryAccess<RegistryLayer> combinedDynamicRegistries =
@@ -110,6 +119,7 @@ public class FakeWorld {
     return cdr.replaceFrom(RegistryLayer.WORLDGEN, immutable1);
   }
 
+  @ApiStatus.Internal
   public static void init() {
     AfterFirstReload.EVENT.register(INSTANCE::get);
   }

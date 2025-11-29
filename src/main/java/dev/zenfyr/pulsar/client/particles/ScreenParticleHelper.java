@@ -52,14 +52,14 @@ public final class ScreenParticleHelper {
   }
 
   public static void addParticles(
-      ParticleOptions parameters,
+      ParticleOptions options,
       double x,
       double y,
       double deltaX,
       double deltaY,
       double speed,
       int count) {
-    ScreenParticleHelper.addScreenParticles(null, parameters, x, y, deltaX, deltaY, speed, count);
+    ScreenParticleHelper.addScreenParticles(null, options, x, y, deltaX, deltaY, speed, count);
   }
 
   /////////////////////////////
@@ -69,13 +69,13 @@ public final class ScreenParticleHelper {
   }
 
   public static void addScreenParticle(
-      ParticleOptions parameters, double x, double y, double velX, double velY) {
-    ScreenParticleHelper.addScreenParticle(current(), parameters, x, y, velX, velY);
+      ParticleOptions options, double x, double y, double velX, double velY) {
+    ScreenParticleHelper.addScreenParticle(current(), options, x, y, velX, velY);
   }
 
   public static void addScreenParticle(
-      ParticleOptions parameters, double x, double y, double velX, double velY, double velZ) {
-    ScreenParticleHelper.addScreenParticle(current(), parameters, x, y, velX, velY, velZ);
+      ParticleOptions options, double x, double y, double velX, double velY, double velZ) {
+    ScreenParticleHelper.addScreenParticle(current(), options, x, y, velX, velY, velZ);
   }
 
   public static void addScreenParticles(AbstractScreenParticle... particles) {
@@ -91,15 +91,14 @@ public final class ScreenParticleHelper {
   }
 
   public static void addScreenParticles(
-      ParticleOptions parameters,
+      ParticleOptions options,
       double x,
       double y,
       double deltaX,
       double deltaY,
       double speed,
       int count) {
-    ScreenParticleHelper.addScreenParticles(
-        current(), parameters, x, y, deltaX, deltaY, speed, count);
+    ScreenParticleHelper.addScreenParticles(current(), options, x, y, deltaX, deltaY, speed, count);
   }
 
   /////////////////////////////
@@ -110,21 +109,21 @@ public final class ScreenParticleHelper {
   }
 
   public static void addScreenParticle(
-      Screen screen, ParticleOptions parameters, double x, double y, double velX, double velY) {
-    VanillaParticle particle = new VanillaParticle(parameters, x, y, velX, velY);
+      Screen screen, ParticleOptions options, double x, double y, double velX, double velY) {
+    VanillaParticle particle = new VanillaParticle(options, x, y, velX, velY);
     particle.bindToScreen(screen);
     SCREEN_PARTICLES.add(particle);
   }
 
   public static void addScreenParticle(
       Screen screen,
-      ParticleOptions parameters,
+      ParticleOptions options,
       double x,
       double y,
       double velX,
       double velY,
       double velZ) {
-    VanillaParticle particle = new VanillaParticle(parameters, x, y, velX, velY, velZ);
+    VanillaParticle particle = new VanillaParticle(options, x, y, velX, velY, velZ);
     particle.bindToScreen(screen);
     SCREEN_PARTICLES.add(particle);
   }
@@ -154,7 +153,7 @@ public final class ScreenParticleHelper {
 
   public static void addScreenParticles(
       Screen screen,
-      ParticleOptions parameters,
+      ParticleOptions options,
       double x,
       double y,
       double deltaX,
@@ -169,8 +168,7 @@ public final class ScreenParticleHelper {
       double velX = random().nextGaussian() * speed;
       double velY = random().nextGaussian() * speed;
 
-      VanillaParticle particle =
-          new VanillaParticle(parameters, x + offsetX, y + offsetY, velX, velY);
+      VanillaParticle particle = new VanillaParticle(options, x + offsetX, y + offsetY, velX, velY);
       particle.bindToScreen(screen);
       SCREEN_PARTICLES.add(particle);
     }

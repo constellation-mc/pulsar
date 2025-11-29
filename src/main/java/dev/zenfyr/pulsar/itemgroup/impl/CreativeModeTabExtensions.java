@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.world.item.CreativeModeTab;
 
 @Environment(EnvType.CLIENT)
-public interface ItemGroupExtensions {
+public interface CreativeModeTabExtensions {
 
   default CreativeModeTab pulsar$setIconAnimation(ItemGroupAnimaton animation) {
     throw new IllegalStateException("Interface not implemented");

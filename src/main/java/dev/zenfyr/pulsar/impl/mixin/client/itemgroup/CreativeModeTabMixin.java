@@ -1,13 +1,13 @@
 package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 
 import dev.zenfyr.pulsar.itemgroup.ItemGroupAnimaton;
-import dev.zenfyr.pulsar.itemgroup.impl.ItemGroupExtensions;
+import dev.zenfyr.pulsar.itemgroup.impl.CreativeModeTabExtensions;
 import net.minecraft.world.item.CreativeModeTab;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(CreativeModeTab.class)
-public class ItemGroupMixin implements ItemGroupExtensions {
+public class CreativeModeTabMixin implements CreativeModeTabExtensions {
 
   @Unique private ItemGroupAnimaton pulsar$animation;
 

@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ParticleEngine.class)
-public class ParticleManagerMixin {
+public class ParticleEngineMixin {
 
   @ModifyExpressionValue(
       at =
@@ -18,7 +18,7 @@ public class ParticleManagerMixin {
                   "Lnet/minecraft/client/particle/ParticleEngine;level:Lnet/minecraft/client/multiplayer/ClientLevel;"),
       method = "makeParticle")
   private ClientLevel pulsar$modifyWorld(ClientLevel value) {
-    var w = VanillaParticle.WORLD.get();
+    var w = VanillaParticle.LEVEL.get();
     if (w != null) return w;
     return value;
   }

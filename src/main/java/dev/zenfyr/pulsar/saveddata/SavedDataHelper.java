@@ -17,17 +17,17 @@ import org.jetbrains.annotations.NotNull;
 public final class SavedDataHelper {
 
   public static <T extends SavedData> T getOrCreate(
-      @NotNull ServerLevel world,
+      @NotNull ServerLevel level,
       Function<CompoundTag, T> readFunction,
       Supplier<T> supplier,
       String id) {
-    return world.getDataStorage().computeIfAbsent(readFunction, supplier, id);
+    return level.getDataStorage().computeIfAbsent(readFunction, supplier, id);
   }
 
   public static <T extends SavedData & DeserializableData> T getOrCreate(
-      ServerLevel world, Supplier<T> supplier, String id) {
+      ServerLevel level, Supplier<T> supplier, String id) {
     return getOrCreate(
-        world,
+        level,
         nbt -> {
           T state = supplier.get();
           state.readNbt(nbt);
@@ -37,27 +37,27 @@ public final class SavedDataHelper {
         id);
   }
 
-  public static boolean isStateLoaded(@NotNull ServerLevel world, String id) {
-    return world.getDataStorage().cache.containsKey(id);
+  public static boolean isStateLoaded(@NotNull ServerLevel level, String id) {
+    return level.getDataStorage().cache.containsKey(id);
   }
 
   public static <T extends SavedData> void consumeIfLoaded(
-      ServerLevel world,
+      ServerLevel level,
       String id,
       BiFunction<ServerLevel, String, T> getFunc,
       Consumer<T> action) {
-    if (isStateLoaded(world, id)) {
-      action.accept(getFunc.apply(world, id));
+    if (isStateLoaded(level, id)) {
+      action.accept(getFunc.apply(level, id));
     }
   }
 
   public static <T extends SavedData, R> Optional<R> processIfLoaded(
-      ServerLevel world,
+      ServerLevel level,
       String id,
       BiFunction<ServerLevel, String, T> getFunc,
       Function<T, R> action) {
-    if (isStateLoaded(world, id)) {
-      return Optional.ofNullable(action.apply(getFunc.apply(world, id)));
+    if (isStateLoaded(level, id)) {
+      return Optional.ofNullable(action.apply(getFunc.apply(level, id)));
     }
     return Optional.empty();
   }

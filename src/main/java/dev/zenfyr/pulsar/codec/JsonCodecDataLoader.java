@@ -30,18 +30,18 @@ public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadLis
     };
   }
 
-  private final ResourceLocation identifier;
+  private final ResourceLocation location;
   private final Codec<T> codec;
 
-  public JsonCodecDataLoader(ResourceLocation identifier, Codec<T> codec) {
-    super(new Gson(), identifier.toString().replace(':', '/'));
-    this.identifier = identifier;
+  public JsonCodecDataLoader(ResourceLocation location, Codec<T> codec) {
+    super(new Gson(), location.toString().replace(':', '/'));
+    this.location = location;
     this.codec = codec;
   }
 
   @Override
   public final ResourceLocation getFabricId() {
-    return this.identifier;
+    return this.location;
   }
 
   @Override
