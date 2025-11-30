@@ -1,3 +1,5 @@
-# 0.1.0
+# What's New:
 
-Initial release
+- Renamed most methods to match mojang mappings.
+- Removed RegistryUtil#register methods.
+- Removed the simple Particle from GUI Particles.

@@ -30,6 +30,9 @@ import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraft.world.level.levelgen.presets.WorldPresets;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * A fake {@link ClientLevel}, mainly to be used for rendering in GUIs
+ */
 @UtilityClass
 public class FakeLevel {
 

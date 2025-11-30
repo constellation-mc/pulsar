@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public final class SafeOptionalCodec<A> extends MapCodec<Optional<A>> {
+final class SafeOptionalCodec<A> extends MapCodec<Optional<A>> {
   private final String name;
   private final Codec<A> elementCodec;
 

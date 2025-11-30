@@ -3,6 +3,9 @@ package dev.zenfyr.pulsar.client.fakeworld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 
+/**
+ * A {@link LightTexture} that never updates past the initial bright state.
+ */
 public final class BrightLightTexture extends LightTexture {
 
   public static final BrightLightTexture INSTANCE = new BrightLightTexture();

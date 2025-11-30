@@ -7,7 +7,7 @@ import com.mojang.serialization.*;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public final class SafeEitherMapCodec<F, S> extends MapCodec<Either<F, S>> {
+final class SafeEitherMapCodec<F, S> extends MapCodec<Either<F, S>> {
   private final MapCodec<F> first;
   private final MapCodec<S> second;
 

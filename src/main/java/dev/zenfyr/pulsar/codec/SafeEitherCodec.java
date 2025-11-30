@@ -9,7 +9,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import java.util.Objects;
 
-public final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
+final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
   private final Codec<F> first;
   private final Codec<S> second;
 
