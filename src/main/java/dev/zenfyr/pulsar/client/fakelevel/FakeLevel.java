@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.client.fakeworld;
+package dev.zenfyr.pulsar.client.fakelevel;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;

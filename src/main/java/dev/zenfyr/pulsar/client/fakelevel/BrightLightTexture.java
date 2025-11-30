@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.client.fakeworld;
+package dev.zenfyr.pulsar.client.fakelevel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;

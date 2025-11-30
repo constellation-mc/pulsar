@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.itemgroup;
+package dev.zenfyr.pulsar.creativetab;
 
-import dev.zenfyr.pulsar.itemgroup.impl.CreativeModeTabExtensions;
+import dev.zenfyr.pulsar.creativetab.impl.CreativeModeTabExtensions;
 import java.util.Optional;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

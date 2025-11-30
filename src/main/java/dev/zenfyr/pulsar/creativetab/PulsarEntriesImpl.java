@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.itemgroup;
+package dev.zenfyr.pulsar.creativetab;
 
 import java.util.LinkedHashSet;
 import java.util.LinkedList;

@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 
-import dev.zenfyr.pulsar.itemgroup.CreativeModeTabAnimaton;
-import dev.zenfyr.pulsar.itemgroup.impl.CreativeModeTabExtensions;
+import dev.zenfyr.pulsar.creativetab.CreativeModeTabAnimaton;
+import dev.zenfyr.pulsar.creativetab.impl.CreativeModeTabExtensions;
 import net.minecraft.world.item.CreativeModeTab;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

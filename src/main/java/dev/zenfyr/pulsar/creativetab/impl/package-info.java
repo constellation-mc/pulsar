@@ -1,4 +1,4 @@
 @ApiStatus.Internal
-package dev.zenfyr.pulsar.itemgroup.impl;
+package dev.zenfyr.pulsar.creativetab.impl;
 
 import org.jetbrains.annotations.ApiStatus;

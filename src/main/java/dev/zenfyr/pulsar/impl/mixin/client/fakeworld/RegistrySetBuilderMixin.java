@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.fakeworld;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.zenfyr.pulsar.client.fakeworld.FakeLevel;
+import dev.zenfyr.pulsar.client.fakelevel.FakeLevel;
 import net.minecraft.core.RegistrySetBuilder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

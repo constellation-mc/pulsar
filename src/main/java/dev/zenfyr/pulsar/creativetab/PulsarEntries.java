@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.itemgroup;
+package dev.zenfyr.pulsar.creativetab;
 
 import dev.zenfyr.pulsar.util.MathUtil;
 import java.util.Collection;

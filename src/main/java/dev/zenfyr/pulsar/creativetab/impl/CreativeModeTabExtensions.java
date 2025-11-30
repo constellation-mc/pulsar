@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.itemgroup.impl;
+package dev.zenfyr.pulsar.creativetab.impl;
 
-import dev.zenfyr.pulsar.itemgroup.CreativeModeTabAnimaton;
+import dev.zenfyr.pulsar.creativetab.CreativeModeTabAnimaton;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.item.CreativeModeTab;
