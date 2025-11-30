@@ -37,7 +37,7 @@ public final class SavedDataHelper {
         id);
   }
 
-  public static boolean isStateLoaded(@NotNull ServerLevel level, String id) {
+  public static boolean isDataLoaded(@NotNull ServerLevel level, String id) {
     return level.getDataStorage().cache.containsKey(id);
   }
 
@@ -46,7 +46,7 @@ public final class SavedDataHelper {
       String id,
       BiFunction<ServerLevel, String, T> getFunc,
       Consumer<T> action) {
-    if (isStateLoaded(level, id)) {
+    if (isDataLoaded(level, id)) {
       action.accept(getFunc.apply(level, id));
     }
   }
@@ -56,7 +56,7 @@ public final class SavedDataHelper {
       String id,
       BiFunction<ServerLevel, String, T> getFunc,
       Function<T, R> action) {
-    if (isStateLoaded(level, id)) {
+    if (isDataLoaded(level, id)) {
       return Optional.ofNullable(action.apply(getFunc.apply(level, id)));
     }
     return Optional.empty();
