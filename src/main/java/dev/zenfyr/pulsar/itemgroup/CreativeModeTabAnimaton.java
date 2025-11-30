@@ -9,14 +9,15 @@ import net.minecraft.world.item.CreativeModeTab;
 
 @FunctionalInterface
 @Environment(EnvType.CLIENT)
-public interface ItemGroupAnimaton {
+public interface CreativeModeTabAnimaton {
 
-  static CreativeModeTab setIconAnimation(CreativeModeTab group, ItemGroupAnimaton animation) {
+  static CreativeModeTab setIconAnimation(
+      CreativeModeTab group, CreativeModeTabAnimaton animation) {
     ((CreativeModeTabExtensions) group).pulsar$setIconAnimation(animation);
     return group;
   }
 
-  static Optional<ItemGroupAnimaton> getIconAnimation(CreativeModeTab group) {
+  static Optional<CreativeModeTabAnimaton> getIconAnimation(CreativeModeTab group) {
     return Optional.ofNullable(((CreativeModeTabExtensions) group).pulsar$getIconAnimation());
   }
 

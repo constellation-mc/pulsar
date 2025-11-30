@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.fakeworld;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.zenfyr.pulsar.client.fakeworld.FakeWorld;
+import dev.zenfyr.pulsar.client.fakeworld.FakeLevel;
 import net.minecraft.core.RegistrySetBuilder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,6 +18,6 @@ public class RegistrySetBuilderMixin {
       method =
           "build(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/core/HolderLookup$Provider;")
   private boolean pulsar$validateRefs(RegistrySetBuilder.BuildState instance) {
-    return !FakeWorld.isLoading();
+    return !FakeLevel.isLoading();
   }
 }

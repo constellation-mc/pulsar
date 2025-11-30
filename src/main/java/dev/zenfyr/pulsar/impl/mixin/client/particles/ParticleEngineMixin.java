@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.particles;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.zenfyr.pulsar.client.particles.VanillaParticle;
+import dev.zenfyr.pulsar.client.particles.impl.VanillaParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import org.spongepowered.asm.mixin.Mixin;

@@ -3,12 +3,11 @@ package dev.zenfyr.pulsar.client.fakeworld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 
-public final class AlwaysBrightLightmapTextureManager extends LightTexture {
+public final class BrightLightTexture extends LightTexture {
 
-  public static final AlwaysBrightLightmapTextureManager INSTANCE =
-      new AlwaysBrightLightmapTextureManager();
+  public static final BrightLightTexture INSTANCE = new BrightLightTexture();
 
-  private AlwaysBrightLightmapTextureManager() {
+  private BrightLightTexture() {
     super(Minecraft.getInstance().gameRenderer, Minecraft.getInstance());
   }
 

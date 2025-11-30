@@ -25,9 +25,9 @@ public interface ServerReloadersEvent {
   void onServerReloaders(Context context);
 
   interface Context {
-    RegistryAccess registryManager();
+    RegistryAccess registryAccess();
 
-    FeatureFlagSet enabledFeatures();
+    FeatureFlagSet featureFlags();
 
     void register(IdentifiableResourceReloadListener reloadListener);
 

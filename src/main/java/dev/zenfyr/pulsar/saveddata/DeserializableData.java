@@ -3,5 +3,5 @@ package dev.zenfyr.pulsar.saveddata;
 import net.minecraft.nbt.CompoundTag;
 
 public interface DeserializableData {
-  void readNbt(CompoundTag tag);
+  void readSaveData(CompoundTag tag);
 }

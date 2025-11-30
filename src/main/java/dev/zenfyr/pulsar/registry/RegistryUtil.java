@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,7 +21,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
@@ -68,26 +64,5 @@ public class RegistryUtil {
   public <T extends BlockEntity> Supplier<BlockEntityType<T>> blockEntityType(
       BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
     return Suppliers.memoize(() -> new BlockEntityType<>(factory::apply, Set.of(blocks), null));
-  }
-
-  public <V, T extends V> @Nullable T register(
-      Registry<V> registry, ResourceLocation location, Supplier<T> entry) {
-    return register(true, registry, location, entry);
-  }
-
-  public <V, T extends V> @Nullable T register(
-      @NotNull BooleanSupplier condition,
-      Registry<V> registry,
-      ResourceLocation location,
-      Supplier<T> entry) {
-    return register(condition.getAsBoolean(), registry, location, entry);
-  }
-
-  public <V, T extends V> @Nullable T register(
-      boolean condition, Registry<V> registry, ResourceLocation location, Supplier<T> entry) {
-    if (condition) {
-      return Registry.register(registry, location, entry.get());
-    }
-    return null;
   }
 }

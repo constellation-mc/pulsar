@@ -30,7 +30,7 @@ public final class ReloaderType<T extends PreparableReloadListener> {
   public static final ReloaderType<LootDataManager> LOOT_TABLES =
       create(ResourceReloadListenerKeys.LOOT_TABLES);
 
-  private final ResourceLocation identifier;
+  private final ResourceLocation location;
 
   @Contract("_ -> new")
   public static <T extends PreparableReloadListener> @NotNull ReloaderType<T> create(

@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.impl.mixin.client.fakeworld;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.zenfyr.pulsar.client.fakeworld.FakeWorld;
+import dev.zenfyr.pulsar.client.fakeworld.FakeLevel;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.level.Level;
@@ -21,7 +21,7 @@ public class LevelMixin {
       method = "<init>")
   private DamageSources pulsar$ignoreDamageSources(
       RegistryAccess registryManager, Operation<DamageSources> original) {
-    if (FakeWorld.isLoading()) {
+    if (FakeLevel.isLoading()) {
       return null;
     }
     return original.call(registryManager);

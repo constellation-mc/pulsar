@@ -30,7 +30,7 @@ public final class SavedDataHelper {
         level,
         nbt -> {
           T state = supplier.get();
-          state.readNbt(nbt);
+          state.readSaveData(nbt);
           return state;
         },
         supplier,

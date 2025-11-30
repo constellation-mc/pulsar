@@ -1,11 +1,13 @@
-package dev.zenfyr.pulsar.client.particles;
+package dev.zenfyr.pulsar.client.particles.impl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import dev.zenfyr.pulsar.client.fakeworld.AlwaysBrightLightmapTextureManager;
-import dev.zenfyr.pulsar.client.fakeworld.FakeWorld;
+import dev.zenfyr.pulsar.client.fakeworld.BrightLightTexture;
+import dev.zenfyr.pulsar.client.fakeworld.FakeLevel;
+import dev.zenfyr.pulsar.client.particles.AbstractScreenParticle;
+import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
 import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -82,7 +84,7 @@ public class VanillaParticle extends AbstractScreenParticle {
     poseStack.mulPoseMatrix(pose.last().pose());
     RenderSystem.applyModelViewMatrix();
 
-    AlwaysBrightLightmapTextureManager.INSTANCE.turnOnLightLayer();
+    BrightLightTexture.INSTANCE.turnOnLightLayer();
     Tesselator tessellator = Tesselator.getInstance();
     BufferBuilder bufferBuilder = tessellator.getBuilder();
 
@@ -104,7 +106,7 @@ public class VanillaParticle extends AbstractScreenParticle {
 
     particle.getRenderType().end(tessellator);
 
-    AlwaysBrightLightmapTextureManager.INSTANCE.turnOffLightLayer();
+    BrightLightTexture.INSTANCE.turnOffLightLayer();
     poseStack.popPose();
     RenderSystem.applyModelViewMatrix();
     pose.popPose();
@@ -123,7 +125,7 @@ public class VanillaParticle extends AbstractScreenParticle {
       T options, double x, double y, double velocityX, double velocityY, double velocityZ) {
     Particle particle;
     try {
-      LEVEL.set(FakeWorld.INSTANCE.get());
+      LEVEL.set(FakeLevel.INSTANCE.get());
       particle = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine)
           .pulsar$createParticle(
               options,

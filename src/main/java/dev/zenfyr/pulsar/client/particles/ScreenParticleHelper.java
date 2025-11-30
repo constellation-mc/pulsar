@@ -1,5 +1,6 @@
 package dev.zenfyr.pulsar.client.particles;
 
+import dev.zenfyr.pulsar.client.particles.impl.VanillaParticle;
 import dev.zenfyr.pulsar.util.MakeSure;
 import java.util.HashSet;
 import java.util.LinkedHashSet;

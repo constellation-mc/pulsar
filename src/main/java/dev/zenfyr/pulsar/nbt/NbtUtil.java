@@ -14,9 +14,9 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class NbtUtil {
 
-  public static @NotNull CompoundTag writeInventoryToNbt(
+  public static @NotNull CompoundTag writeInventoryToTag(
       CompoundTag nbt, @NotNull Container inventory) {
-    return writeInventoryToNbt("Items", nbt, inventory);
+    return writeInventoryToTag("Items", nbt, inventory);
   }
 
   /**
@@ -26,22 +26,23 @@ public class NbtUtil {
    * @param container the container to write to the {@link CompoundTag}
    * @return the {@link CompoundTag} with the container data written to it
    */
-  public static @NotNull CompoundTag writeInventoryToNbt(
+  public static @NotNull CompoundTag writeInventoryToTag(
       String key, CompoundTag tag, @NotNull Container container) {
     tag = (tag == null) ? new CompoundTag() : tag;
     ListTag nbtList = new ListTag();
     for (int i = 0; i < container.getContainerSize(); ++i) {
       ItemStack itemStack = container.getItem(i);
       if (!itemStack.isEmpty()) {
-        nbtList.add(itemStack.save(NbtBuilder.create().putByte("Slot", (byte) i).build()));
+        nbtList.add(
+            itemStack.save(CompoundTagBuilder.create().putByte("Slot", (byte) i).build()));
       }
     }
     tag.put(key, nbtList);
     return tag;
   }
 
-  public static void readInventoryFromNbt(CompoundTag tag, Container inventory) {
-    readInventoryFromNbt("Items", tag, inventory);
+  public static void readInventoryFromTag(CompoundTag tag, Container inventory) {
+    readInventoryFromTag("Items", tag, inventory);
   }
 
   /**
@@ -50,7 +51,7 @@ public class NbtUtil {
    * @param tag       the {@link CompoundTag} to read the container from
    * @param container the container to read the data into
    */
-  public static void readInventoryFromNbt(String key, CompoundTag tag, Container container) {
+  public static void readInventoryFromTag(String key, CompoundTag tag, Container container) {
     if (tag == null) return;
     if (!tag.contains(key)) return;
 

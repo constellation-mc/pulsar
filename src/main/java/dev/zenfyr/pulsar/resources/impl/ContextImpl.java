@@ -10,8 +10,8 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.flag.FeatureFlagSet;
 
 public record ContextImpl(
-    RegistryAccess.Frozen registryManager,
-    FeatureFlagSet enabledFeatures,
+    RegistryAccess.Frozen registryAccess,
+    FeatureFlagSet featureFlags,
     Consumer<IdentifiableResourceReloadListener> registrar,
     Function<ReloaderType<?>, PreparableReloadListener> provider)
     implements ServerReloadersEvent.Context {

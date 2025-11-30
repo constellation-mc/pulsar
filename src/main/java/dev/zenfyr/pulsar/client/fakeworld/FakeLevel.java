@@ -31,14 +31,14 @@ import net.minecraft.world.level.levelgen.presets.WorldPresets;
 import org.jetbrains.annotations.ApiStatus;
 
 @UtilityClass
-public class FakeWorld {
+public class FakeLevel {
 
   private static final ThreadLocal<Boolean> LOADING = ThreadLocal.withInitial(() -> false);
 
   public static final Supplier<ClientLevel> INSTANCE = Suppliers.memoize(() -> {
     try {
       LOADING.set(true);
-      var regs = FakeWorld.getRegistries();
+      var regs = FakeLevel.getRegistries();
 
       ClientPacketListener networkHandler = new ClientPacketListener(
           Minecraft.getInstance(),
