@@ -108,7 +108,7 @@ publishMods {
     file = remapJar.archiveFile
     additionalFiles.from(remapSourcesJar.archiveFile)
 
-    changelog = "https://github.com/constellation-mc/pulsar/blob/${{ providers.environmentVariable("GITHUB_SHA").getOrElse("main") }}/CHANGELOG.md"
+    changelog = file("CHANGELOG.md").text
     type = ReleaseType.valueOf(providers.environmentVariable("VERSION_TYPE").getOrElse("BETA"))
     modLoaders.add("fabric")
 
@@ -127,7 +127,9 @@ publishMods {
     github {
         repository = "constellation-mc/pulsar"
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
-        commitish = providers.environmentVariable("GITHUB_SHA").getOrElse("${project.minecraft_version}")
+        commitish = providers.environmentVariable("GITHUB_SHA").getOrElse("${project.minecraft_version}-fabric")
+
+        type = STABLE
     }
 
     dryRun = local
