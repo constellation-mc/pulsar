@@ -2,6 +2,7 @@ package dev.zenfyr.pulsar.impl.mixin.client.particles;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -23,13 +24,11 @@ public class GameRendererMixin {
       at =
           @At(
               value = "INVOKE",
-              target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V",
-              ordinal = 1,
+              target = "Lnet/minecraft/client/gui/Gui;renderDeferredSubtitles()V",
               shift = At.Shift.BEFORE))
   private void pulsar$renderScreenParticles(
-      float tickDelta, long startTime, boolean tick, CallbackInfo ci, @Local GuiGraphics graphics) {
-    this.minecraft.getProfiler().push("pulsar_particles");
+      DeltaTracker deltaTracker, boolean bl, CallbackInfo ci, @Local GuiGraphics graphics) {
+    graphics.nextStratum();
     ScreenParticleHelper.renderParticles(this.minecraft, graphics);
-    this.minecraft.getProfiler().pop();
   }
 }

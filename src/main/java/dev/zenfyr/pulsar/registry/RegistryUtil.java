@@ -63,6 +63,6 @@ public class RegistryUtil {
 
   public <T extends BlockEntity> Supplier<BlockEntityType<T>> blockEntityType(
       BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
-    return Suppliers.memoize(() -> new BlockEntityType<>(factory::apply, Set.of(blocks), null));
+    return Suppliers.memoize(() -> new BlockEntityType<>(factory::apply, Set.of(blocks)));
   }
 }

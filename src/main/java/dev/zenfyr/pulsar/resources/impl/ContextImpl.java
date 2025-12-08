@@ -5,12 +5,12 @@ import dev.zenfyr.pulsar.resources.ServerReloadersEvent;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.flag.FeatureFlagSet;
 
 public record ContextImpl(
-    RegistryAccess.Frozen registryAccess,
+    HolderLookup.Provider registryAccess,
     FeatureFlagSet featureFlags,
     Consumer<IdentifiableResourceReloadListener> registrar,
     Function<ReloaderType<?>, PreparableReloadListener> provider)

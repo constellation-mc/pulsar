@@ -204,7 +204,8 @@ public final class ScreenParticleHelper {
         * (double) client.getWindow().getGuiScaledHeight()
         / (double) client.getWindow().getScreenHeight());
     for (AbstractScreenParticle particle : SCREEN_PARTICLES) {
-      particle.renderInternal(context, i, j, client.getFrameTime());
+      particle.renderInternal(
+          context, i, j, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
     }
   }
 

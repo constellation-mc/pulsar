@@ -6,15 +6,13 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Lifecycle;
 import dev.zenfyr.pulsar.client.events.AfterFirstReload;
 import dev.zenfyr.pulsar.util.Utilities;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.ClientRegistryLayer;
+import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.telemetry.TelemetryEventSender;
+import net.minecraft.client.telemetry.WorldSessionTelemetryManager;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.registries.VanillaRegistries;
@@ -23,7 +21,9 @@ import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.RegistryDataLoader;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.ServerLinks;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.levelgen.WorldDimensions;
@@ -43,33 +43,46 @@ public class FakeLevel {
       LOADING.set(true);
       var regs = FakeLevel.getRegistries();
 
-      ClientPacketListener networkHandler = new ClientPacketListener(
-          Minecraft.getInstance(),
-          null,
-          new Connection(PacketFlow.CLIENTBOUND),
-          null,
-          new GameProfile(UUID.randomUUID(), "fake_profile_ratio"),
-          null);
-      networkHandler.registryAccess = ClientRegistryLayer.createRegistryAccess()
+      var immutable = ClientRegistryLayer.createRegistryAccess()
           .replaceFrom(
               ClientRegistryLayer.REMOTE,
               new RegistryAccess.ImmutableRegistryAccess(
                       RegistrySynchronization.networkedRegistries(regs))
                   .freeze());
 
+      ClientPacketListener networkHandler = new ClientPacketListener(
+          Minecraft.getInstance(),
+          new Connection(PacketFlow.CLIENTBOUND),
+          new CommonListenerCookie(
+              new LevelLoadTracker(),
+              new GameProfile(UUID.randomUUID(), "fake_profile_ratio"),
+              new WorldSessionTelemetryManager(TelemetryEventSender.DISABLED, false, null, null),
+              immutable.compositeAccess(),
+              FeatureFlagSet.of(),
+              null,
+              null,
+              null,
+              Map.of(),
+              null,
+              Map.of(),
+              ServerLinks.EMPTY,
+              Map.of(),
+              false));
+
+      var dimensionTypeRegistry = regs.getAccessForLoading(RegistryLayer.DIMENSIONS)
+          .lookupOrThrow(Registries.DIMENSION_TYPE);
+      var overworld = dimensionTypeRegistry.getValue(BuiltinDimensionTypes.OVERWORLD);
       return new ClientLevel(
           networkHandler,
           new ClientLevel.ClientLevelData(Difficulty.EASY, false, false),
           Level.OVERWORLD,
-          regs.getAccessForLoading(RegistryLayer.DIMENSIONS)
-              .registryOrThrow(Registries.DIMENSION_TYPE)
-              .getHolderOrThrow(BuiltinDimensionTypes.OVERWORLD),
+          dimensionTypeRegistry.wrapAsHolder(overworld),
           0,
           0,
-          null,
           Minecraft.getInstance().levelRenderer,
           true,
-          0);
+          0,
+          63);
     } finally {
       LOADING.remove();
     }
@@ -112,7 +125,8 @@ public class FakeLevel {
           new MappedRegistry<>(Utilities.cast(key), Lifecycle.stable());
 
       pain.lookup(key).ifPresent(impl -> impl.listElements()
-          .forEach(ref -> registry.register(ref.key(), ref.value(), Lifecycle.stable())));
+          .forEach(ref -> registry.register(
+              ref.key(), ref.value(), new RegistrationInfo(Optional.empty(), Lifecycle.stable()))));
 
       registry.freeze();
       regs.add(registry);

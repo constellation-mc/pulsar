@@ -1,14 +1,13 @@
 package dev.zenfyr.pulsar.client.particles.impl;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
 import dev.zenfyr.pulsar.client.fakelevel.FakeLevel;
 import dev.zenfyr.pulsar.client.particles.AbstractScreenParticle;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
 import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.CrashReport;
@@ -17,11 +16,17 @@ import net.minecraft.ReportedException;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.particle.ParticleGroup;
+import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
+import org.joml.Matrix4f;
 
 /**
  * Render vanilla particle types on screen! Please use the {@link ScreenParticleHelper} methods instead of this class!
@@ -34,18 +39,20 @@ public class VanillaParticle extends AbstractScreenParticle {
 
   public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
   private static final Camera CAMERA = new Camera();
+  private static final CameraRenderState CAMERA_STATE = new CameraRenderState();
+  private static final Frustum FRUSTUM = new Frustum(new Matrix4f(), new Matrix4f()) {
+    @Override
+    public boolean pointInFrustum(double d, double e, double f) {
+      return true;
+    }
+  };
+
   private final Particle particle;
+  private final ParticleGroup<?> group;
 
   public VanillaParticle(
       ParticleOptions options, double x, double y, double velX, double velY, double velZ) {
-    super(0, 0, 0, 0);
-
-    this.particle = createScreenParticle(options, x, y, velX, velY, velZ);
-    if (this.particle != null) {
-      this.particle.hasPhysics = false;
-    } else {
-      this.removed = true;
-    }
+    this(createScreenParticle(options, x, y, velX, velY, velZ));
   }
 
   public VanillaParticle(ParticleOptions options, double x, double y, double velX, double velY) {
@@ -58,8 +65,12 @@ public class VanillaParticle extends AbstractScreenParticle {
     this.particle = particle;
     if (this.particle != null) {
       this.particle.hasPhysics = false;
+      this.group = ((ParticleEngineAccessor) client.particleEngine)
+          .pulsar$createParticleGroup(this.particle.getGroup());
+      this.group.add(this.particle);
     } else {
       this.removed = true;
+      this.group = null;
     }
   }
 
@@ -70,50 +81,49 @@ public class VanillaParticle extends AbstractScreenParticle {
 
   @Override
   public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-    PoseStack pose = graphics.pose();
-    RenderSystem.disableCull();
-    RenderSystem.enableDepthTest();
-
-    pose.pushPose();
-    PoseStack poseStack = RenderSystem.getModelViewStack();
-    poseStack.pushPose();
-    poseStack.translate(0, 0, 500);
-    poseStack.scale(24, 24, 1);
-    poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f, 0);
-    poseStack.scale(1, -1, 1);
-    poseStack.mulPoseMatrix(pose.last().pose());
-    RenderSystem.applyModelViewMatrix();
-
-    BrightLightTexture.INSTANCE.turnOnLightLayer();
-    Tesselator tessellator = Tesselator.getInstance();
-    BufferBuilder bufferBuilder = tessellator.getBuilder();
-
-    RenderSystem.setShader(GameRenderer::getParticleShader);
-    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-    particle.getRenderType().begin(bufferBuilder, client.getTextureManager());
+    if (this.group == null) return;
 
     try {
-      particle.render(bufferBuilder, CAMERA, client.getFrameTime());
+      var poseStack = graphics.pose();
+      poseStack.pushMatrix();
+      poseStack.translate(0, 0);
+      poseStack.scale(24, 24);
+      poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f);
+      poseStack.scale(1, -1);
+
+      var collector = new SubmitNodeStorage();
+      var bufferCache = new ParticleFeatureRenderer.ParticleBufferCache();
+
+      var state = this.group.extractRenderState(FRUSTUM, CAMERA, delta);
+      state.submit(collector, CAMERA_STATE);
+      var renderer = collector.order(0).getParticleGroupRenderers().get(0);
+      var prepared = renderer.prepare(bufferCache);
+
+      RenderTarget renderTarget = client.getMainRenderTarget();
+      try (var pass = RenderSystem.getDevice()
+          .createCommandEncoder()
+          .createRenderPass(
+              () -> "Particles - GUI (Pulsar)",
+              renderTarget.getColorTextureView(),
+              OptionalInt.empty(),
+              renderTarget.getDepthTextureView(),
+              OptionalDouble.of(1.0))) {
+        renderer.render(prepared, bufferCache, pass, client.getTextureManager(), false);
+        renderer.render(prepared, bufferCache, pass, client.getTextureManager(), true);
+      }
+      bufferCache.close();
+      state.clear();
+
+      poseStack.popMatrix();
     } catch (Throwable var17) {
       CrashReport crashReport =
           CrashReport.forThrowable(var17, "[Pulsar] Rendering Particle On Screen");
       CrashReportCategory crashReportSection =
           crashReport.addCategory("Particle being rendered on screen");
       crashReportSection.setDetail("Particle", particle::toString);
-      crashReportSection.setDetail("Particle Type", particle.getRenderType()::toString);
+      crashReportSection.setDetail("Particle Type", this.particle.getGroup()::toString);
       throw new ReportedException(crashReport);
     }
-
-    particle.getRenderType().end(tessellator);
-
-    BrightLightTexture.INSTANCE.turnOffLightLayer();
-    poseStack.popPose();
-    RenderSystem.applyModelViewMatrix();
-    pose.popPose();
-
-    RenderSystem.depthMask(true);
-    RenderSystem.enableCull();
-    RenderSystem.disableBlend();
   }
 
   @Override

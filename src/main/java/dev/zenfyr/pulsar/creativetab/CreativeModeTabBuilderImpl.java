@@ -60,7 +60,7 @@ class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
     builder.title(Objects.requireNonNullElseGet(
         this.displayName,
         () -> Component.translatable("itemGroup." + this.location.toString().replace(':', '.'))));
-    if (this.texture != null) builder.backgroundSuffix(this.texture);
+    if (this.texture != null) builder.backgroundTexture(ResourceLocation.parse(this.texture));
     builder.displayItems(
         (displayContext, entries1) -> this.entries.collect(new PulsarEntriesImpl(entries1)));
 

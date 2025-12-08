@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
   @Inject(method = "method_29338", at = @At("TAIL"), require = 0)
   private void pulsar$init(CallbackInfo ci) {
-    Minecraft.getInstance().tell(() -> {
+    Minecraft.getInstance().doRunTask(() -> {
       try {
         AfterFirstReload.EVENT.invoker().afterFirstReload();
       } catch (Throwable t) {
         CrashReport report = CrashReport.forThrowable(t, "Running event");
-        Minecraft.crash(report);
+        Minecraft.crash(Minecraft.getInstance(), Minecraft.getInstance().gameDirectory, report);
       }
     });
   }

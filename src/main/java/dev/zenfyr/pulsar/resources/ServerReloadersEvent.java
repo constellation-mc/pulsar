@@ -3,6 +3,7 @@ package dev.zenfyr.pulsar.resources;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -25,7 +26,7 @@ public interface ServerReloadersEvent {
   void onServerReloaders(Context context);
 
   interface Context {
-    RegistryAccess registryAccess();
+    HolderLookup.Provider registryAccess();
 
     FeatureFlagSet featureFlags();
 

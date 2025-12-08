@@ -2,17 +2,11 @@ package dev.zenfyr.pulsar.codec;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.MapCodec;
 import dev.zenfyr.pulsar.util.ColorUtil;
-import dev.zenfyr.pulsar.util.Utilities;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -20,7 +14,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import net.minecraft.world.entity.ai.behavior.ShufflingList;
-import net.minecraft.world.level.storage.loot.Serializer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +45,7 @@ public class ExtraCodecs {
   }
 
   /**
-   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec)}) this codec does not ignore exceptions.
+   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec, boolean)}) this codec does not ignore exceptions.
    */
   public static <F> MapCodec<F> optional(
       final String name, final Codec<F> elementCodec, F defaultValue) {
@@ -63,7 +56,7 @@ public class ExtraCodecs {
   }
 
   /**
-   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec)}) this codec does not ignore exceptions.
+   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec, boolean)}) this codec does not ignore exceptions.
    */
   @Contract("_, _ -> new")
   public static <F> @NotNull MapCodec<Optional<F>> optional(
@@ -116,102 +109,5 @@ public class ExtraCodecs {
           }
         },
         t -> t.name().toLowerCase(Locale.ROOT));
-  }
-
-  @ApiStatus.Experimental
-  public static <T, C extends JsonSerializationContext & JsonDeserializationContext> @NotNull Codec<T> fromJsonSerializer(Serializer<T> serializer, C context) {
-    return fromJsonSerializer(serializer, context, context);
-  }
-
-  @ApiStatus.Experimental
-  public static <T> @NotNull Codec<T> fromJsonSerializer(
-      Serializer<T> serializer,
-      JsonSerializationContext serializationContext,
-      JsonDeserializationContext deserializationContext) {
-    Codec<T> codec = net.minecraft.util.ExtraCodecs.JSON.flatXmap(
-        element -> {
-          if (!element.isJsonObject())
-            return DataResult.error(() -> "Not a JsonObject %s".formatted(element));
-          return DataResult.success(
-              serializer.deserialize(element.getAsJsonObject(), deserializationContext));
-        },
-        t -> {
-          JsonObject object = new JsonObject();
-          serializer.serialize(object, t, serializationContext);
-          return DataResult.success(object);
-        });
-    return net.minecraft.util.ExtraCodecs.catchDecoderException(codec);
-  }
-
-  public static <K, V, C extends JsonSerializationContext & JsonDeserializationContext> @NotNull Codec<V> jsonSerializerDispatch(
-          final String typeKey,
-          Codec<K> keyCodec,
-          final Function<? super V, ? extends K> type,
-          final Function<? super K, ? extends Serializer<? extends V>> codec,
-          C context) {
-    return jsonSerializerDispatch(typeKey, keyCodec, type, codec, context, context);
-  }
-
-  public static <K, V> @NotNull Codec<V> jsonSerializerDispatch(
-      final String typeKey,
-      Codec<K> keyCodec,
-      final Function<? super V, ? extends K> type,
-      final Function<? super K, ? extends Serializer<? extends V>> codec,
-      JsonSerializationContext serializationContext,
-      JsonDeserializationContext deserializationContext) {
-    Codec<V> cc = net.minecraft.util.ExtraCodecs.JSON.flatXmap(
-        element -> {
-          if (!element.isJsonObject())
-            return DataResult.error(() -> "'%s' not a JsonObject".formatted(element));
-          JsonObject object = element.getAsJsonObject();
-          if (object.get(typeKey) == null)
-            return DataResult.error(() -> "Missing required '%s' field!".formatted(typeKey));
-
-          var keyRes = keyCodec.parse(JsonOps.INSTANCE, object.get(typeKey));
-          if (keyRes.error().isPresent()) return keyRes.map(identifier -> null);
-
-          var decoder = codec.apply(keyRes.result().orElseThrow());
-          return DataResult.success(decoder.deserialize(object, deserializationContext));
-        },
-        v -> {
-          K key = type.apply(v);
-          var kr = keyCodec.encodeStart(JsonOps.INSTANCE, key);
-          if (kr.error().isPresent()) return kr.map(element -> null);
-
-          JsonObject object = new JsonObject();
-          object.add(typeKey, kr.result().orElseThrow());
-
-          var encoder = codec.apply(key);
-          encoder.serialize(object, Utilities.cast(v), serializationContext);
-
-          return DataResult.success(object);
-        });
-    return net.minecraft.util.ExtraCodecs.catchDecoderException(cc);
-  }
-
-  @ApiStatus.Experimental
-  public static <T> @NotNull Serializer<T> toJsonSerializer(Codec<T> codec) {
-    var mcc =
-        codec instanceof MapCodec.MapCodecCodec<T> glue ? glue.codec() : codec.fieldOf("value");
-    return new Serializer<>() {
-      @Override
-      public void serialize(JsonObject json, T object, JsonSerializationContext context) {
-        var s = mcc.encode(object, JsonOps.INSTANCE, JsonOps.INSTANCE.mapBuilder());
-        s.build(json).getOrThrow(false, string -> {
-          throw new JsonParseException(string);
-        });
-      }
-
-      @Override
-      public T deserialize(JsonObject json, JsonDeserializationContext context) {
-        return mcc.decode(
-                JsonOps.INSTANCE, JsonOps.INSTANCE.getMap(json).getOrThrow(false, string -> {
-                  throw new IllegalStateException(string);
-                }))
-            .getOrThrow(false, string -> {
-              throw new JsonParseException(string);
-            });
-      }
-    };
   }
 }

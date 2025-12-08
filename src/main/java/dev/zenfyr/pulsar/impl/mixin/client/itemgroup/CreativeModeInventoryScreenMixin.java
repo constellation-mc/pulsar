@@ -3,8 +3,8 @@ package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.zenfyr.pulsar.creativetab.impl.CreativeModeTabExtensions;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreenMixin
-    extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
+    extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
 
   public CreativeModeInventoryScreenMixin(
       CreativeModeInventoryScreen.ItemPickerMenu screenHandler,
@@ -39,8 +39,8 @@ public abstract class CreativeModeInventoryScreenMixin
       CallbackInfo ci,
       @Local(index = 3) boolean bl,
       @Local(index = 4) boolean bl2,
-      @Local(index = 8) int l,
-      @Local(index = 9) int m) {
+      @Local(index = 9) int l,
+      @Local(index = 10) int m) {
     if (((CreativeModeTabExtensions) group).pulsar$getIconAnimation() != null) {
       ((CreativeModeTabExtensions) group)
           .pulsar$getIconAnimation()

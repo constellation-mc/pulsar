@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -20,7 +21,7 @@ public class PlayerUtil {
     return level.players().stream()
         .filter(playerEntity ->
             box.contains(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ())
-                && conditions.test(null, playerEntity))
+                && conditions.test((ServerLevel) level, null, playerEntity))
         .collect(ImmutableList.toImmutableList());
   }
 

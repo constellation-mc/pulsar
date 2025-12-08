@@ -1,9 +1,10 @@
 package dev.zenfyr.pulsar.resources.impl;
 
 import dev.zenfyr.pulsar.resources.DataPackContentsAccessor;
-import java.util.List;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import java.util.Map;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 
 public interface InternalContentsAccessor extends DataPackContentsAccessor {
-  void pulsar$setReloaders(List<IdentifiableResourceReloadListener> reloaders);
+  void pulsar$setReloaders(Map<ResourceLocation, PreparableReloadListener> reloaders);
 }

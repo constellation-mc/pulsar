@@ -1,13 +1,12 @@
 package dev.zenfyr.pulsar.client.particles;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import dev.zenfyr.pulsar.util.MathUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix3x2fStack;
 
 @Environment(EnvType.CLIENT)
 public class ItemStackParticle extends AbstractScreenParticle {
@@ -21,15 +20,14 @@ public class ItemStackParticle extends AbstractScreenParticle {
 
   @Override
   public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-    PoseStack pose = graphics.pose();
+    Matrix3x2fStack pose = graphics.pose();
     float x = (float) Mth.lerp(delta, this.prevX, this.x);
     float y = (float) Mth.lerp(delta, this.prevY, this.y);
-    pose.pushPose();
-    pose.translate(x, y, 500);
-    float angle = (float) Math.toDegrees(Math.atan2(velY, velX) * 0.5);
-    pose.mulPose(Axis.ZP.rotationDegrees(angle));
+    pose.pushMatrix();
+    pose.translate(x, y);
+    pose.rotate((float) (Math.atan2(velY, velX) * 0.5));
     graphics.renderItem(stack, -8, -8);
-    pose.popPose();
+    pose.popMatrix();
   }
 
   @Override

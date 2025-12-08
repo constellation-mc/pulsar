@@ -2,6 +2,8 @@ package dev.zenfyr.pulsar.impl.mixin.client.particles;
 
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleGroup;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -18,4 +20,7 @@ public interface ParticleEngineAccessor {
       double velocityX,
       double velocityY,
       double velocityZ);
+
+  @Invoker("createParticleGroup")
+  ParticleGroup<?> pulsar$createParticleGroup(ParticleRenderType particleRenderType);
 }

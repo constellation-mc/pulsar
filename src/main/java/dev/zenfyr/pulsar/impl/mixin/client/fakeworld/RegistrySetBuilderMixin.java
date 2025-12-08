@@ -14,7 +14,7 @@ public class RegistrySetBuilderMixin {
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraft/core/RegistrySetBuilder$BuildState;reportRemainingUnreferencedValues()V"),
+                  "Lnet/minecraft/core/RegistrySetBuilder$BuildState;reportUnclaimedRegisteredValues()V"),
       method =
           "build(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/core/HolderLookup$Provider;")
   private boolean pulsar$validateRefs(RegistrySetBuilder.BuildState instance) {
