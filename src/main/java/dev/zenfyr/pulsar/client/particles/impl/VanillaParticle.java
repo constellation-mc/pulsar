@@ -1,27 +1,18 @@
 package dev.zenfyr.pulsar.client.particles.impl;
 
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.zenfyr.pulsar.client.fakelevel.FakeLevel;
 import dev.zenfyr.pulsar.client.particles.AbstractScreenParticle;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
 import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleGroup;
-import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
@@ -38,7 +29,6 @@ public class VanillaParticle extends AbstractScreenParticle {
 
   public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
   private static final Camera CAMERA = new Camera();
-  private static final CameraRenderState CAMERA_STATE = new CameraRenderState();
   private static final Frustum FRUSTUM = new Frustum(new Matrix4f(), new Matrix4f()) {
     @Override
     public boolean pointInFrustum(double d, double e, double f) {
@@ -82,47 +72,11 @@ public class VanillaParticle extends AbstractScreenParticle {
   public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
     if (this.group == null) return;
 
-    try {
-      var poseStack = graphics.pose();
-      poseStack.pushMatrix();
-      poseStack.translate(0, 0);
-      poseStack.scale(24, 24);
-      poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f);
-      poseStack.scale(1, -1);
+    var w = Minecraft.getInstance().getWindow();
+    var state = this.group.extractRenderState(FRUSTUM, CAMERA, delta);
 
-      var collector = new SubmitNodeStorage();
-      var bufferCache = new ParticleFeatureRenderer.ParticleBufferCache();
-
-      var state = this.group.extractRenderState(FRUSTUM, CAMERA, delta);
-      state.submit(collector, CAMERA_STATE);
-      var renderer = collector.order(0).getParticleGroupRenderers().get(0);
-      var prepared = renderer.prepare(bufferCache);
-
-      RenderTarget renderTarget = client.getMainRenderTarget();
-      try (var pass = RenderSystem.getDevice()
-          .createCommandEncoder()
-          .createRenderPass(
-              () -> "Particles - GUI (Pulsar)",
-              renderTarget.getColorTextureView(),
-              OptionalInt.empty(),
-              renderTarget.getDepthTextureView(),
-              OptionalDouble.of(1.0))) {
-        renderer.render(prepared, bufferCache, pass, client.getTextureManager(), false);
-        renderer.render(prepared, bufferCache, pass, client.getTextureManager(), true);
-      }
-      bufferCache.close();
-      state.clear();
-
-      poseStack.popMatrix();
-    } catch (Throwable var17) {
-      CrashReport crashReport =
-          CrashReport.forThrowable(var17, "[Pulsar] Rendering Particle On Screen");
-      CrashReportCategory crashReportSection =
-          crashReport.addCategory("Particle being rendered on screen");
-      crashReportSection.setDetail("Particle", particle::toString);
-      crashReportSection.setDetail("Particle Type", this.particle.getGroup()::toString);
-      throw new ReportedException(crashReport);
-    }
+    graphics.guiRenderState.submitPicturesInPictureState(new GuiParticleRenderState(
+        state, 0, 0, w.getGuiScaledWidth(), w.getGuiScaledHeight(), graphics.scissorStack.peek()));
   }
 
   @Override
