@@ -13,7 +13,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;

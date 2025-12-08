@@ -15,9 +15,17 @@ public record GuiParticleRenderState(
     @Nullable ScreenRectangle bounds)
     implements PictureInPictureRenderState {
 
-    public GuiParticleRenderState(ParticleGroupRenderState state, int x0, int y0, int x1, int y1, ScreenRectangle scissorArea) {
-        this(state, x0, y0, x1, y1, scissorArea, PictureInPictureRenderState.getBounds(x0, y0, x1, y1, scissorArea));
-    }
+  public GuiParticleRenderState(
+      ParticleGroupRenderState state, int x0, int y0, int x1, int y1, ScreenRectangle scissorArea) {
+    this(
+        state,
+        x0,
+        y0,
+        x1,
+        y1,
+        scissorArea,
+        PictureInPictureRenderState.getBounds(x0, y0, x1, y1, scissorArea));
+  }
 
   @Override
   public float scale() {
