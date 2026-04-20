@@ -1,0 +1,114 @@
+package dev.zenfyr.pulsar.client.particles.impl;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
+import dev.zenfyr.pulsar.client.fakelevel.FakeLevel;
+import dev.zenfyr.pulsar.client.particles.AbstractScreenParticle;
+import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
+import java.util.*;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.particles.ParticleOptions;
+
+public class VanillaParticleManager {
+
+  public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
+  private static final Camera CAMERA = new Camera();
+  private final Set<AbstractScreenParticle> screenParticles;
+
+  public VanillaParticleManager(Set<AbstractScreenParticle> screenParticles) {
+    this.screenParticles = screenParticles;
+  }
+
+  public void render(GuiGraphics graphics) {
+    Minecraft client = Minecraft.getInstance();
+
+    Map<ParticleRenderType, List<VanillaParticle>> particles = new IdentityHashMap<>();
+    this.screenParticles.forEach(particle1 -> {
+      if (particle1 instanceof VanillaParticle vp && vp.particle != null && !vp.checkRemoval()) {
+        particles
+            .computeIfAbsent(vp.particle.getRenderType(), t -> new ArrayList<>())
+            .add(vp);
+      }
+    });
+
+    PoseStack pose = graphics.pose();
+    RenderSystem.disableCull();
+    RenderSystem.enableDepthTest();
+
+    pose.pushPose();
+    PoseStack poseStack = RenderSystem.getModelViewStack();
+    poseStack.pushPose();
+    poseStack.translate(0, 0, 500);
+    poseStack.scale(24, 24, 1);
+    poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f, 0);
+    poseStack.scale(1, -1, 1);
+    poseStack.mulPoseMatrix(pose.last().pose());
+    RenderSystem.applyModelViewMatrix();
+
+    BrightLightTexture.INSTANCE.turnOnLightLayer();
+    Tesselator tessellator = Tesselator.getInstance();
+    BufferBuilder bufferBuilder = tessellator.getBuilder();
+
+    RenderSystem.setShader(GameRenderer::getParticleShader);
+    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+    particles.keySet().forEach(type -> type.begin(bufferBuilder, client.getTextureManager()));
+    particles.forEach((type, list) -> {
+      for (VanillaParticle vp : list) {
+        try {
+          vp.particle.render(bufferBuilder, CAMERA, client.getFrameTime());
+        } catch (Throwable var17) {
+          CrashReport crashReport =
+              CrashReport.forThrowable(var17, "[Pulsar] Rendering Particle On Screen");
+          CrashReportCategory crashReportSection =
+              crashReport.addCategory("Particle being rendered on screen");
+          crashReportSection.setDetail("Particle", vp.particle::toString);
+          crashReportSection.setDetail("Particle Type", vp.particle.getRenderType()::toString);
+          throw new ReportedException(crashReport);
+        }
+      }
+    });
+    particles.keySet().forEach(type -> type.end(tessellator));
+
+    BrightLightTexture.INSTANCE.turnOffLightLayer();
+    poseStack.popPose();
+    RenderSystem.applyModelViewMatrix();
+    pose.popPose();
+
+    RenderSystem.depthMask(true);
+    RenderSystem.enableCull();
+    RenderSystem.disableBlend();
+  }
+
+  public static <T extends ParticleOptions> Particle createScreenParticle(
+      T options, double x, double y, double velocityX, double velocityY, double velocityZ) {
+    Particle particle;
+    try {
+      LEVEL.set(FakeLevel.INSTANCE.get());
+      particle = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine)
+          .pulsar$createParticle(
+              options,
+              x / 24,
+              (Minecraft.getInstance().getWindow().getGuiScaledHeight() - y) / 24,
+              0,
+              velocityX,
+              velocityY,
+              velocityZ);
+    } finally {
+      LEVEL.remove();
+    }
+    return particle;
+  }
+}

@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixin.client.particles;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.zenfyr.pulsar.client.particles.impl.VanillaParticle;
+import dev.zenfyr.pulsar.client.particles.impl.VanillaParticleManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public class ParticleEngineMixin {
                   "Lnet/minecraft/client/particle/ParticleEngine;level:Lnet/minecraft/client/multiplayer/ClientLevel;"),
       method = "makeParticle")
   private ClientLevel pulsar$modifyWorld(ClientLevel value) {
-    var w = VanillaParticle.LEVEL.get();
+    var w = VanillaParticleManager.LEVEL.get();
     if (w != null) return w;
     return value;
   }

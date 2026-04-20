@@ -1,6 +1,7 @@
 package dev.zenfyr.pulsar.client.particles;
 
 import dev.zenfyr.pulsar.client.particles.impl.VanillaParticle;
+import dev.zenfyr.pulsar.client.particles.impl.VanillaParticleManager;
 import dev.zenfyr.pulsar.util.MakeSure;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -25,6 +26,8 @@ public final class ScreenParticleHelper {
 
   private static final Set<AbstractScreenParticle> SCREEN_PARTICLES = new LinkedHashSet<>();
   private static final Set<AbstractScreenParticle> SCREEN_PARTICLES_REMOVAL = new HashSet<>();
+  private static final VanillaParticleManager PARTICLE_MANAGER =
+      new VanillaParticleManager(SCREEN_PARTICLES);
 
   public static void addParticle(AbstractScreenParticle particle) {
     ScreenParticleHelper.addScreenParticle(null, particle);
@@ -203,6 +206,9 @@ public final class ScreenParticleHelper {
     int j = (int) (client.mouseHandler.ypos()
         * (double) client.getWindow().getGuiScaledHeight()
         / (double) client.getWindow().getScreenHeight());
+
+    PARTICLE_MANAGER.render(context);
+
     for (AbstractScreenParticle particle : SCREEN_PARTICLES) {
       particle.renderInternal(context, i, j, client.getFrameTime());
     }
