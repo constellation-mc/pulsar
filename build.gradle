@@ -7,7 +7,7 @@ plugins {
     alias libs.plugins.modmuss50.publish
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER");
 
 group = project.maven_group
