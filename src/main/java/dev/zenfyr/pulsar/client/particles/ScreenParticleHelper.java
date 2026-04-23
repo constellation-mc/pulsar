@@ -1,11 +1,10 @@
 package dev.zenfyr.pulsar.client.particles;
 
+import dev.zenfyr.pulsar.client.particles.impl.GuiParticleRenderState;
 import dev.zenfyr.pulsar.client.particles.impl.VanillaParticle;
+import dev.zenfyr.pulsar.client.particles.impl.VanillaParticleManager;
 import dev.zenfyr.pulsar.util.MakeSure;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
@@ -15,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.state.ParticlesRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -25,6 +25,8 @@ public final class ScreenParticleHelper {
 
   private static final Set<AbstractScreenParticle> SCREEN_PARTICLES = new LinkedHashSet<>();
   private static final Set<AbstractScreenParticle> SCREEN_PARTICLES_REMOVAL = new HashSet<>();
+
+  private static final VanillaParticleManager PARTICLE_MANAGER = new VanillaParticleManager();
 
   public static void addParticle(AbstractScreenParticle particle) {
     ScreenParticleHelper.addScreenParticle(null, particle);
@@ -106,14 +108,14 @@ public final class ScreenParticleHelper {
 
   public static void addScreenParticle(Screen screen, AbstractScreenParticle particle) {
     particle.bindToScreen(screen);
-    SCREEN_PARTICLES.add(particle);
+    int$addParticle(particle);
   }
 
   public static void addScreenParticle(
       Screen screen, ParticleOptions options, double x, double y, double velX, double velY) {
     VanillaParticle particle = new VanillaParticle(options, x, y, velX, velY);
     particle.bindToScreen(screen);
-    SCREEN_PARTICLES.add(particle);
+    int$addParticle(particle);
   }
 
   public static void addScreenParticle(
@@ -126,21 +128,21 @@ public final class ScreenParticleHelper {
       double velZ) {
     VanillaParticle particle = new VanillaParticle(options, x, y, velX, velY, velZ);
     particle.bindToScreen(screen);
-    SCREEN_PARTICLES.add(particle);
+    int$addParticle(particle);
   }
 
   public static void addScreenParticles(Screen screen, AbstractScreenParticle... particles) {
     for (AbstractScreenParticle particle : particles) {
       particle.bindToScreen(screen);
+      int$addParticle(particle);
     }
-    SCREEN_PARTICLES.addAll(List.of(particles));
   }
 
   public static void addScreenParticles(Screen screen, List<AbstractScreenParticle> particles) {
     for (AbstractScreenParticle abstractScreenParticle : particles) {
       abstractScreenParticle.bindToScreen(screen);
+      int$addParticle(abstractScreenParticle);
     }
-    SCREEN_PARTICLES.addAll(particles);
   }
 
   public static void addScreenParticles(
@@ -148,7 +150,7 @@ public final class ScreenParticleHelper {
     for (int i = 0; i < count; i++) {
       AbstractScreenParticle particle1 = particle.get();
       particle1.bindToScreen(screen);
-      SCREEN_PARTICLES.add(particle1);
+      int$addParticle(particle1);
     }
   }
 
@@ -171,6 +173,14 @@ public final class ScreenParticleHelper {
 
       VanillaParticle particle = new VanillaParticle(options, x + offsetX, y + offsetY, velX, velY);
       particle.bindToScreen(screen);
+      int$addParticle(particle);
+    }
+  }
+
+  private static void int$addParticle(AbstractScreenParticle particle) {
+    if (particle instanceof VanillaParticle vp) {
+      PARTICLE_MANAGER.addParticle(vp);
+    } else {
       SCREEN_PARTICLES.add(particle);
     }
   }
@@ -193,16 +203,27 @@ public final class ScreenParticleHelper {
     return ThreadLocalRandom.current();
   }
 
+  public static GuiParticleRenderState extractState(Minecraft client) {
+    var state = new ParticlesRenderState();
+    var w = Minecraft.getInstance().getWindow();
+
+    PARTICLE_MANAGER.extract(state, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
+    return new GuiParticleRenderState(
+        state, 0, 0, w.getGuiScaledWidth(), w.getGuiScaledHeight(), null);
+  }
+
   @ApiStatus.Internal
   public static void renderParticles(Minecraft client, GuiGraphics context) {
     if (SCREEN_PARTICLES.isEmpty()) return;
 
-    int i = (int) (client.mouseHandler.xpos()
-        * (double) client.getWindow().getGuiScaledWidth()
-        / (double) client.getWindow().getScreenWidth());
+    var w = Minecraft.getInstance().getWindow();
+
+    int i = (int)
+        (client.mouseHandler.xpos() * (double) w.getGuiScaledWidth() / (double) w.getScreenWidth());
     int j = (int) (client.mouseHandler.ypos()
-        * (double) client.getWindow().getGuiScaledHeight()
-        / (double) client.getWindow().getScreenHeight());
+        * (double) w.getGuiScaledHeight()
+        / (double) w.getScreenHeight());
+
     for (AbstractScreenParticle particle : SCREEN_PARTICLES) {
       particle.renderInternal(
           context, i, j, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
@@ -211,6 +232,8 @@ public final class ScreenParticleHelper {
 
   @ApiStatus.Internal
   public static void tickParticles() {
+    PARTICLE_MANAGER.tickParticles();
+
     if (SCREEN_PARTICLES.isEmpty()) return;
 
     for (AbstractScreenParticle particle : SCREEN_PARTICLES) {

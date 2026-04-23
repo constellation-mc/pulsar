@@ -1,17 +1,23 @@
 package dev.zenfyr.pulsar.client.particles.impl;
 
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.state.CameraRenderState;
 
 public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRenderState> {
 
+  private final CameraRenderState cameraRenderState;
+
   public GuiParticleRenderer(MultiBufferSource.BufferSource bufferSource) {
     super(bufferSource);
+    cameraRenderState = new CameraRenderState();
   }
 
   @Override
@@ -21,27 +27,41 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
 
   @Override
   protected void renderToTexture(GuiParticleRenderState renderState, PoseStack poseStack) {
-    BrightLightTexture.INSTANCE.turnOnLightLayer();
-    // Minecraft.getInstance().gameRenderer.getLighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
-    // Vector3f vector3f = renderState.translation();
-    // poseStack.translate(vector3f.x, vector3f.y, vector3f.z);
-    // poseStack.mulPose(renderState.rotation());
-    // Quaternionf quaternionf = renderState.overrideCameraAngle();
-    FeatureRenderDispatcher featureRenderDispatcher =
-        Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher();
-    CameraRenderState cameraRenderState = new CameraRenderState();
-    // if (quaternionf != null) {
-    //  cameraRenderState.orientation =
-    //      quaternionf.conjugate(new Quaternionf()).rotateY((float) Math.PI);
-    // }
+    Minecraft minecraft = Minecraft.getInstance();
 
-    renderState.state().submit(featureRenderDispatcher.getSubmitNodeStorage(), cameraRenderState);
+    minecraft.gameRenderer.getLighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
+    BrightLightTexture.INSTANCE.turnOnLightLayer();
+
+    FeatureRenderDispatcher featureRenderDispatcher =
+        minecraft.gameRenderer.getFeatureRenderDispatcher();
+
+    var stack = RenderSystem.getModelViewStack();
+    stack.pushMatrix();
+    stack.translate(0, 0, 500f);
+    stack.scale(
+        24 * minecraft.getWindow().getGuiScale(), 24 * minecraft.getWindow().getGuiScale(), 1);
+    stack.translate(0, minecraft.getWindow().getGuiScaledHeight() / 24f, 0);
+    stack.scale(1, -1, 1);
+
+    var collector = featureRenderDispatcher.getSubmitNodeStorage();
+    renderState.state().submit(collector, this.cameraRenderState);
+
     featureRenderDispatcher.renderAllFeatures();
+
+    this.bufferSource.endBatch();
+    renderState.state().reset();
+    stack.popMatrix();
+
     BrightLightTexture.INSTANCE.turnOffLightLayer();
   }
 
   @Override
+  protected void blitTexture(GuiParticleRenderState renderState, GuiRenderState guiRenderState) {
+    // we don't need to blit the texture, as particles are rendered in some special way idk
+  }
+
+  @Override
   protected String getTextureLabel() {
-    return "particle";
+    return "pulsar-particles";
   }
 }
