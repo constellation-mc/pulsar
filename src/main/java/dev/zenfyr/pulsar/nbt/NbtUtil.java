@@ -1,5 +1,7 @@
 package dev.zenfyr.pulsar.nbt;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.*;
 import lombok.experimental.UtilityClass;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -7,12 +9,39 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 @SuppressWarnings("unused")
 public class NbtUtil {
+
+  public record Slotted(ItemStack stack, int slot) {}
+
+  public static final Codec<Slotted> CODEC = Codec.of(
+      new Encoder<>() {
+        @Override
+        public <T> DataResult<T> encode(Slotted input, DynamicOps<T> ops, T prefix) {
+          return ItemStack.OPTIONAL_CODEC.encodeStart(ops, input.stack()).flatMap(itemData -> {
+            RecordBuilder<T> builder = ops.mapBuilder();
+            ops.getMap(itemData).result().ifPresent(map -> map.entries()
+                .forEach(e -> builder.add(e.getFirst(), e.getSecond())));
+            builder.add("Slot", ops.createByte((byte) input.slot()));
+            return builder.build(prefix);
+          });
+        }
+      },
+      new Decoder<>() {
+        @Override
+        public <T> DataResult<Pair<Slotted, T>> decode(DynamicOps<T> ops, T input) {
+          DataResult<Byte> slotResult = Codec.BYTE.fieldOf("Slot").codec().parse(ops, input);
+          DataResult<ItemStack> stackResult = ItemStack.OPTIONAL_CODEC.parse(ops, input);
+          return slotResult.flatMap(slot -> stackResult.map(
+              stack -> Pair.of(new Slotted(stack, Byte.toUnsignedInt(slot)), ops.empty())));
+        }
+      });
 
   public static @NotNull CompoundTag writeInventoryToTag(
       CompoundTag nbt, @NotNull Container inventory) {
@@ -32,15 +61,9 @@ public class NbtUtil {
     ListTag nbtList = new ListTag();
     for (int i = 0; i < container.getContainerSize(); ++i) {
       ItemStack itemStack = container.getItem(i);
-      if (!itemStack.isEmpty()) {
-        var nbt = ItemStack.OPTIONAL_CODEC
-            .encodeStart(NbtOps.INSTANCE, itemStack)
-            .getOrThrow()
-            .asCompound()
-            .orElseThrow();
-        nbt.putByte("Slot", (byte) i);
-        nbtList.add(nbt);
-      }
+      if (!itemStack.isEmpty())
+        nbtList.add(
+            CODEC.encodeStart(NbtOps.INSTANCE, new Slotted(itemStack, i)).getOrThrow());
     }
     tag.put(key, nbtList);
     return tag;
@@ -68,6 +91,52 @@ public class NbtUtil {
       if (j >= 0 && j < container.getContainerSize()) {
         container.setItem(
             j, ItemStack.OPTIONAL_CODEC.parse(NbtOps.INSTANCE, nbtCompound).getOrThrow());
+      }
+    }
+  }
+
+  public static @NotNull ValueOutput writeInventoryToOutput(
+      @NotNull ValueOutput nbt, @NotNull Container inventory) {
+    return writeInventoryToOutput("Items", nbt, inventory);
+  }
+
+  /**
+   * Writes items in a container to {@link ValueOutput}.
+   *
+   * @param tag       the {@link ValueOutput} to write the container to
+   * @param container the container to write to the {@link ValueOutput}
+   * @return the {@link ValueOutput} with the container data written to it
+   */
+  public static @NotNull ValueOutput writeInventoryToOutput(
+      String key, @NotNull ValueOutput tag, @NotNull Container container) {
+    var list = tag.list(key, CODEC);
+    for (int i = 0; i < container.getContainerSize(); ++i) {
+      ItemStack itemStack = container.getItem(i);
+      if (!itemStack.isEmpty()) {
+        list.add(new Slotted(itemStack, i));
+      }
+    }
+    return tag;
+  }
+
+  public static void readInventoryFromInput(CompoundTag tag, Container inventory) {
+    readInventoryFromTag("Items", tag, inventory);
+  }
+
+  /**
+   * Reads items in a container from a {@link ValueInput}.
+   *
+   * @param tag       the {@link ValueInput} to read the container from
+   * @param container the container to read the data into
+   */
+  public static void readInventoryFromInput(String key, ValueInput tag, Container container) {
+    if (tag == null) return;
+    if (!tag.contains(key)) return;
+
+    var nbtList = tag.listOrEmpty(key, CODEC).stream().toList();
+    for (Slotted slotted : nbtList) {
+      if (slotted.slot() >= 0 && slotted.slot() < container.getContainerSize()) {
+        container.setItem(slotted.slot(), slotted.stack());
       }
     }
   }
