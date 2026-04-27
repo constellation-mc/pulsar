@@ -2,7 +2,6 @@ package dev.zenfyr.pulsar.resources.impl;
 
 import dev.zenfyr.pulsar.resources.ReloaderType;
 import dev.zenfyr.pulsar.resources.ServerReloadersEvent;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
@@ -35,8 +34,20 @@ public record ContextImpl(
       }
 
       @Override
-      public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller profilerFiller, ProfilerFiller profilerFiller2, Executor executor, Executor executor2) {
-        return reloadListener.reload(preparationBarrier, resourceManager, profilerFiller, profilerFiller2, executor, executor2);
+      public CompletableFuture<Void> reload(
+          PreparationBarrier preparationBarrier,
+          ResourceManager resourceManager,
+          ProfilerFiller profilerFiller,
+          ProfilerFiller profilerFiller2,
+          Executor executor,
+          Executor executor2) {
+        return reloadListener.reload(
+            preparationBarrier,
+            resourceManager,
+            profilerFiller,
+            profilerFiller2,
+            executor,
+            executor2);
       }
 
       @Override
