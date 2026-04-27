@@ -11,7 +11,7 @@ def targetJavaVersion = 21
 def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER");
 
 group = project.maven_group
-version = "${project.mod_version}-${project.minecraft_version}-${local ? 'local' : "build.${System.getenv("GITHUB_RUN_NUMBER")}"}"
+version = "${project.mod_version}-${project.minecraft_version}-${local ? 'SNAPSHOT' : "build.${System.getenv("GITHUB_RUN_NUMBER")}"}"
 
 base {
     archivesName = project.archives_base_name
