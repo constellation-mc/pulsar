@@ -37,7 +37,7 @@ public class ResourceManagerHelperImplMixin {
     ContextImpl context = new ContextImpl(
         marker.registries(),
         marker.featureSet(),
-        listener -> reloadersToAdd.add(Map.entry(listener.getFabricId(), listener)),
+        (location, listener) -> reloadersToAdd.add(Map.entry(location, listener)),
         type -> ((InternalContentsAccessor) marker.dataPackContents()).pulsar$getReloader(type));
     ServerReloadersEvent.EVENT.invoker().onServerReloaders(context);
   }

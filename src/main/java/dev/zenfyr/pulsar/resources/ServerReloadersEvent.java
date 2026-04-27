@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.flag.FeatureFlagSet;
 
@@ -30,7 +31,10 @@ public interface ServerReloadersEvent {
 
     FeatureFlagSet featureFlags();
 
+    @Deprecated
     void register(IdentifiableResourceReloadListener reloadListener);
+
+    void register(ResourceLocation location, PreparableReloadListener reloadListener);
 
     /**
      * Returns a reloader by type. <br/>
