@@ -18,7 +18,8 @@
     "client.particles.GuiRendererMixin",
     "client.particles.MinecraftMixin",
     "client.particles.ParticleEngineAccessor",
-    "client.particles.ParticleEngineMixin"
+    "client.particles.ParticleEngineMixin",
+    "client.particles.ParticleFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
