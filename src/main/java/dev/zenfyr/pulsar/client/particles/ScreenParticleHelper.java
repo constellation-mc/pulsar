@@ -19,7 +19,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
 
-
 /**
  * <p>provides tools for creating screen particles. {@link #addScreenParticle} methods, provide a way
  * to create "screen bound" particles, meaning that they stop rendering when the screen they appeared on
