@@ -56,6 +56,13 @@ jar {
     }
 }
 
+sourcesJar {
+    exclude {
+        sourceSets.main.allSource.contains it.file
+    }
+    from delombok
+}
+
 spotless {
     java {
         removeUnusedImports()
