@@ -7,8 +7,11 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.Objects;
 
+@ApiStatus.Internal
 final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
   private final Codec<F> first;
   private final Codec<S> second;

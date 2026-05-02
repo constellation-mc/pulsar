@@ -9,6 +9,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Example screen particle which renders an item with basic physics simulation.
+ */
 @Environment(EnvType.CLIENT)
 public class ItemStackParticle extends AbstractScreenParticle {
 

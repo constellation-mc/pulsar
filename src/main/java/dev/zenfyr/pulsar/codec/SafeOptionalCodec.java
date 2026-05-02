@@ -1,10 +1,13 @@
 package dev.zenfyr.pulsar.codec;
 
 import com.mojang.serialization.*;
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@ApiStatus.Internal
 final class SafeOptionalCodec<A> extends MapCodec<Optional<A>> {
   private final String name;
   private final Codec<A> elementCodec;

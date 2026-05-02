@@ -4,7 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 class PulsarEntriesImpl implements PulsarEntries {
 
   private final CreativeModeTab.Output entries;

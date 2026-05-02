@@ -21,6 +21,9 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.particles.ParticleOptions;
 
+/**
+ * state manager for {@link VanillaParticle}, used to batch rendering operations.
+ */
 public class VanillaParticleManager {
 
   public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
@@ -31,6 +34,7 @@ public class VanillaParticleManager {
     this.screenParticles = screenParticles;
   }
 
+  // this method is an almost direct copy of the one in the particle engine
   public void render(GuiGraphics graphics) {
     Minecraft client = Minecraft.getInstance();
 
@@ -57,6 +61,8 @@ public class VanillaParticleManager {
     poseStack.mulPoseMatrix(pose.last().pose());
     RenderSystem.applyModelViewMatrix();
 
+    // without this, the particles will use the world's light texture,
+    // which in turn makes them appear dark at night.
     BrightLightTexture.INSTANCE.turnOnLightLayer();
     Tesselator tessellator = Tesselator.getInstance();
     BufferBuilder bufferBuilder = tessellator.getBuilder();
