@@ -21,7 +21,10 @@ import org.jetbrains.annotations.NotNull;
 @UtilityClass
 public class ExtraCodecs {
 
-  public static final Codec<Integer> COLOR = either(
+    /**
+     * a color codec encoded as either an integer, or an array of RGB values.
+     */
+    public static final Codec<Integer> COLOR = either(
           Codec.INT, Codec.intRange(0, 255).listOf())
       .comapFlatMap(
           e -> e.map(DataResult::success, integers -> {
@@ -32,12 +35,18 @@ public class ExtraCodecs {
           }),
           Either::left);
 
+    /**
+     * a 'safe' either {@link Codec}, which returns errors from both codecs if they fail.
+     */
   @Contract(value = "_, _ -> new", pure = true)
   public static <F, S> @NotNull Codec<Either<F, S>> either(
       final Codec<F> first, final Codec<S> second) {
     return new SafeEitherCodec<>(first, second);
   }
 
+    /**
+     * a 'safe' either {@link MapCodec}, which returns errors from both codecs if they fail.
+     */
   @Contract("_, _ -> new")
   public static <F, S> @NotNull MapCodec<Either<F, S>> either(
       final MapCodec<F> first, final MapCodec<S> second) {
@@ -73,7 +82,7 @@ public class ExtraCodecs {
   }
 
   /**
-   * A weighted list codec which accepts both lists and singular entries.
+   * A shuffling list codec which accepts both lists and singular entries.
    */
   public static <T> Codec<ShufflingList<T>> weightedList(Codec<T> codec) {
     return either(codec, ShufflingList.codec(codec))
@@ -88,6 +97,9 @@ public class ExtraCodecs {
             Either::right);
   }
 
+    /**
+     * a {@link Codec}, which uses a bidirectional map to en/decode objects.
+     */
   public static <K, V> Codec<V> mapLookup(@NotNull Codec<K> keyCodec, @NotNull BiMap<K, V> lookup) {
     return keyCodec.flatXmap(
         key -> Optional.ofNullable(lookup.get(key))
@@ -98,6 +110,9 @@ public class ExtraCodecs {
             .orElseGet(() -> DataResult.error(() -> "Unknown type: %s".formatted(eventType))));
   }
 
+    /**
+     * an {@link Enum} codec, which uses enum constant names to en/decode values.
+     */
   @ApiStatus.Experimental
   public static <T extends Enum<T>> Codec<T> enumCodec(Class<T> cls) {
     return Codec.STRING.comapFlatMap(

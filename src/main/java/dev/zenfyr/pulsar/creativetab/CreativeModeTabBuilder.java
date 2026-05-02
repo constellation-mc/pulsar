@@ -10,6 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * An alternative creative mode tab builder with pulsar extensions.
+ */
 public interface CreativeModeTabBuilder {
 
   static CreativeModeTabBuilder create(@NonNull ResourceLocation identifier) {
@@ -28,6 +31,9 @@ public interface CreativeModeTabBuilder {
 
   CreativeModeTabBuilder texture(String texture);
 
+  /**
+   * unlike the vanilla collector, this one allows multiple of the same item.
+   */
   CreativeModeTabBuilder entries(PulsarEntries.Collector collector);
 
   CreativeModeTabBuilder displayName(Component displayName);

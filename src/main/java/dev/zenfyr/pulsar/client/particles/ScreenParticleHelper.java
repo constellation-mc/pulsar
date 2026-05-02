@@ -18,6 +18,12 @@ import net.minecraft.client.renderer.state.ParticlesRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
 
+
+/**
+ * <p>provides tools for creating screen particles. {@link #addScreenParticle} methods, provide a way
+ * to create "screen bound" particles, meaning that they stop rendering when the screen they appeared on
+ * is closed.</p>
+ */
 @UtilityClass
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)

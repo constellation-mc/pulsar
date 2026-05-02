@@ -31,7 +31,8 @@ import net.minecraft.world.level.levelgen.presets.WorldPresets;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * A fake {@link ClientLevel}, mainly to be used for rendering in GUIs
+ * A fake {@link ClientLevel}, mainly to be used for rendering in GUIs.
+ * this instance provides basic {@link RegistryAccess} with built-in worldgen registries bootstrapped.
  */
 @UtilityClass
 public class FakeLevel {

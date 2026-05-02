@@ -4,9 +4,12 @@ package dev.zenfyr.pulsar.codec;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.*;
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.Objects;
 import java.util.stream.Stream;
 
+@ApiStatus.Internal
 final class SafeEitherMapCodec<F, S> extends MapCodec<Either<F, S>> {
   private final MapCodec<F> first;
   private final MapCodec<S> second;
