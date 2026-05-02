@@ -73,7 +73,7 @@ processResources {
             "fabric_version": libs.fabric.api.get().version
     ]
     inputs.properties(map)
-    filteringCharset "UTF-8"
+    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand map
