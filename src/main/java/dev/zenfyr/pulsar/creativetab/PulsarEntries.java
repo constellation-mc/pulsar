@@ -35,11 +35,15 @@ public interface PulsarEntries {
   }
 
   default void appendStacks(Collection<ItemStack> list, boolean lineBreak) {
+    appendStacks(list, lineBreak, Visibility.TAB_AND_SEARCH);
+  }
+
+  default void appendStacks(Collection<ItemStack> list, boolean lineBreak, Visibility visibility) {
     if (list == null || list.isEmpty())
       return; // we shouldn't add line breaks if there are no items.
 
     int rows = MathUtil.fastCeil(list.size() / 9d);
-    this.addAll(list, Visibility.TAB);
+    this.addAll(list, visibility);
     int left = (rows * 9) - list.size();
     for (int i = 0; i < left; i++) {
       this.add(ItemStack.EMPTY, Visibility.TAB); // fill the gaps
