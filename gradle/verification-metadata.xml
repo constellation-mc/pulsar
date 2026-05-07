@@ -19,17 +19,12 @@
          <trusted-key id="042B29E928995B9DB963C636C7CA19B7B620D787" group="com.github.stephenc.jcip" name="jcip-annotations" version="1.0-1"/>
          <trusted-key id="077E8893A6DCC33DD4A4D5B256E73BA9A0B592D0" group="^org[.]apache[.]logging($|([.].*))" regex="true"/>
          <trusted-key id="0785B3EFF60B1B1BEA94E0BB7C25280EAE63EBE5" group="org.apache.httpcomponents"/>
-         <trusted-key id="0CB5871FB7BF3B351614BBF6CA85FFE638D4407A">
-            <trusting group="it.unimi.dsi" name="fastutil" version="8.5.15"/>
-            <trusting group="it.unimi.dsi" name="fastutil" version="8.5.9"/>
-         </trusted-key>
-         <trusted-key id="0CC641C3A62453AB390066C4A41F13C999945293" group="commons-logging" name="commons-logging" version="1.2"/>
+         <trusted-key id="0CB5871FB7BF3B351614BBF6CA85FFE638D4407A" group="it.unimi.dsi" name="fastutil" version="8.5.15"/>
          <trusted-key id="0D35D3F60078655126908E8AF3D1600878E85A3D" group="io.netty"/>
          <trusted-key id="0EBCB16A237726FFB2892E7AA5B7381AF8CBB702" group="org.vineflower" name="vineflower" version="1.11.1"/>
-         <trusted-key id="176E27B72061F21D6FE6286241CB03A1BB3BAD60" group="io.netty"/>
          <trusted-key id="19BEAB2D799C020F17C69126B16698A4ADF4D638">
             <trusting group="org.checkerframework" name="checker-qual"/>
-            <trusting group="org.checkerframework" name="checker-qual" version="3.12.0"/>
+            <trusting group="org.checkerframework" name="checker-qual" version="3.43.0"/>
          </trusted-key>
          <trusted-key id="1D04A424F505394DBED15D451D0690E353BE126D" group="net.minidev"/>
          <trusted-key id="1D2C7EF8ADA0F794B58C7C63436902AF59EDF60E" group="dev.equo.ide" name="solstice" version="1.8.1"/>
@@ -41,7 +36,7 @@
          <trusted-key id="2DB4F1EF0FA761ECC4EA935C86FDC7E2A11262CB">
             <trusting group="commons-codec"/>
             <trusting group="commons-io"/>
-            <trusting group="commons-logging" name="commons-logging" version="1.3.4"/>
+            <trusting group="commons-logging"/>
             <trusting group="org.apache.commons"/>
          </trusted-key>
          <trusted-key id="2E3A1AFFE42B5F53AF19F780BCF4173966770193" group="org.jetbrains" name="annotations" version="13.0"/>
@@ -52,8 +47,8 @@
          <trusted-key id="3690C240CE51B4670D30AD1C38EE757D69184620" group="org.tukaani" name="xz" version="1.9"/>
          <trusted-key id="4103C1C3F8E51C6925B5CD346A1E81B00431AB9D" group="com.github.oshi"/>
          <trusted-key id="4797B4F5DCC46CEA61059071A1AE06236CA2BA62" group="com.diffplug.durian" name="durian-swt.os" version="4.3.0"/>
+         <trusted-key id="48B086A7D843CFA258E83286928FBF39003C0425" group="org.springframework" name="spring-framework-bom" version="5.3.39"/>
          <trusted-key id="517B94F8D0A46317A28D8AB30DA8A5EC02D11EAD" group="net.sf.jopt-simple" name="jopt-simple" version="5.0.4"/>
-         <trusted-key id="53C935821AA6A755BD337DB53595395EB3D8E1BA" group="org.apache.logging.log4j"/>
          <trusted-key id="55ABBEF06CF6277A23B1D3A21993B355097C8B5A" group="org.lz4" name="lz4-java" version="1.8.0"/>
          <trusted-key id="60200AC4AE761F1614D6C46766D68DAA073BE985" group="org.slf4j"/>
          <trusted-key id="694621A7227D8D5289699830ABE9F3126BB741C1" group="com.google.guava"/>
@@ -68,35 +63,24 @@
          <trusted-key id="8756C4F765C9AC3CB6B85D62379CE192D401AB61" group="com.diffplug.durian"/>
          <trusted-key id="87D1E546F4F97647F3DED0CE4A4CE2A989CBF73D" group="ca.weblite" name="java-objc-bridge" version="1.1"/>
          <trusted-key id="8A10792983023D5D14C93B488D7F1BEC1E2ECAE7" group="^com[.]fasterxml($|([.].*))" regex="true"/>
-         <trusted-key id="9D0A56AAA0D60E0C0C7DCCC0B4C70893B62BABE8" group="org.apache.logging" name="logging-parent" version="5"/>
-         <trusted-key id="9E2B2198D20DC6E4B02C703111B891CFE51C003E">
-            <trusting group="net.fabricmc"/>
-            <trusting group="net.fabricmc.fabric-api"/>
-         </trusted-key>
+         <trusted-key id="9E2B2198D20DC6E4B02C703111B891CFE51C003E" group="^net[.]fabricmc($|([.].*))" regex="true"/>
          <trusted-key id="9E3044071B758EBCB7E45673700E4F39BC05364B" group="org.eclipse.platform" name="org.eclipse.osgi" version="3.24.100"/>
          <trusted-key id="A31DDE881C3E3C4C985BD0D02C7F998F4272C851" group="com.diffplug.spotless"/>
          <trusted-key id="A5BD02B93E7A40482EB1D66A5F69AD087600B22C" group="org.ow2.asm"/>
          <trusted-key id="A6CECB561835C8E255465CADDA19FF23954820BA" group="com.microsoft.azure" name="msal4j" version="1.17.2"/>
          <trusted-key id="A9789342F598AD5B1175EF357EB97D110DFADD60" group="com.googlecode.concurrent-trees" name="concurrent-trees" version="2.6.1"/>
-         <trusted-key id="B801E2F8EF035068EC1139CC29579F18FA8FD93B" group="com.google.j2objc" name="j2objc-annotations" version="1.3"/>
-         <trusted-key id="BC00AB2ED7B8D85346FBD6BB213F83F6CA5F26F6" group="org.joml" name="joml" version="1.10.5"/>
-         <trusted-key id="BC87A3FD0A54480F0BADBEBD21939FF0CA2A6567" group="commons-codec" name="commons-codec" version="1.15"/>
-         <trusted-key id="BDB5FA4FE719D787FB3D3197F6D4A1D411E9D1AE">
-            <trusting group="com.google.guava"/>
-            <trusting group="com.google.j2objc" name="j2objc-annotations" version="3.0.0"/>
-         </trusted-key>
+         <trusted-key id="BDB5FA4FE719D787FB3D3197F6D4A1D411E9D1AE" group="^com[.]google($|([.].*))" regex="true"/>
          <trusted-key id="BF3A87D91B70BE32CAD64A2645D0CAA6D26B0F7D" group="com.palantir.javaformat"/>
          <trusted-key id="C7BE5BCC9FEC15518CFDA882B0F3710FA64900E7" group="com.google.code.gson"/>
-         <trusted-key id="CB3190CA7842439E57F3712E44CE7BF2825EA2CD" group="com.ibm.icu" name="icu4j" version="71.1"/>
-         <trusted-key id="CE8075A251547BEE249BC151A2115AE15F6B8B72" group="org.apache.commons" name="commons-compress" version="1.21"/>
          <trusted-key id="D421D1DF4570BFB13E485D0BF95ADD0A28D2F139" group="org.projectlombok" name="lombok" version="1.18.44"/>
          <trusted-key id="DBD744ACE7ADE6AA50DD591F66B50994442D2D40" group="^com[.]squareup($|([.].*))" regex="true"/>
          <trusted-key id="E52F07877A5805F9AF4AB0ACD46C5610D06E7001" group="com.ibm.icu" name="icu4j" version="76.1"/>
-         <trusted-key id="E77417AC194160A3FABD04969A259C7EE636C5ED" group="com.google.errorprone"/>
          <trusted-key id="E7DC75FC24FB3C8DFE8086AD3D5839A2262CBBFB" group="org.jetbrains.kotlinx"/>
-         <trusted-key id="EE0CA873074092F806F59B65D364ABAA39A47320" group="^com[.]google($|([.].*))" regex="true"/>
+         <trusted-key id="EE0CA873074092F806F59B65D364ABAA39A47320">
+            <trusting group="com.google.errorprone"/>
+            <trusting group="com.google.googlejavaformat"/>
+         </trusted-key>
          <trusted-key id="F0C6F963AE4C1E0465E5EF4B2E55C136C4729D19" group="io.freefair.gradle" name="lombok-plugin" version="9.5.0"/>
-         <trusted-key id="FA77DCFEF2EE6EB2DEBEDD2C012579464D01C06A" group="org.apache" name="apache"/>
          <trusted-key id="FA7929F83AD44C4590F6CC6815C71C0A4E0B8EDD" group="net.java.dev.jna"/>
          <trusted-key id="FF6E2C001948C5F2F38B0CC385911F425EC61B51" group="org.junit" name="junit-bom"/>
       </trusted-keys>
@@ -106,6 +90,11 @@
          <artifact name="com.diffplug.spotless.gradle.plugin-8.4.0.pom">
             <sha256 value="a891aa8be64267621505beae63a8de02a180097dcf3bfc27059dfc6f9d74a440" origin="Generated by Gradle" reason="Artifact is not signed"/>
             <sha512 value="044a387735d234dbdc9185dde0b9f00099e2dcd5487a61840108afa511cba4e2462586031d9fe16f62bb58267f78f7f5e09a889ea4f27c551a178c2f0257fdae" origin="Generated by Gradle" reason="Artifact is not signed"/>
+         </artifact>
+      </component>
+      <component group="com.google.guava" name="guava-parent" version="26.0-android">
+         <artifact name="guava-parent-26.0-android.pom">
+            <pgp value="694621A7227D8D5289699830ABE9F3126BB741C1"/>
          </artifact>
       </component>
       <component group="fabric-loom" name="fabric-loom.gradle.plugin" version="1.16.1">
@@ -274,6 +263,16 @@
          <artifact name="unpick-format-utils-3.0.0-beta.13.module">
             <sha256 value="27675ce7e6dc3d71b36eb26aae2be5d56329c904309def192484b6bd338eea46" origin="Generated by Gradle" reason="Artifact is not signed"/>
             <sha512 value="1f40840dcf236e48c4a8ae69c16c05d5125cb82443dc2a4b0afefec9e62ad559dc2d7641569e388f6d0b1a06cba7163f2d5bf6870451d6105a7cdd7cf76d23ca" origin="Generated by Gradle" reason="Artifact is not signed"/>
+         </artifact>
+      </component>
+      <component group="org.apache" name="apache" version="21">
+         <artifact name="apache-21.pom">
+            <pgp value="FA77DCFEF2EE6EB2DEBEDD2C012579464D01C06A"/>
+         </artifact>
+      </component>
+      <component group="org.apache.groovy" name="groovy-bom" version="4.0.22">
+         <artifact name="groovy-bom-4.0.22.pom">
+            <pgp value="34441E504A937F43EB0DAEF96A65176A0FB1CD0B"/>
          </artifact>
       </component>
       <component group="org.eclipse.ee4j" name="project" version="1.0.7">
