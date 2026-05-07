@@ -7,7 +7,7 @@
       <trusted-artifacts>
          <trust group="com.mojang" reason="Evil"/>
          <trust group="loom" name="mappings" reason="Merged Local Loom Mappings"/>
-         <trust group="net.fabricmc" name="intermediary" version="1.20.1" reason="Intermediary Mappings"/>
+         <trust group="net.fabricmc" name="intermediary" version="1.21.10" reason="Intermediary Mappings"/>
          <trust group="org.ow2" name="ow2" version="1.5.1" reason="For some reason this one fails verification"/>
          <trust file=".*-javadoc[.]jar" regex="true"/>
          <trust file=".*-sources[.]jar" regex="true"/>
