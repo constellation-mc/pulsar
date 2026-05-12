@@ -112,7 +112,7 @@ publishing {
 }
 
 signing {
-    required { shouldSign }
+    required = shouldSign
 
     def signingKeyId = System.getenv("SIGNING_PGP_KEY_ID")
     def signingKey = System.getenv("SIGNING_PGP_KEY")
