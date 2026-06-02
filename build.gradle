@@ -8,7 +8,7 @@ plugins {
     alias libs.plugins.modmuss50.publish
 }
 
-def targetJavaVersion = 21
+def targetJavaVersion = 25
 def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER");
 def shouldSign = System.getenv().containsKey("SIGNING_PGP_KEY_ID")
 
@@ -27,10 +27,9 @@ repositories {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation libs.fabric.loader
+    implementation libs.fabric.loader
 
-    modImplementation libs.fabric.api
+    implementation libs.fabric.api
 }
 
 loom {
@@ -68,7 +67,7 @@ sourcesJar {
 spotless {
     java {
         removeUnusedImports()
-        palantirJavaFormat('2.47.0').style("GOOGLE")
+        palantirJavaFormat('2.91.0').style("GOOGLE")
         trimTrailingWhitespace()
         formatAnnotations()
     }
@@ -120,19 +119,19 @@ signing {
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
 
     sign publishing.publications.mavenJava
-    sign remapJar
-    sign remapSourcesJar
+    sign jar
+    sign sourcesJar
 }
 
 import me.modmuss50.mpp.ReleaseType
 
 publishMods {
-    file = remapJar.archiveFile
-    additionalFiles.from(remapSourcesJar.archiveFile)
+    file = jar.archiveFile
+    additionalFiles.from(sourcesJar.archiveFile)
 
     if (shouldSign) {
-        additionalFiles.from(tasks.named("signRemapJar").map { it.outputs.files })
-        additionalFiles.from(tasks.named("signRemapSourcesJar").map { it.outputs.files })
+        additionalFiles.from(tasks.named("signJar").map { it.outputs.files })
+        additionalFiles.from(tasks.named("signSourcesJar").map { it.outputs.files })
     }
 
     changelog = file("CHANGELOG.md").text

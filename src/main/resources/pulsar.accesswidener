@@ -1,4 +1,4 @@
-accessWidener  v2	named
+accessWidener  v2	official
 
 transitive-accessible class net/minecraft/core/RegistrySetBuilder$BuildState
 transitive-accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
@@ -41,7 +41,7 @@ transitive-accessible field net/minecraft/world/entity/item/ItemEntity DATA_ITEM
 transitive-mutable field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder tabContents Ljava/util/Collection;
 transitive-mutable field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder searchTabContents Ljava/util/Set;
 #transitive-accessible field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
-transitive-accessible field net/minecraft/world/level/storage/DimensionDataStorage cache Ljava/util/Map;
+#transitive-accessible field net/minecraft/world/level/storage/DimensionDataStorage cache Ljava/util/Map;
 transitive-accessible field net/minecraft/client/gui/screens/inventory/tooltip/ClientTextTooltip text Lnet/minecraft/util/FormattedCharSequence;
 transitive-mutable field net/minecraft/network/chat/TextColor LEGACY_FORMAT_TO_COLOR Ljava/util/Map;
 transitive-mutable field net/minecraft/network/chat/TextColor NAMED_COLORS Ljava/util/Map;

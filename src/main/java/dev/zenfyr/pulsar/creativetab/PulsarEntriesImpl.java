@@ -34,8 +34,8 @@ class PulsarEntriesImpl implements PulsarEntries {
     }
     // Let's hope that whatever this is doesn't have dumb restrictions.
     switch (visibility) {
-      case TAB_AND_SEARCH -> this.entries.accept(
-          stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+      case TAB_AND_SEARCH ->
+        this.entries.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
       case TAB -> this.entries.accept(stack, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
       case SEARCH -> this.entries.accept(stack, CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
     }

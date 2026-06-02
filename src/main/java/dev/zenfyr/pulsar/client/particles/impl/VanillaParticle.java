@@ -4,7 +4,7 @@ import dev.zenfyr.pulsar.client.particles.AbstractScreenParticle;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
@@ -46,7 +46,8 @@ public class VanillaParticle extends AbstractScreenParticle {
   }
 
   @Override
-  public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+  public void extractRenderState(
+      GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
     // NOOP, rendered by the manager
   }
 

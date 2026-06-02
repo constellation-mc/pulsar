@@ -1,21 +1,22 @@
 package dev.zenfyr.pulsar.client.fakelevel;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.Lightmap;
+import net.minecraft.client.renderer.state.LightmapRenderState;
 
 /**
- * A {@link LightTexture} that never updates past the initial bright state.
+ * A {@link Lightmap} that never updates past the initial bright state.
  */
-public final class BrightLightTexture extends LightTexture {
+public final class BrightLightTexture extends Lightmap {
 
   public static final BrightLightTexture INSTANCE = new BrightLightTexture();
-
-  private BrightLightTexture() {
-    super(Minecraft.getInstance().gameRenderer, Minecraft.getInstance());
-  }
+  private static final LightmapRenderState RENDER_STATE = new LightmapRenderState();
 
   @Override
-  public void updateLightTexture(float delta) {
-    // no updates for you
+  public void render(LightmapRenderState renderState) {
+    super.render(RENDER_STATE);
+  }
+
+  public static void init() {
+    // NOOP
   }
 }

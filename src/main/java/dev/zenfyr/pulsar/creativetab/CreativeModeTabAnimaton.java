@@ -4,7 +4,7 @@ import dev.zenfyr.pulsar.creativetab.impl.CreativeModeTabExtensions;
 import java.util.Optional;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.CreativeModeTab;
 
 @FunctionalInterface
@@ -22,17 +22,15 @@ public interface CreativeModeTabAnimaton {
   }
 
   /**
-   * Animates the icon for your creative tab.
+   * Extracts the icon animation state for rendering.
    *
-   * <p>This can draw anything you want</p>
-   *
-   * @param graphics the graphics used to render the screen
+   * @param graphics the graphics extractor
    * @param itemX the x-coordinate of the icon
    * @param itemY the y-coordinate of the icon
    */
   void animateIcon(
       CreativeModeTab tab,
-      GuiGraphics graphics,
+      GuiGraphicsExtractor graphics,
       int itemX,
       int itemY,
       boolean selected,

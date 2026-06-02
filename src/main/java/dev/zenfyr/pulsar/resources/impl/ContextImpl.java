@@ -6,14 +6,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.flag.FeatureFlagSet;
 
 public record ContextImpl(
     HolderLookup.Provider registryAccess,
     FeatureFlagSet featureFlags,
-    BiConsumer<ResourceLocation, PreparableReloadListener> registrar,
+    BiConsumer<Identifier, PreparableReloadListener> registrar,
     Function<ReloaderType<?>, PreparableReloadListener> provider)
     implements ServerReloadersEvent.Context {
 
@@ -23,8 +23,8 @@ public record ContextImpl(
   }
 
   @Override
-  public void register(ResourceLocation location, PreparableReloadListener reloadListener) {
-    registrar().accept(location, reloadListener);
+  public void register(Identifier identifier, PreparableReloadListener reloadListener) {
+    registrar().accept(identifier, reloadListener);
   }
 
   @Override

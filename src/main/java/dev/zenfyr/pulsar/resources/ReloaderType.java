@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
-import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
-import net.minecraft.resources.ResourceLocation;
+import net.fabricmc.fabric.api.resource.v1.reloader.ResourceReloaderKeys;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.ServerFunctionLibrary;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -19,17 +19,17 @@ import org.jetbrains.annotations.NotNull;
 public final class ReloaderType<T extends PreparableReloadListener> {
 
   public static final ReloaderType<RecipeManager> RECIPES =
-      create(ResourceReloadListenerKeys.RECIPES);
+      create(ResourceReloaderKeys.Server.RECIPES);
   public static final ReloaderType<ServerAdvancementManager> ADVANCEMENTS =
-      create(ResourceReloadListenerKeys.ADVANCEMENTS);
+      create(ResourceReloaderKeys.Server.ADVANCEMENTS);
   public static final ReloaderType<ServerFunctionLibrary> FUNCTIONS =
-      create(ResourceReloadListenerKeys.FUNCTIONS);
+      create(ResourceReloaderKeys.Server.FUNCTIONS);
 
-  private final ResourceLocation location;
+  private final Identifier location;
 
   @Contract("_ -> new")
   public static <T extends PreparableReloadListener> @NotNull ReloaderType<T> create(
-      ResourceLocation identifier) {
+      Identifier identifier) {
     return new ReloaderType<>(identifier);
   }
 }

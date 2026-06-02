@@ -12,7 +12,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.ParticlesRenderState;
+import net.minecraft.client.renderer.state.level.ParticlesRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.joml.Matrix4f;
 

@@ -7,9 +7,9 @@ import dev.zenfyr.pulsar.resources.impl.InternalContentsAccessor;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import net.fabricmc.fabric.impl.resource.v1.DataResourceLoaderImpl;
-import net.fabricmc.fabric.impl.resource.v1.SetupMarkerResourceReloader;
-import net.minecraft.resources.ResourceLocation;
+import net.fabricmc.fabric.impl.resource.DataResourceLoaderImpl;
+import net.fabricmc.fabric.impl.resource.SetupMarkerResourceReloader;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,29 +25,30 @@ public class ResourceManagerHelperImplMixin {
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/fabricmc/fabric/impl/resource/v1/ResourceLoaderImpl;collectReloadersToAdd(Lnet/fabricmc/fabric/impl/resource/v1/SetupMarkerResourceReloader;)Ljava/util/Set;",
+                  "Lnet/fabricmc/fabric/impl/resource/ResourceLoaderImpl;collectReloadersToAdd(Lnet/fabricmc/fabric/impl/resource/SetupMarkerResourceReloader;)Ljava/util/Set;",
               shift = At.Shift.BY,
               by = 2),
       method = "collectReloadersToAdd",
       remap = false)
   private void injectReloaders(
-      @Nullable SetupMarkerResourceReloader marker,
-      CallbackInfoReturnable<Set<Map.Entry<ResourceLocation, PreparableReloadListener>>> cir,
-      @Local Set<Map.Entry<ResourceLocation, PreparableReloadListener>> reloadersToAdd) {
+      @org.jspecify.annotations.Nullable SetupMarkerResourceReloader marker,
+      CallbackInfoReturnable<Set<Map.Entry<Identifier, PreparableReloadListener>>> cir,
+      @Local Set<Map.Entry<Identifier, PreparableReloadListener>> reloadersToAdd) {
     ContextImpl context = new ContextImpl(
         marker.registries(),
         marker.featureSet(),
         (location, listener) -> reloadersToAdd.add(Map.entry(location, listener)),
-        type -> ((InternalContentsAccessor) marker.dataPackContents()).pulsar$getReloader(type));
+        type -> ((InternalContentsAccessor) marker.reloadableServerResources())
+            .pulsar$getReloader(type));
     ServerReloadersEvent.EVENT.invoker().onServerReloaders(context);
   }
 
   @Inject(at = @At("TAIL"), method = "collectReloadersToAdd", remap = false)
   private void setEventResults(
       @Nullable SetupMarkerResourceReloader setupMarker,
-      CallbackInfoReturnable<Set<Map.Entry<ResourceLocation, PreparableReloadListener>>> cir,
-      @Local Set<Map.Entry<ResourceLocation, PreparableReloadListener>> reloadersToAdd) {
-    ((InternalContentsAccessor) setupMarker.dataPackContents())
+      CallbackInfoReturnable<Set<Map.Entry<Identifier, PreparableReloadListener>>> cir,
+      @Local Set<Map.Entry<Identifier, PreparableReloadListener>> reloadersToAdd) {
+    ((InternalContentsAccessor) setupMarker.reloadableServerResources())
         .pulsar$setReloaders(reloadersToAdd.stream()
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
   }

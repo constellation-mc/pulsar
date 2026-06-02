@@ -11,10 +11,10 @@ import lombok.experimental.UtilityClass;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.state.ParticlesRenderState;
+import net.minecraft.client.renderer.state.level.ParticlesRenderState;
 import net.minecraft.core.particles.ParticleOptions;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -218,7 +218,7 @@ public final class ScreenParticleHelper {
   }
 
   @ApiStatus.Internal
-  public static void renderParticles(Minecraft client, GuiGraphics context) {
+  public static void extractParticleRenderState(Minecraft client, GuiGraphicsExtractor context) {
     if (SCREEN_PARTICLES.isEmpty()) return;
 
     var w = Minecraft.getInstance().getWindow();
@@ -230,7 +230,7 @@ public final class ScreenParticleHelper {
         / (double) w.getScreenHeight());
 
     for (AbstractScreenParticle particle : SCREEN_PARTICLES) {
-      particle.renderInternal(
+      particle.extractRenderStateInternal(
           context, i, j, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
     }
   }

@@ -6,7 +6,7 @@ import lombok.NonNull;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -14,13 +14,13 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
 
-  private final ResourceLocation location;
+  private final Identifier location;
   private Supplier<ItemStack> icon = () -> ItemStack.EMPTY;
   private String texture;
   private PulsarEntries.Collector entries;
   private Component displayName;
 
-  public CreativeModeTabBuilderImpl(ResourceLocation location) {
+  public CreativeModeTabBuilderImpl(Identifier location) {
     this.location = location;
   }
 
@@ -49,7 +49,7 @@ class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
   }
 
   @Override
-  public ResourceLocation location() {
+  public Identifier location() {
     return this.location;
   }
 
@@ -62,7 +62,7 @@ class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
     builder.title(Objects.requireNonNullElseGet(
         this.displayName,
         () -> Component.translatable("itemGroup." + this.location.toString().replace(':', '.'))));
-    if (this.texture != null) builder.backgroundTexture(ResourceLocation.parse(this.texture));
+    if (this.texture != null) builder.backgroundTexture(Identifier.parse(this.texture));
     builder.displayItems(
         (displayContext, entries1) -> this.entries.collect(new PulsarEntriesImpl(entries1)));
 

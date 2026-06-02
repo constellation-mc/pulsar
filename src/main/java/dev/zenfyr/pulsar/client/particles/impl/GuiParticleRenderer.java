@@ -2,13 +2,12 @@ package dev.zenfyr.pulsar.client.particles.impl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
-import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.gui.GuiRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 
 public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRenderState> {
 
@@ -28,8 +27,6 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
   @Override
   protected void renderToTexture(GuiParticleRenderState renderState, PoseStack poseStack) {
     Minecraft minecraft = Minecraft.getInstance();
-
-    BrightLightTexture.INSTANCE.turnOnLightLayer();
 
     FeatureRenderDispatcher featureRenderDispatcher =
         minecraft.gameRenderer.getFeatureRenderDispatcher();
@@ -55,8 +52,6 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
     this.bufferSource.endBatch();
     renderState.state().reset();
     stack.popMatrix();
-
-    BrightLightTexture.INSTANCE.turnOffLightLayer();
   }
 
   @Override

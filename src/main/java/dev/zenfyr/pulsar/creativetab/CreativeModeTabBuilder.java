@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import lombok.NonNull;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CreativeModeTabBuilder {
 
-  static CreativeModeTabBuilder create(@NonNull ResourceLocation identifier) {
+  static CreativeModeTabBuilder create(@NonNull Identifier identifier) {
     return new CreativeModeTabBuilderImpl(identifier);
   }
 
@@ -38,7 +38,7 @@ public interface CreativeModeTabBuilder {
 
   CreativeModeTabBuilder displayName(Component displayName);
 
-  ResourceLocation location();
+  Identifier location();
 
   @Nullable CreativeModeTab build();
 

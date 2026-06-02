@@ -1,12 +1,13 @@
 package dev.zenfyr.pulsar.impl.mixin.client.particles;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
 import dev.zenfyr.pulsar.client.particles.impl.GuiParticleRenderer;
 import dev.zenfyr.pulsar.client.particles.impl.VanillaParticleManager;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.Final;
@@ -28,15 +29,24 @@ public class GameRendererMixin {
   }
 
   @Inject(
-      method = "render",
+      method = "extractGui",
       at =
           @At(
               value = "INVOKE",
-              target = "Lnet/minecraft/client/gui/Gui;renderDeferredSubtitles()V",
+              target = "Lnet/minecraft/client/gui/Gui;extractDeferredSubtitles()V",
               shift = At.Shift.BEFORE))
   private void pulsar$renderScreenParticles(
-      DeltaTracker deltaTracker, boolean bl, CallbackInfo ci, @Local GuiGraphics graphics) {
-    graphics.nextStratum();
-    ScreenParticleHelper.renderParticles(this.minecraft, graphics);
+      DeltaTracker deltaTracker,
+      boolean shouldRenderLevel,
+      boolean resourcesLoaded,
+      CallbackInfo ci,
+      @Local GuiGraphicsExtractor graphics) {
+    // graphics.nextStratum();
+    ScreenParticleHelper.extractParticleRenderState(this.minecraft, graphics);
+  }
+
+  @Inject(at = @At("TAIL"), method = "close")
+  private void pulsar$closeBrightLightmap(CallbackInfo ci) {
+    BrightLightTexture.INSTANCE.close();
   }
 }

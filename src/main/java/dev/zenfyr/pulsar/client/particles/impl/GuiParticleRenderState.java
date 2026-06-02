@@ -1,8 +1,8 @@
 package dev.zenfyr.pulsar.client.particles.impl;
 
 import net.minecraft.client.gui.navigation.ScreenRectangle;
-import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState;
-import net.minecraft.client.renderer.state.ParticlesRenderState;
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
+import net.minecraft.client.renderer.state.level.ParticlesRenderState;
 import org.jetbrains.annotations.Nullable;
 
 public record GuiParticleRenderState(

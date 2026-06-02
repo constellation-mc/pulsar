@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.impl.mixin.client.itemgroup;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.zenfyr.pulsar.creativetab.impl.CreativeModeTabExtensions;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.network.chat.Component;
@@ -31,20 +31,22 @@ public abstract class CreativeModeInventoryScreenMixin
               target =
                   "Lnet/minecraft/world/item/CreativeModeTab;getIconItem()Lnet/minecraft/world/item/ItemStack;",
               shift = At.Shift.BEFORE),
-      method = "renderTabButton",
+      method = "extractTabButton",
       cancellable = true)
   private void pulsar$drawGroupIcon(
-      GuiGraphics context,
-      CreativeModeTab group,
+      GuiGraphicsExtractor graphics,
+      int mouseX,
+      int mouseY,
+      CreativeModeTab tab,
       CallbackInfo ci,
-      @Local(index = 3) boolean bl,
-      @Local(index = 4) boolean bl2,
-      @Local(index = 9) int l,
-      @Local(index = 10) int m) {
-    if (((CreativeModeTabExtensions) group).pulsar$getIconAnimation() != null) {
-      ((CreativeModeTabExtensions) group)
+      @Local(index = 11) int iconX,
+      @Local(index = 12) int iconY,
+      @Local(index = 5) boolean selected,
+      @Local(index = 6) boolean isTop) {
+    if (((CreativeModeTabExtensions) tab).pulsar$getIconAnimation() != null) {
+      ((CreativeModeTabExtensions) tab)
           .pulsar$getIconAnimation()
-          .animateIcon(group, context, l, m, bl, bl2);
+          .animateIcon(tab, graphics, iconX, iconY, selected, isTop);
       ci.cancel();
     }
   }

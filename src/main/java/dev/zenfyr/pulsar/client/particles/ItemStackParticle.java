@@ -3,7 +3,7 @@ package dev.zenfyr.pulsar.client.particles;
 import dev.zenfyr.pulsar.util.MathUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3x2fStack;
@@ -22,14 +22,15 @@ public class ItemStackParticle extends AbstractScreenParticle {
   }
 
   @Override
-  public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+  public void extractRenderState(
+      GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
     Matrix3x2fStack pose = graphics.pose();
     float x = (float) Mth.lerp(delta, this.prevX, this.x);
     float y = (float) Mth.lerp(delta, this.prevY, this.y);
     pose.pushMatrix();
     pose.translate(x, y);
     pose.rotate((float) (Math.atan2(velY, velX) * 0.5));
-    graphics.renderItem(stack, -8, -8);
+    graphics.item(stack, -8, -8);
     pose.popMatrix();
   }
 
