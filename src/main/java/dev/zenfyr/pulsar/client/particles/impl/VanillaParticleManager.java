@@ -70,9 +70,10 @@ public class VanillaParticleManager {
     RenderSystem.setShader(GameRenderer::getParticleShader);
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-    particles.keySet().forEach(type -> type.begin(bufferBuilder, client.getTextureManager()));
-    particles.forEach((type, list) -> {
-      for (VanillaParticle vp : list) {
+    particles.forEach((type, particles1) -> {
+      type.begin(bufferBuilder, client.getTextureManager());
+
+      for (VanillaParticle vp : particles1) {
         try {
           vp.particle.render(bufferBuilder, CAMERA, client.getFrameTime());
         } catch (Throwable var17) {
@@ -85,8 +86,9 @@ public class VanillaParticleManager {
           throw new ReportedException(crashReport);
         }
       }
+
+      type.end(tessellator);
     });
-    particles.keySet().forEach(type -> type.end(tessellator));
 
     BrightLightTexture.INSTANCE.turnOffLightLayer();
     poseStack.popPose();
