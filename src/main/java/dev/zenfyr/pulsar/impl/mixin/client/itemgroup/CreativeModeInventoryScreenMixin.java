@@ -46,7 +46,7 @@ public abstract class CreativeModeInventoryScreenMixin
     if (((CreativeModeTabExtensions) tab).pulsar$getIconAnimation() != null) {
       ((CreativeModeTabExtensions) tab)
           .pulsar$getIconAnimation()
-          .animateIcon(tab, graphics, iconX, iconY, selected, isTop);
+          .extractAnimation(tab, graphics, iconX, iconY, selected, isTop);
       ci.cancel();
     }
   }

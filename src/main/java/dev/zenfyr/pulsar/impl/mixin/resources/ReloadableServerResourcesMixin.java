@@ -22,9 +22,9 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
     var reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {
-        reloader = this.reloadersByIdentifier.get(type.location());
+        reloader = this.reloadersByIdentifier.get(type.identifier());
         if (reloader == null)
-          throw new NoSuchElementException("Missing reloader %s".formatted(type.location()));
+          throw new NoSuchElementException("Missing reloader %s".formatted(type.identifier()));
         this.reloadersByType.put(type, reloader);
       }
     }

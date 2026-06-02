@@ -28,7 +28,7 @@ public interface CreativeModeTabAnimaton {
    * @param itemX the x-coordinate of the icon
    * @param itemY the y-coordinate of the icon
    */
-  void animateIcon(
+  void extractAnimation(
       CreativeModeTab tab,
       GuiGraphicsExtractor graphics,
       int itemX,

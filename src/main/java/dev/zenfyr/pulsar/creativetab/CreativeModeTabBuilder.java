@@ -38,7 +38,7 @@ public interface CreativeModeTabBuilder {
 
   CreativeModeTabBuilder displayName(Component displayName);
 
-  Identifier location();
+  Identifier identifier();
 
   @Nullable CreativeModeTab build();
 

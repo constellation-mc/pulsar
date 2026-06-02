@@ -25,7 +25,7 @@ public final class ReloaderType<T extends PreparableReloadListener> {
   public static final ReloaderType<ServerFunctionLibrary> FUNCTIONS =
       create(ResourceReloaderKeys.Server.FUNCTIONS);
 
-  private final Identifier location;
+  private final Identifier identifier;
 
   @Contract("_ -> new")
   public static <T extends PreparableReloadListener> @NotNull ReloaderType<T> create(
