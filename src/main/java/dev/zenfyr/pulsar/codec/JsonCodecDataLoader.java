@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -15,26 +15,24 @@ public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadLis
 
   @Contract("_, _, _ -> new")
   public static <T> @NotNull JsonCodecDataLoader<T> simple(
-      ResourceLocation identifier, Codec<T> codec, BiConsumer<ResourceLocation, T> consumer) {
+      Identifier identifier, Codec<T> codec, BiConsumer<Identifier, T> consumer) {
     return new JsonCodecDataLoader<T>(identifier, codec) {
       @Override
-      protected void apply(Map<ResourceLocation, T> parsed, ResourceManager manager) {
+      protected void apply(Map<Identifier, T> parsed, ResourceManager manager) {
         parsed.forEach(consumer);
       }
     };
   }
 
-  public JsonCodecDataLoader(ResourceLocation location, Codec<T> codec) {
-    super(codec, FileToIdConverter.json(location.toString().replace(':', '/')));
+  public JsonCodecDataLoader(Identifier identifier, Codec<T> codec) {
+    super(codec, FileToIdConverter.json(identifier.toString().replace(':', '/')));
   }
 
   @Override
   protected void apply(
-      Map<ResourceLocation, T> object,
-      ResourceManager resourceManager,
-      ProfilerFiller profilerFiller) {
+      Map<Identifier, T> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
     this.apply(object, resourceManager);
   }
 
-  protected abstract void apply(Map<ResourceLocation, T> parsed, ResourceManager manager);
+  protected abstract void apply(Map<Identifier, T> parsed, ResourceManager manager);
 }

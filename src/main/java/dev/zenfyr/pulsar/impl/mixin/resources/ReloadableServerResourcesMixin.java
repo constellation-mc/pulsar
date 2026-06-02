@@ -3,7 +3,7 @@ package dev.zenfyr.pulsar.impl.mixin.resources;
 import dev.zenfyr.pulsar.resources.ReloaderType;
 import dev.zenfyr.pulsar.resources.impl.InternalContentsAccessor;
 import java.util.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(value = ReloadableServerResources.class, priority = 1100)
 abstract class ReloadableServerResourcesMixin implements InternalContentsAccessor {
 
-  @Unique private final Map<ResourceLocation, PreparableReloadListener> reloadersByIdentifier =
-      new HashMap<>();
+  @Unique private final Map<Identifier, PreparableReloadListener> reloadersByIdentifier = new HashMap<>();
 
   @Unique private final IdentityHashMap<ReloaderType<?>, PreparableReloadListener> reloadersByType =
       new IdentityHashMap<>();
@@ -23,9 +22,9 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
     var reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {
-        reloader = this.reloadersByIdentifier.get(type.location());
+        reloader = this.reloadersByIdentifier.get(type.identifier());
         if (reloader == null)
-          throw new NoSuchElementException("Missing reloader %s".formatted(type.location()));
+          throw new NoSuchElementException("Missing reloader %s".formatted(type.identifier()));
         this.reloadersByType.put(type, reloader);
       }
     }
@@ -33,7 +32,7 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
   }
 
   @Override
-  public void pulsar$setReloaders(Map<ResourceLocation, PreparableReloadListener> reloaders) {
+  public void pulsar$setReloaders(Map<Identifier, PreparableReloadListener> reloaders) {
     this.reloadersByIdentifier.clear();
     this.reloadersByType.clear();
 

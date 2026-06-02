@@ -35,12 +35,14 @@ public abstract class CreativeModeInventoryScreenMixin
       cancellable = true)
   private void pulsar$drawGroupIcon(
       GuiGraphics context,
+      int i,
+      int j,
       CreativeModeTab group,
       CallbackInfo ci,
-      @Local(index = 3) boolean bl,
-      @Local(index = 4) boolean bl2,
-      @Local(index = 9) int l,
-      @Local(index = 10) int m) {
+      @Local(index = 5) boolean bl,
+      @Local(index = 6) boolean bl2,
+      @Local(index = 11) int l,
+      @Local(index = 12) int m) {
     if (((CreativeModeTabExtensions) group).pulsar$getIconAnimation() != null) {
       ((CreativeModeTabExtensions) group)
           .pulsar$getIconAnimation()

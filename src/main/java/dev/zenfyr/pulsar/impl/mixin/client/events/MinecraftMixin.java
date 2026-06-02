@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
   @Inject(method = "method_29338", at = @At("TAIL"), require = 0)
   private void pulsar$init(CallbackInfo ci) {
-    Minecraft.getInstance().doRunTask(() -> {
+    Minecraft.getInstance().execute(() -> {
       try {
         AfterFirstReload.EVENT.invoker().afterFirstReload();
       } catch (Throwable t) {

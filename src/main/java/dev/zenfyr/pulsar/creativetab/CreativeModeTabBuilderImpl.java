@@ -6,7 +6,7 @@ import lombok.NonNull;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -14,14 +14,14 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
 
-  private final ResourceLocation location;
+  private final Identifier identifier;
   private Supplier<ItemStack> icon = () -> ItemStack.EMPTY;
   private String texture;
   private PulsarEntries.Collector entries;
   private Component displayName;
 
-  public CreativeModeTabBuilderImpl(ResourceLocation location) {
-    this.location = location;
+  public CreativeModeTabBuilderImpl(Identifier identifier) {
+    this.identifier = identifier;
   }
 
   @Override
@@ -49,8 +49,8 @@ class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
   }
 
   @Override
-  public ResourceLocation location() {
-    return this.location;
+  public Identifier identifier() {
+    return this.identifier;
   }
 
   @Override
@@ -61,13 +61,13 @@ class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
 
     builder.title(Objects.requireNonNullElseGet(
         this.displayName,
-        () -> Component.translatable("itemGroup." + this.location.toString().replace(':', '.'))));
-    if (this.texture != null) builder.backgroundTexture(ResourceLocation.parse(this.texture));
+        () -> Component.translatable("itemGroup." + this.identifier.toString().replace(':', '.'))));
+    if (this.texture != null) builder.backgroundTexture(Identifier.parse(this.texture));
     builder.displayItems(
         (displayContext, entries1) -> this.entries.collect(new PulsarEntriesImpl(entries1)));
 
     CreativeModeTab group = builder.build();
-    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, this.location, group);
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, this.identifier, group);
     return group;
   }
 }

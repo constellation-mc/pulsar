@@ -18,4 +18,8 @@ public final class BrightLightTexture extends LightTexture {
   public void updateLightTexture(float delta) {
     // no updates for you
   }
+
+  public static void init() {
+    // NOOP
+  }
 }

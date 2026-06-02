@@ -26,8 +26,10 @@ public class NbtUtil {
         public <T> DataResult<T> encode(Slotted input, DynamicOps<T> ops, T prefix) {
           return ItemStack.OPTIONAL_CODEC.encodeStart(ops, input.stack()).flatMap(itemData -> {
             RecordBuilder<T> builder = ops.mapBuilder();
-            ops.getMap(itemData).result().ifPresent(map -> map.entries()
-                .forEach(e -> builder.add(e.getFirst(), e.getSecond())));
+            ops.getMap(itemData)
+                .result()
+                .ifPresent(
+                    map -> map.entries().forEach(e -> builder.add(e.getFirst(), e.getSecond())));
             builder.add("Slot", ops.createByte((byte) input.slot()));
             return builder.build(prefix);
           });
