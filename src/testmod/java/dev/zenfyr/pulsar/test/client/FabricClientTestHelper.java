@@ -73,6 +73,7 @@ public final class FabricClientTestHelper {
           FabricLoader.getInstance().getGameDir().toFile(),
           name + "-" + Utils.STAMP + ".png",
           client.getMainRenderTarget(),
+          1,
           (message) -> {});
       return null;
     });

@@ -12,8 +12,10 @@ import net.minecraft.server.MinecraftServer;
 public record ServerTestContext(MinecraftServer server) implements TestContext<MinecraftServer> {
 
   public void sendCommand(String command) {
-    submitAndWait(server ->
-        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), command));
+    submitAndWait(server -> {
+      server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), command);
+      return null;
+    });
   }
 
   public void waitForOverworldTicks(long ticks) {
