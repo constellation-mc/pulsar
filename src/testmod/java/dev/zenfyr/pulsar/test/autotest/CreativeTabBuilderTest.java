@@ -14,7 +14,7 @@ public class CreativeTabBuilderTest implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    tab = CreativeModeTabBuilder.create(new ResourceLocation("pulsar", "test-tab"))
+    tab = CreativeModeTabBuilder.create(ResourceLocation.fromNamespaceAndPath("pulsar", "test-tab"))
         .entries(entries -> {
           entries.appendStacks(
               List.of(Items.APPLE.getDefaultInstance(), Items.CALCITE.getDefaultInstance()), true);

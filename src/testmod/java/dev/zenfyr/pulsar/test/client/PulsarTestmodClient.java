@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.LevelSettings;
@@ -61,20 +62,22 @@ public class PulsarTestmodClient implements ClientModInitializer {
                       false,
                       Difficulty.PEACEFUL,
                       true,
-                      new GameRules(),
+                      new GameRules(FeatureFlagSet.of()),
                       WorldDataConfiguration.DEFAULT),
                   new WorldOptions(0, true, false),
                   registryManager -> registryManager
-                      .registryOrThrow(Registries.WORLD_PRESET)
-                      .getHolderOrThrow(WorldPresets.FLAT)
+                      .lookupOrThrow(Registries.WORLD_PRESET)
+                      .getOrThrow(WorldPresets.FLAT)
                       .value()
-                      .createWorldDimensions());
+                      .createWorldDimensions(),
+                  new TitleScreen());
         } else {
-          client.createWorldOpenFlows().loadLevel(new TitleScreen(), levelName);
+          client.createWorldOpenFlows().openWorld(levelName, () -> Minecraft.getInstance()
+              .setScreen(new TitleScreen()));
         }
       } catch (Throwable t) {
         CrashReport report = CrashReport.forThrowable(t, "Setting tests world");
-        Minecraft.crash(report);
+        Minecraft.crash(Minecraft.getInstance(), Minecraft.getInstance().gameDirectory, report);
       }
     }));
 
@@ -83,7 +86,7 @@ public class PulsarTestmodClient implements ClientModInitializer {
         log.info("Started client test.");
         ClientTestContext context = new ClientTestContext(Minecraft.getInstance());
         context.waitForLevelTicks(200);
-        GLFW.glfwShowWindow(context.client().getWindow().getWindow());
+        GLFW.glfwShowWindow(context.client().getWindow().handle());
 
         FabricLoader.getInstance()
             .invokeEntrypoints(
