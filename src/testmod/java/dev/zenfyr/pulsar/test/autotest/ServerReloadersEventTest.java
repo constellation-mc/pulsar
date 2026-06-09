@@ -9,13 +9,13 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ServerReloadersEventTest implements ModInitializer {
 
   public static final ReloaderType<TestReloader> TYPE =
-      ReloaderType.create(ResourceLocation.fromNamespaceAndPath("pulsar", "test-reloader"));
+      ReloaderType.create(Identifier.fromNamespaceAndPath("pulsar", "test-reloader"));
   private static String trigger = null;
 
   @Override
@@ -35,8 +35,8 @@ public class ServerReloadersEventTest implements ModInitializer {
     }
 
     @Override
-    public ResourceLocation getFabricId() {
-      return TYPE.location();
+    public Identifier getFabricId() {
+      return TYPE.identifier();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ServerReloadersEventTest implements ModInitializer {
                   .lookupOrThrow(Registries.DIMENSION_TYPE)
                   .get(ResourceKey.create(
                       Registries.DIMENSION_TYPE,
-                      ResourceLocation.withDefaultNamespace("overworld"))));
+                      Identifier.withDefaultNamespace("overworld"))));
     }
   }
 }

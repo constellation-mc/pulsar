@@ -3,7 +3,7 @@ package dev.zenfyr.pulsar.test.autotest;
 import dev.zenfyr.pulsar.creativetab.CreativeModeTabBuilder;
 import java.util.List;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import org.assertj.core.api.Assertions;
@@ -14,7 +14,7 @@ public class CreativeTabBuilderTest implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    tab = CreativeModeTabBuilder.create(ResourceLocation.fromNamespaceAndPath("pulsar", "test-tab"))
+    tab = CreativeModeTabBuilder.create(Identifier.fromNamespaceAndPath("pulsar", "test-tab"))
         .entries(entries -> {
           entries.appendStacks(
               List.of(Items.APPLE.getDefaultInstance(), Items.CALCITE.getDefaultInstance()), true);
