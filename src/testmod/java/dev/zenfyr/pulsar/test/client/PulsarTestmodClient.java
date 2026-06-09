@@ -13,10 +13,10 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.WorldDataConfiguration;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.levelgen.presets.WorldPresets;
 import org.lwjgl.glfw.GLFW;
@@ -72,8 +72,9 @@ public class PulsarTestmodClient implements ClientModInitializer {
                       .createWorldDimensions(),
                   new TitleScreen());
         } else {
-          client.createWorldOpenFlows().openWorld(levelName, () -> Minecraft.getInstance()
-              .setScreen(new TitleScreen()));
+          client
+              .createWorldOpenFlows()
+              .openWorld(levelName, () -> Minecraft.getInstance().setScreen(new TitleScreen()));
         }
       } catch (Throwable t) {
         CrashReport report = CrashReport.forThrowable(t, "Setting tests world");

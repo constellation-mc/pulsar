@@ -8,8 +8,8 @@ import java.util.Objects;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ServerReloadersEventTest implements ModInitializer {
@@ -50,8 +50,7 @@ public class ServerReloadersEventTest implements ModInitializer {
                   .registryAccess()
                   .lookupOrThrow(Registries.DIMENSION_TYPE)
                   .get(ResourceKey.create(
-                      Registries.DIMENSION_TYPE,
-                      Identifier.withDefaultNamespace("overworld"))));
+                      Registries.DIMENSION_TYPE, Identifier.withDefaultNamespace("overworld"))));
     }
   }
 }

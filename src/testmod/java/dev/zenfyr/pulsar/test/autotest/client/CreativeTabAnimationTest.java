@@ -8,8 +8,8 @@ import dev.zenfyr.pulsar.test.util.AutoTest;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.util.Util;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.Items;
 
 @Environment(EnvType.CLIENT)
