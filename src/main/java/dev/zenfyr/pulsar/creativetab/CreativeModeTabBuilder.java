@@ -24,7 +24,7 @@ public interface CreativeModeTabBuilder {
   }
 
   default CreativeModeTabBuilder icon(ItemLike item) {
-    return this.icon(new ItemStack(item));
+    return this.icon(() -> new ItemStack(item));
   }
 
   CreativeModeTabBuilder icon(Supplier<ItemStack> itemStackSupplier);
