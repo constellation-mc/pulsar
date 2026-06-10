@@ -139,11 +139,11 @@ loom {
     }
 
     mods {
-        register(project.name) {
+        register(project.archives_base_name) {
             sourceSet project.sourceSets.main
         }
 
-        register(project.name + "-testmod") {
+        register(project.archives_base_name + "-testmod") {
             sourceSet project.sourceSets.testmod
         }
     }
