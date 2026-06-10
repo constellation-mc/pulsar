@@ -1,9 +1,8 @@
 package dev.zenfyr.pulsar.test.autotest;
 
 import dev.zenfyr.pulsar.itemstack.ItemStackUtil;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -12,7 +11,7 @@ import org.assertj.core.api.Assertions;
 
 public class ItemStackUtilTest {
 
-  @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+  @GameTest
   public void testGetStackOrEmpty(GameTestHelper context) {
     Assertions.assertThat(ItemStackUtil.getStackOrEmpty(Items.GLOW_ITEM_FRAME))
         .extracting(ItemStack::getItem)
@@ -22,7 +21,7 @@ public class ItemStackUtilTest {
     context.succeed();
   }
 
-  @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+  @GameTest
   public void testSpawnStack(GameTestHelper context) {
     var relative = new BlockPos(0, 1, 0);
     var absolute = context.absolutePos(relative);
