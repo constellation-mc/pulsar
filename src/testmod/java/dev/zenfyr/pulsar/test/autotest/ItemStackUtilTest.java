@@ -27,9 +27,10 @@ public class ItemStackUtilTest {
     var absolute = context.absolutePos(relative);
     ItemStackUtil.spawn(absolute, Items.AMETHYST_SHARD.getDefaultInstance(), context.getLevel());
 
-    context.startSequence()
-            .thenExecuteAfter(2, () -> context.assertEntityPresent(EntityType.ITEM, relative, 3))
-            .thenExecute(context::killAllEntities)
-            .thenSucceed();
+    context
+        .startSequence()
+        .thenExecuteAfter(2, () -> context.assertEntityPresent(EntityType.ITEM, relative, 3))
+        .thenExecute(context::killAllEntities)
+        .thenSucceed();
   }
 }

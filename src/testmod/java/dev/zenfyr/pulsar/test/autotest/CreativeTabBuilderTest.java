@@ -29,14 +29,17 @@ public class CreativeTabBuilderTest implements ModInitializer {
         .icon(Items.BLUE_ORCHID)
         .build();
 
-    Utils.addLateCheck("item tab valid", () -> Assertions.assertThat(tab)
-        .isNotNull()
-        .matches(
-            group -> SupportUtil.environment() != EnvType.CLIENT || tab.shouldDisplay(),
-            "tab is special")
-        .matches(
-            group -> group.getIconItem().getItem() == Items.BLUE_ORCHID, "icon is of 'blue_orchid'")
-        .extracting(CreativeModeTab::getDisplayName)
-        .isNotNull());
+    Utils.addLateCheck(
+        "item tab valid",
+        () -> Assertions.assertThat(tab)
+            .isNotNull()
+            .matches(
+                group -> SupportUtil.environment() != EnvType.CLIENT || tab.shouldDisplay(),
+                "tab is special")
+            .matches(
+                group -> group.getIconItem().getItem() == Items.BLUE_ORCHID,
+                "icon is of 'blue_orchid'")
+            .extracting(CreativeModeTab::getDisplayName)
+            .isNotNull());
   }
 }
