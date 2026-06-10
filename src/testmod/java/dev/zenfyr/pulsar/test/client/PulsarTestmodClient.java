@@ -72,8 +72,9 @@ public class PulsarTestmodClient implements ClientModInitializer {
                       .createWorldDimensions(),
                   new TitleScreen());
         } else {
-          client.createWorldOpenFlows().openWorld(levelName, () -> Minecraft.getInstance()
-              .setScreen(new TitleScreen()));
+          client
+              .createWorldOpenFlows()
+              .openWorld(levelName, () -> Minecraft.getInstance().setScreen(new TitleScreen()));
         }
       } catch (Throwable t) {
         CrashReport report = CrashReport.forThrowable(t, "Setting tests world");
