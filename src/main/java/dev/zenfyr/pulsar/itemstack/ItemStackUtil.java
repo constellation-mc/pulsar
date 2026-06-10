@@ -81,7 +81,7 @@ public class ItemStackUtil {
   }
 
   private static ItemEntity create(double x, double y, double z, ItemStack stack, Level level) {
-    ItemEntity entity = new ItemEntity(level, x, y, x, stack);
+    ItemEntity entity = new ItemEntity(level, x, y, z, stack);
     entity.setDefaultPickUpDelay();
     level.addFreshEntity(entity);
     return entity;
