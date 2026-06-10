@@ -197,8 +197,10 @@ class MakeSureTest {
 
   @Test
   void testNotEmptyStringSupplierMsg() {
-    Assertions.assertThatCode(() -> MakeSure.notEmpty(MSG, () -> null, MSG)).doesNotThrowAnyException();
-    Assertions.assertThatCode(() -> MakeSure.notEmpty(null, () -> MSG, MSG)).doesNotThrowAnyException();
+    Assertions.assertThatCode(() -> MakeSure.notEmpty(MSG, () -> null, MSG))
+        .doesNotThrowAnyException();
+    Assertions.assertThatCode(() -> MakeSure.notEmpty(null, () -> MSG, MSG))
+        .doesNotThrowAnyException();
     Assertions.assertThatThrownBy(() -> MakeSure.notEmpty(null, () -> null, MSG))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage(MSG);
