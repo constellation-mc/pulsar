@@ -54,6 +54,37 @@ public class ColorUtil {
     return (color & 0xFF) / 255f;
   }
 
+  /**
+   * <p>
+   *     This method accepts values clamped as angle and percentage.
+   *     The {@link #HSBtoRGB(float, float, float)} accepts the clamped 0.0-1.0 values.
+   * </p>
+   * Returns the hex value in its integer representation
+   * @param hue the hue angle on the scale from 0-360
+   * @param saturation the saturation on the scale from 0-100
+   * @param brightness the brightness on the scale from 0-100
+   * @return the hex value in its integer representation
+   */
+  public static int HSBtoRGB(int hue, float saturation, float brightness) {
+    float hueF = hue / 360.0f;
+    float saturationF = saturation / 100.0f;
+    float brightnessF = brightness / 100.0f;
+
+    return HSBtoRGB(hueF, saturationF, brightnessF);
+  }
+
+  /**
+   * <p>
+   *     This method accepts values clamped as floats between 0.0f and 1.0f, instead of the
+   *     HSB's h: 360, s: 100.0, b: 100.0. The {@link #HSBtoRGB(int, float, float)} method normalizes
+   *    those values to floats.
+   * </p>
+   * Returns the hex value in its integer representation
+   * @param hue the hue angle on the scale from 0-1
+   * @param saturation the saturation on the scale from 0-1
+   * @param brightness the brightness on the scale from 0-1
+   * @return the hex value in its integer representation
+   */
   public static int HSBtoRGB(float hue, float saturation, float brightness) {
     int r = 0, g = 0, b = 0;
     if (saturation == 0) {

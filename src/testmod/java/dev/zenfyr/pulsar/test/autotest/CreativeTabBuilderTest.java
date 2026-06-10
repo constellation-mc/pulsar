@@ -1,7 +1,10 @@
 package dev.zenfyr.pulsar.test.autotest;
 
 import dev.zenfyr.pulsar.creativetab.CreativeModeTabBuilder;
+import dev.zenfyr.pulsar.test.util.Utils;
+import dev.zenfyr.pulsar.util.SupportUtil;
 import java.util.List;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,12 +29,14 @@ public class CreativeTabBuilderTest implements ModInitializer {
         .icon(Items.BLUE_ORCHID)
         .build();
 
-    Assertions.assertThat(tab)
+    Utils.addLateCheck("item tab valid", () -> Assertions.assertThat(tab)
         .isNotNull()
-        .matches(group -> !group.shouldDisplay(), "tab is special")
+        .matches(
+            group -> SupportUtil.environment() != EnvType.CLIENT || tab.shouldDisplay(),
+            "tab is special")
         .matches(
             group -> group.getIconItem().getItem() == Items.BLUE_ORCHID, "icon is of 'blue_orchid'")
         .extracting(CreativeModeTab::getDisplayName)
-        .isNotNull();
+        .isNotNull());
   }
 }

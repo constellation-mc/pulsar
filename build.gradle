@@ -87,21 +87,29 @@ tasks {
     }
 }
 
+def cleanMcVersion = project.minecraft_version.replace('.', '_')
+
 loom {
     accessWidenerPath = file("${getRootProject().projectDir.absolutePath}/src/main/resources/pulsar.accesswidener")
 
     runs {
+        server {
+            runDir "run/%s/server".formatted(cleanMcVersion)
+        }
+        client {
+            runDir "run/%s/client".formatted(cleanMcVersion)
+        }
         testmod {
             server()
             name = "Testmod"
             source sourceSets.testmod
-            runDir "run_testmod_server"
+            runDir "run/%s/testmod_server".formatted(cleanMcVersion)
         }
         testmodClient {
             client()
             name = "Testmod Client"
             source sourceSets.testmod
-            runDir "run_testmod_client"
+            runDir "run/%s/testmod_client".formatted(cleanMcVersion)
         }
         gametest {
             inherit testmod
@@ -110,7 +118,7 @@ loom {
 
             // Enable the gametest runner
             vmArg "-Dfabric-api.gametest"
-            runDir "build/gametest"
+            runDir "build/gametest/%s".formatted(cleanMcVersion)
         }
         autotest {
             inherit(testmod)
@@ -118,7 +126,7 @@ loom {
                     "mixin.debug.export": "true",
                     "pulsar.auto-test": "true"
             ])
-            runDir "run_autotest_server"
+            runDir "build/autotest/%s_server".formatted(cleanMcVersion)
         }
         autotestClient {
             inherit(testmodClient)
@@ -126,7 +134,7 @@ loom {
                     "mixin.debug.export": "true",
                     "pulsar.auto-test": "true"
             ])
-            runDir "run_autotest_client"
+            runDir "build/autotest/%s_client".formatted(cleanMcVersion)
         }
     }
 

@@ -9,7 +9,8 @@
   ],
   "entrypoints": {
     "fabric-gametest": [
-      "dev.zenfyr.pulsar.test.autotest.BaseGameTest"
+      "dev.zenfyr.pulsar.test.autotest.BaseGameTest",
+      "dev.zenfyr.pulsar.test.autotest.ItemStackUtilTest"
     ],
     "pulsar:client_test": [
       "dev.zenfyr.pulsar.test.autotest.client.CreativeTabAnimationTest",

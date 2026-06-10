@@ -9,6 +9,10 @@ Pulsar uses spotless to apply formatting,
 
 Any new bugfixes/methods should be added to the pulsar test/testmod.
 
+Yes, there are 4 test tasks that need to pass: `test`, `runGametest`, `runAutotest`, `runAutotestClient`.
+
+The testmod tasks, that don't perform any automatic actions, but run initializers are `runTestmod` & `runTestmodClient`.
+
 JUnit tests, which usually don't require a server/level/client can be added 
 to `src/test`. the `test` gradle task must pass.
 
