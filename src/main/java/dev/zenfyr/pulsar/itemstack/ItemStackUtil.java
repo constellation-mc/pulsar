@@ -27,15 +27,11 @@ public class ItemStackUtil {
   }
 
   public static void spawn(@NonNull BlockPos pos, @NonNull ItemStack stack, @NonNull Level level) {
-    ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack);
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
+    create(pos.getX(), pos.getY(), pos.getZ(), stack, level);
   }
 
   public static void spawn(@NonNull Vec3 pos, @NonNull ItemStack stack, @NonNull Level level) {
-    ItemEntity itemEntity = new ItemEntity(level, pos.x(), pos.y(), pos.z(), stack);
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
+    create(pos.x(), pos.y(), pos.z(), stack, level);
   }
 
   public static void spawnVelocity(
@@ -48,17 +44,11 @@ public class ItemStackUtil {
       double maxY,
       double minZ,
       double maxZ) {
-    ItemEntity itemEntity = new ItemEntity(
-        level,
-        pos.getX(),
-        pos.getY(),
-        pos.getZ(),
-        stack,
+    ItemEntity itemEntity = create(pos.getX(), pos.getY(), pos.getZ(), stack, level);
+    itemEntity.setDeltaMovement(
         MathUtil.nextDouble(minX, maxX),
         MathUtil.nextDouble(minY, maxY),
         MathUtil.nextDouble(minZ, maxZ));
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
   }
 
   public static void spawnVelocity(
@@ -71,33 +61,30 @@ public class ItemStackUtil {
       double maxY,
       double minZ,
       double maxZ) {
-    ItemEntity itemEntity = new ItemEntity(
-        level,
-        pos.x(),
-        pos.y(),
-        pos.z(),
-        stack,
+    ItemEntity itemEntity = create(pos.x(), pos.y(), pos.z(), stack, level);
+    itemEntity.setDeltaMovement(
         MathUtil.nextDouble(minX, maxX),
         MathUtil.nextDouble(minY, maxY),
         MathUtil.nextDouble(minZ, maxZ));
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
   }
 
   public static void spawnVelocity(
       @NotNull BlockPos pos, @NonNull ItemStack stack, @NonNull Level level, @NotNull Vec3 vec3d) {
-    ItemEntity itemEntity =
-        new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack, vec3d.x, vec3d.y, vec3d.z);
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
+    ItemEntity itemEntity = create(pos.getX(), pos.getY(), pos.getZ(), stack, level);
+    itemEntity.setDeltaMovement(vec3d.x(), vec3d.y(), vec3d.z());
   }
 
   public static void spawnVelocity(
       @NotNull Vec3 pos, @NonNull ItemStack stack, @NonNull Level level, @NotNull Vec3 vec3d) {
-    ItemEntity itemEntity =
-        new ItemEntity(level, pos.x(), pos.y(), pos.z(), stack, vec3d.x, vec3d.y, vec3d.z);
-    itemEntity.setDefaultPickUpDelay();
-    level.addFreshEntity(itemEntity);
+    ItemEntity itemEntity = create(pos.x(), pos.y(), pos.z(), stack, level);
+    itemEntity.setDeltaMovement(vec3d.x(), vec3d.y(), vec3d.z());
+  }
+
+  private static ItemEntity create(double x, double y, double z, ItemStack stack, Level level) {
+    ItemEntity entity = new ItemEntity(level, x, y, x, stack);
+    entity.setDefaultPickUpDelay();
+    level.addFreshEntity(entity);
+    return entity;
   }
 
   public static void appendStacks(Collection<ItemStack> stacks, Collection<ItemStack> list) {
