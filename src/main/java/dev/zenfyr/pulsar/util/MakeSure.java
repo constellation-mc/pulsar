@@ -42,7 +42,7 @@ public final class MakeSure {
 
   @Contract(value = "_, null -> fail", pure = true)
   public static void notNulls(String msg, @Nullable Object... things) {
-    for (Object thing : Objects.requireNonNull(things)) Objects.requireNonNull(thing, msg);
+    for (Object thing : Objects.requireNonNull(things, msg)) Objects.requireNonNull(thing, msg);
   }
 
   @Contract(value = "false -> fail", pure = true)
