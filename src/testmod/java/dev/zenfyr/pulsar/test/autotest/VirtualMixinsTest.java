@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.Mixins;
 public class VirtualMixinsTest implements PreLaunchEntrypoint, ModInitializer {
 
   private static final String CONFIG = "pulsar-test-config";
-  private static final String CONTENTS =
-      """
+  private static final String CONTENTS = """
                   {
                     "required": false,
                     "minVersion": "0.8",

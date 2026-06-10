@@ -112,8 +112,9 @@ public class FakeLevel {
       MappedRegistry<Object> registry =
           new MappedRegistry<>(Utilities.cast(key), Lifecycle.stable());
 
-      pain.lookup(key).ifPresent(impl -> impl.listElements()
-          .forEach(ref -> registry.register(ref.key(), ref.value(), Lifecycle.stable())));
+      pain.lookup(key)
+          .ifPresent(impl -> impl.listElements()
+              .forEach(ref -> registry.register(ref.key(), ref.value(), Lifecycle.stable())));
 
       registry.freeze();
       regs.add(registry);
