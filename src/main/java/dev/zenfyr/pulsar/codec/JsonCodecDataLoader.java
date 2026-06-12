@@ -1,6 +1,9 @@
 package dev.zenfyr.pulsar.codec;
 
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.JsonOps;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import net.minecraft.resources.FileToIdConverter;
@@ -25,11 +28,16 @@ public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadLis
   }
 
   public JsonCodecDataLoader(Identifier identifier, Codec<T> codec) {
-    super(codec, FileToIdConverter.json(identifier.toString().replace(':', '/')));
+    this(JsonOps.INSTANCE, identifier, codec);
+  }
+
+  public JsonCodecDataLoader(
+      DynamicOps<JsonElement> dynamicOps, Identifier identifier, Codec<T> codec) {
+    super(dynamicOps, codec, FileToIdConverter.json(identifier.toString().replace(':', '/')));
   }
 
   @Override
-  protected void apply(
+  protected final void apply(
       Map<Identifier, T> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
     this.apply(object, resourceManager);
   }
