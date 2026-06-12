@@ -10,8 +10,6 @@
   ],
   "client": [
     "client.events.MinecraftMixin",
-    "client.fakeworld.RegistrySetBuilderMixin",
-    "client.fakeworld.LevelMixin",
     "client.itemgroup.CreativeModeInventoryScreenMixin",
     "client.itemgroup.CreativeModeTabMixin",
     "client.particles.GameRendererMixin",
