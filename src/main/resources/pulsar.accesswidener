@@ -50,3 +50,6 @@ transitive-accessible field net/minecraft/network/chat/TextColor LEGACY_FORMAT_T
 transitive-accessible field net/minecraft/network/chat/TextColor name Ljava/lang/String;
 
 accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
+
+# used in codec to set custom JsonOps
+accessible method net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener <init> (Lcom/mojang/serialization/DynamicOps;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/FileToIdConverter;)V
