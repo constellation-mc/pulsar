@@ -48,3 +48,6 @@ transitive-mutable field net/minecraft/network/chat/TextColor NAMED_COLORS Ljava
 transitive-accessible field net/minecraft/network/chat/TextColor NAMED_COLORS Ljava/util/Map;
 transitive-accessible field net/minecraft/network/chat/TextColor LEGACY_FORMAT_TO_COLOR Ljava/util/Map;
 transitive-accessible field net/minecraft/network/chat/TextColor name Ljava/lang/String;
+
+accessible field net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener directory Ljava/lang/String;
+accessible field net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener gson Lcom/google/gson/Gson;
