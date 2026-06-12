@@ -1,4 +1,5 @@
 # What's New:
 
-- added a `ServerReloadersEvent#register` overload that accepts location and a plain listener, deprecated the `IdentifiableResourceReloadListener` overload.
-- fixed GUI particles using leveltarget's lighttexure, which resulted in them rendering dark at night.
+- Added `loot.LootCodecs` & `loot.LootContextBuilder` from Andromeda and Commander. 
+    - in 1.20.1, `LootCodecs` is a wrapper around `Json(De)SerializationContext`, in future versions it uses the real codecs.
+    - `LootContextBuilder` is a wrapper around `LootParams.Builder` with some utility methods added.
