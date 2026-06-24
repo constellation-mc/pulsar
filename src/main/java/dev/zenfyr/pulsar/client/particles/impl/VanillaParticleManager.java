@@ -47,17 +47,19 @@ public class VanillaParticleManager {
         .addParticle(particle);
   }
 
-  public void extract(ParticlesRenderState particlesRenderState, float f) {
-
+  public int extract(ParticlesRenderState particlesRenderState, float f) {
+    int count = 0;
     for (ParticleRenderType type : ParticleEngineAccessor.pulsar$getRenderOrder()) {
       var wrapper = this.particleGroups.get(type);
       if (wrapper != null) {
         wrapper.checkRemoval();
         if (!wrapper.particles.isEmpty()) {
+          count += wrapper.particles.size();
           particlesRenderState.add(wrapper.group.extractRenderState(FRUSTUM, CAMERA, f));
         }
       }
     }
+    return count;
   }
 
   private static class GroupWrapper {
