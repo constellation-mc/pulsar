@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 public record GuiParticleRenderState(
     ParticlesRenderState state,
+    int count,
     int x0,
     int y0,
     int x1,
@@ -17,6 +18,7 @@ public record GuiParticleRenderState(
 
   public GuiParticleRenderState(
       ParticlesRenderState state,
+      int count,
       int x0,
       int y0,
       int x1,
@@ -24,6 +26,7 @@ public record GuiParticleRenderState(
       @Nullable ScreenRectangle scissorArea) {
     this(
         state,
+        count,
         x0,
         y0,
         x1,
