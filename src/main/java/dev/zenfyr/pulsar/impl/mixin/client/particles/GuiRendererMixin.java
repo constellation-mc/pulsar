@@ -33,6 +33,7 @@ public abstract class GuiRendererMixin {
   private void pulsar$blitFallback(GpuBufferSlice fogUniforms, CallbackInfo ci) {
     var minecraft = Minecraft.getInstance();
     var state = ScreenParticleHelper.extractState(minecraft);
+    if (state.count() <= 0) return;
 
     var oldSlice = RenderSystem.getProjectionMatrixBuffer();
     var oldType = RenderSystem.getProjectionType();

@@ -27,6 +27,7 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
 
   @Override
   protected void renderToTexture(GuiParticleRenderState renderState, PoseStack poseStack) {
+    if (renderState.count() <= 0) return;
     Minecraft minecraft = Minecraft.getInstance();
 
     BrightLightTexture.INSTANCE.turnOnLightLayer();
