@@ -212,9 +212,10 @@ public final class ScreenParticleHelper {
     var state = new ParticlesRenderState();
     var w = Minecraft.getInstance().getWindow();
 
-    PARTICLE_MANAGER.extract(state, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
+    int count = PARTICLE_MANAGER.extract(
+        state, client.getDeltaTracker().getGameTimeDeltaPartialTick(false));
     return new GuiParticleRenderState(
-        state, 0, 0, w.getGuiScaledWidth(), w.getGuiScaledHeight(), null);
+        state, count, 0, 0, w.getGuiScaledWidth(), w.getGuiScaledHeight(), null);
   }
 
   @ApiStatus.Internal
