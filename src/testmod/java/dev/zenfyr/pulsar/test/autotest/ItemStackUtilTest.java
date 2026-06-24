@@ -4,7 +4,7 @@ import dev.zenfyr.pulsar.itemstack.ItemStackUtil;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.assertj.core.api.Assertions;
@@ -29,7 +29,7 @@ public class ItemStackUtilTest {
 
     context
         .startSequence()
-        .thenExecuteAfter(2, () -> context.assertEntityPresent(EntityType.ITEM, relative, 3))
+        .thenExecuteAfter(2, () -> context.assertEntityPresent(EntityTypes.ITEM, relative, 3))
         .thenExecute(context::killAllEntities)
         .thenSucceed();
   }

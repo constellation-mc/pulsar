@@ -5,11 +5,11 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import dev.zenfyr.pulsar.client.fakelevel.BrightLightTexture;
 import dev.zenfyr.pulsar.client.particles.impl.GuiParticleRenderer;
-import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
+import net.minecraft.client.renderer.feature.QuadParticleFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ParticleFeatureRenderer.class)
+@Mixin(QuadParticleFeatureRenderer.class)
 public class ParticleFeatureRendererMixin {
 
   @ModifyExpressionValue(
@@ -17,8 +17,8 @@ public class ParticleFeatureRendererMixin {
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraft/client/renderer/LevelRenderer;getParticlesTarget()Lcom/mojang/blaze3d/pipeline/RenderTarget;"),
-      method = "render")
+                  "Lnet/minecraft/client/renderer/LevelRenderer;particlesTarget()Lcom/mojang/blaze3d/pipeline/RenderTarget;"),
+      method = "executeGroup")
   private RenderTarget pulsar$removeTargetForParticles(RenderTarget original) {
     return GuiParticleRenderer.RENDERING.get() ? null : original;
   }
@@ -28,8 +28,8 @@ public class ParticleFeatureRendererMixin {
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraft/client/renderer/GameRenderer;lightmap()Lcom/mojang/blaze3d/textures/GpuTextureView;"),
-      method = "prepareRenderPass")
+                  "Lnet/minecraft/client/renderer/feature/FeatureFrameContext;lightmap()Lcom/mojang/blaze3d/textures/GpuTextureView;"),
+      method = "executeGroup")
   private GpuTextureView pulsar$setLightTextureForParticles(GpuTextureView original) {
     return GuiParticleRenderer.RENDERING.get()
         ? BrightLightTexture.INSTANCE.getTextureView()

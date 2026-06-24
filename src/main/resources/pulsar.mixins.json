@@ -13,11 +13,13 @@
     "client.itemgroup.CreativeModeInventoryScreenMixin",
     "client.itemgroup.CreativeModeTabMixin",
     "client.particles.GameRendererMixin",
+    "client.particles.GuiMixin",
     "client.particles.GuiRendererMixin",
     "client.particles.MinecraftMixin",
     "client.particles.ParticleEngineAccessor",
     "client.particles.ParticleEngineMixin",
-    "client.particles.ParticleFeatureRendererMixin"
+    "client.particles.ParticleFeatureRendererMixin",
+    "client.particles.ParticleGroupAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

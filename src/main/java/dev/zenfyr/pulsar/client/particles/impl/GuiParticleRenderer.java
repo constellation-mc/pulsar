@@ -14,8 +14,7 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
   private final CameraRenderState cameraRenderState;
   public static final ThreadLocal<Boolean> RENDERING = ThreadLocal.withInitial(() -> false);
 
-  public GuiParticleRenderer(MultiBufferSource.BufferSource bufferSource) {
-    super(bufferSource);
+  public GuiParticleRenderer() {
     cameraRenderState = new CameraRenderState();
   }
 
@@ -25,11 +24,12 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
   }
 
   @Override
-  protected void renderToTexture(GuiParticleRenderState renderState, PoseStack poseStack) {
+  protected void renderToTexture(
+      GuiParticleRenderState renderState, PoseStack poseStack, SubmitNodeCollector collector1) {
     Minecraft minecraft = Minecraft.getInstance();
 
     FeatureRenderDispatcher featureRenderDispatcher =
-        minecraft.gameRenderer.getFeatureRenderDispatcher();
+        minecraft.gameRenderer.featureRenderDispatcher();
 
     var stack = RenderSystem.getModelViewStack();
     stack.pushMatrix();
@@ -39,17 +39,16 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
     stack.translate(0, minecraft.getWindow().getGuiScaledHeight() / 24f, 0);
     stack.scale(1, -1, 1);
 
-    var collector = featureRenderDispatcher.getSubmitNodeStorage();
+    var collector = new SubmitNodeStorage();
     renderState.state().submit(collector, this.cameraRenderState);
 
     try {
       RENDERING.set(true);
-      featureRenderDispatcher.renderAllFeatures();
+      featureRenderDispatcher.renderAllFeatures(collector);
     } finally {
       RENDERING.remove();
     }
 
-    this.bufferSource.endBatch();
     renderState.state().reset();
     stack.popMatrix();
   }

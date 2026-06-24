@@ -4,6 +4,7 @@ import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Maps;
 import dev.zenfyr.pulsar.client.fakelevel.FakeLevel;
 import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleEngineAccessor;
+import dev.zenfyr.pulsar.impl.mixin.client.particles.ParticleGroupAccessor;
 import java.util.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -71,9 +72,9 @@ public class VanillaParticleManager {
     }
 
     private void tickParticles() {
-      if (this.group.getAll().isEmpty()) return;
+      if (((ParticleGroupAccessor<?>) this.group).pulsar$particles().isEmpty()) return;
 
-      for (Particle particle : this.group.getAll()) {
+      for (Particle particle : ((ParticleGroupAccessor<?>) this.group).pulsar$particles()) {
         var vp = this.particles.get(particle);
         vp.tick();
       }
@@ -82,7 +83,8 @@ public class VanillaParticleManager {
     }
 
     private void checkRemoval() {
-      Iterator<? extends Particle> itr = this.group.getAll().iterator();
+      Iterator<? extends Particle> itr =
+          ((ParticleGroupAccessor<?>) this.group).pulsar$particles().iterator();
       while (itr.hasNext()) {
         var particle = itr.next();
         var vp = this.particles.get(particle);

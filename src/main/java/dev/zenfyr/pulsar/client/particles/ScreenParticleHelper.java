@@ -201,7 +201,7 @@ public final class ScreenParticleHelper {
   }
 
   private static Screen current() {
-    return Minecraft.getInstance().screen;
+    return Minecraft.getInstance().gui.screen();
   }
 
   private static ThreadLocalRandom random() {

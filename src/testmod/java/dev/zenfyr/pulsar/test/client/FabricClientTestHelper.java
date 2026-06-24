@@ -37,7 +37,7 @@ public final class FabricClientTestHelper {
   public static void waitForScreen(Class<? extends Screen> screenClass) {
     waitFor(
         "Screen %s".formatted(screenClass.getName()),
-        client -> client.screen != null && client.screen.getClass() == screenClass);
+        client -> client.gui.screen() != null && client.gui.screen().getClass() == screenClass);
   }
 
   public static void openPauseScreen() {
@@ -59,7 +59,7 @@ public final class FabricClientTestHelper {
 
   public static void setScreen(Function<Minecraft, Screen> screenSupplier) {
     submit(client -> {
-      client.setScreen(screenSupplier.apply(client));
+      client.gui.setScreen(screenSupplier.apply(client));
       return null;
     });
   }
@@ -72,7 +72,7 @@ public final class FabricClientTestHelper {
       Screenshot.grab(
           FabricLoader.getInstance().getGameDir().toFile(),
           name + "-" + Utils.STAMP + ".png",
-          client.getMainRenderTarget(),
+          client.gameRenderer.mainRenderTarget(),
           1,
           (message) -> {});
       return null;
@@ -83,7 +83,7 @@ public final class FabricClientTestHelper {
     // Wait for the world to be loaded and get the start ticks
     waitFor(
         "Level load",
-        client -> client.level != null && !(client.screen instanceof LevelLoadingScreen),
+        client -> client.level != null && !(client.gui.screen() instanceof LevelLoadingScreen),
         Duration.ofMinutes(30));
     final long startTicks = submitAndWait(client -> client.level.getGameTime());
     waitFor(

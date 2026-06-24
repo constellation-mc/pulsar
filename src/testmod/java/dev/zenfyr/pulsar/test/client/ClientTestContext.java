@@ -24,13 +24,13 @@ public record ClientTestContext(Minecraft client) implements TestContext<Minecra
   public <T, S extends Screen> T executeForScreen(
       Class<S> screenClass, BiFunction<Minecraft, S, T> function) {
     return FabricClientTestHelper.submitAndWait(client -> {
-      if (screenClass.isInstance(client.screen)) {
-        return function.apply(client, screenClass.cast(client.screen));
+      if (screenClass.isInstance(client.gui.screen())) {
+        return function.apply(client, screenClass.cast(client.gui.screen()));
       }
       throw new IllegalStateException("Expected: %s, got: %s"
           .formatted(
               screenClass.getName(),
-              client.screen != null ? client.screen.getClass().getName() : "null"));
+              client.gui.screen() != null ? client.gui.screen().getClass().getName() : "null"));
     });
   }
 
