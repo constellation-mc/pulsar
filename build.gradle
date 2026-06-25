@@ -7,14 +7,14 @@ plugins {
     alias libs.plugins.modmuss50.publish
 }
 
-def targetJavaVersion = 25
-def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER");
+def targetJavaVersion = Integer.parseInt(java_version)
+def local = !System.getenv().containsKey("GITHUB_RUN_NUMBER")
 
 group = project.maven_group
-version = "${project.mod_version}-${project.minecraft_version}-${local ? 'SNAPSHOT' : "build.${System.getenv("GITHUB_RUN_NUMBER")}"}"
+version = "${mod_version}+mc${minecraft_version}"
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = "${project.mod_id}-${loader_id}"
 }
 
 
@@ -126,11 +126,11 @@ loom {
     }
 
     mods {
-        register(project.archives_base_name) {
+        register(mod_id) {
             sourceSet project.sourceSets.main
         }
 
-        register(project.archives_base_name + "-testmod") {
+        register("${mod_id}-testmod") {
             sourceSet project.sourceSets.testmod
         }
     }
@@ -146,7 +146,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${mod_id}" }
     }
 }
 
@@ -169,7 +169,8 @@ spotless {
 processResources {
     def map = [
             "version": project.version,
-            "minecraft_version": project.minecraft_version,
+            "mod_id": mod_id,
+            "minecraft_version": minecraft_version,
             "loader_version": libs.fabric.loader.get().version,
             "fabric_version": libs.fabric.api.get().version
     ]
@@ -184,7 +185,7 @@ processResources {
 publishing {
     publications {
         create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
+            artifactId = "${mod_id}-${loader_id}"
             from components.java
         }
     }
@@ -211,24 +212,24 @@ publishMods {
 
     changelog = file("CHANGELOG.md").text
     type = ReleaseType.valueOf(providers.environmentVariable("VERSION_TYPE").getOrElse("BETA"))
-    modLoaders.add("fabric")
+    modLoaders.add(loader_id)
 
-    displayName = "${project.mod_version} (${project.minecraft_version})"
+    displayName = "${mod_version} (${minecraft_version})"
 
     curseforge {
         projectId = "1391698"
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        minecraftVersions.add("${project.minecraft_version}")
+        minecraftVersions.add("${minecraft_version}")
     }
     modrinth {
         projectId = "FABvZJ1v"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        minecraftVersions.add("${project.minecraft_version}")
+        minecraftVersions.add("${minecraft_version}")
     }
     github {
         repository = "constellation-mc/pulsar"
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
-        commitish = providers.environmentVariable("GITHUB_SHA").getOrElse("${project.minecraft_version}-fabric")
+        commitish = providers.environmentVariable("GITHUB_SHA").getOrElse("${minecraft_version}-${loader_id}")
 
         type = STABLE
     }
