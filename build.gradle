@@ -36,15 +36,7 @@ sourceSets {
     }
 }
 
-configurations {
-    mockitoAgent
-}
-
 dependencies {
-    mockitoAgent(libs.mockito.core) {
-        transitive = false
-    }
-
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation libs.fabric.loader
@@ -62,15 +54,11 @@ dependencies {
     testImplementation libs.junit.jupiter
     testImplementation sourceSets.testmod.output
     testImplementation libs.assertj.core
-    testImplementation libs.mockito.core
 }
 
 tasks {
     test {
         useJUnitPlatform()
-        doFirst {
-            jvmArgs += ["-javaagent:${configurations.mockitoAgent.asPath}", "-Xshare:off"]
-        }
     }
 }
 
