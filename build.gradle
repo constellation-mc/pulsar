@@ -87,54 +87,43 @@ tasks {
     }
 }
 
-def cleanMcVersion = project.minecraft_version.replace('.', '_')
-
 loom {
     accessWidenerPath = file("${getRootProject().projectDir.absolutePath}/src/main/resources/pulsar.accesswidener")
 
     runs {
+        // base server and client
         server {
-            runDir "run/%s/server".formatted(cleanMcVersion)
+            runDir "run/server"
         }
         client {
-            runDir "run/%s/client".formatted(cleanMcVersion)
+            runDir "run/client"
         }
+        // playable testmod with some stuff configured
         testmod {
             server()
             name = "Testmod"
             source sourceSets.testmod
-            runDir "run/%s/testmod_server".formatted(cleanMcVersion)
+            runDir "run/testmod_server"
         }
         testmodClient {
             client()
             name = "Testmod Client"
             source sourceSets.testmod
-            runDir "run/%s/testmod_client".formatted(cleanMcVersion)
+            runDir "run/testmod_client"
         }
+        // automated tests
         gametest {
             inherit testmod
-
             name "Game Test"
-
-            // Enable the gametest runner
             vmArg "-Dfabric-api.gametest"
-            runDir "build/gametest/%s".formatted(cleanMcVersion)
+            runDir "run/gametest"
         }
-        autotest {
-            inherit(testmod)
+        clienttest {
+            inherit testmodClient
             properties([
-                    "mixin.debug.export": "true",
                     "pulsar.auto-test": "true"
             ])
-            runDir "build/autotest/%s_server".formatted(cleanMcVersion)
-        }
-        autotestClient {
-            inherit(testmodClient)
-            properties([
-                    "mixin.debug.export": "true",
-                    "pulsar.auto-test": "true"
-            ])
-            runDir "build/autotest/%s_client".formatted(cleanMcVersion)
+            runDir "run/clienttest"
         }
     }
 
