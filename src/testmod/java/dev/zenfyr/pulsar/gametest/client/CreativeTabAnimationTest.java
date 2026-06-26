@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.gametest.client;
 
 import com.mojang.math.Axis;
-import dev.zenfyr.pulsar.api.creativetab.CreativeModeTabAnimaton;
+import dev.zenfyr.pulsar.api.client.creativetab.CreativeModeTabAnimation;
 import dev.zenfyr.pulsar.gametest.common.CreativeTabBuilderTest;
 import dev.zenfyr.pulsar.gametest.util.AutoTest;
 import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
@@ -19,7 +19,7 @@ public class CreativeTabAnimationTest implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
     var stack = Items.SPRUCE_SIGN.getDefaultInstance();
-    CreativeModeTabAnimaton.setIconAnimation(
+    CreativeModeTabAnimation.setIconAnimation(
         CreativeTabBuilderTest.tab, (group, context, itemX, itemY, selected, isTopRow) -> {
           context.pose().pushPose();
           context.pose().translate(itemX, itemY, 100);
