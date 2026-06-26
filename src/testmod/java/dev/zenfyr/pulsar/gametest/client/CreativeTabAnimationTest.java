@@ -1,10 +1,9 @@
-package dev.zenfyr.pulsar.test.autotest.client;
+package dev.zenfyr.pulsar.gametest.client;
 
 import dev.zenfyr.pulsar.creativetab.CreativeModeTabAnimaton;
-import dev.zenfyr.pulsar.test.autotest.CreativeTabBuilderTest;
-import dev.zenfyr.pulsar.test.client.ClientTestContext;
-import dev.zenfyr.pulsar.test.client.ClientTestEntrypoint;
-import dev.zenfyr.pulsar.test.util.AutoTest;
+import dev.zenfyr.pulsar.gametest.common.CreativeTabBuilderTest;
+import dev.zenfyr.pulsar.gametest.util.AutoTest;
+import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,7 +12,7 @@ import net.minecraft.util.Util;
 import net.minecraft.world.item.Items;
 
 @Environment(EnvType.CLIENT)
-public class CreativeTabAnimationTest implements ClientModInitializer, ClientTestEntrypoint {
+public class CreativeTabAnimationTest implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
