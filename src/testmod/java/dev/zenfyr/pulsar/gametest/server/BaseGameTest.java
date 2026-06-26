@@ -1,7 +1,7 @@
-package dev.zenfyr.pulsar.test.autotest;
+package dev.zenfyr.pulsar.gametest.server;
 
 import com.mojang.logging.LogUtils;
-import dev.zenfyr.pulsar.test.util.Utils;
+import dev.zenfyr.pulsar.gametest.util.Utils;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import org.spongepowered.asm.mixin.MixinEnvironment;

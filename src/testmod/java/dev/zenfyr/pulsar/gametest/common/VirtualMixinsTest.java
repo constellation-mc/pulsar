@@ -1,7 +1,6 @@
-package dev.zenfyr.pulsar.test.autotest;
+package dev.zenfyr.pulsar.gametest.common;
 
 import dev.zenfyr.pulsar.mixin.VirtualMixins;
-import dev.zenfyr.pulsar.test.autotest.util.VirtualMixinsDummyTarget;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import net.fabricmc.api.ModInitializer;
@@ -16,7 +15,7 @@ public class VirtualMixinsTest implements PreLaunchEntrypoint, ModInitializer {
                   {
                     "required": false,
                     "minVersion": "0.8",
-                    "package": "dev.zenfyr.pulsar.test.autotest.util.virtualmixins",
+                    "package": "dev.zenfyr.pulsar.gametest.common.virtualmixins",
                     "compatibilityLevel": "JAVA_17",
                     "mixins": [
                         "VirtualMixinsDummyMixin"
