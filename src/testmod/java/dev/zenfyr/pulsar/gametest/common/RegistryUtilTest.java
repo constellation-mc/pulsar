@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.gametest.common;
 
-import dev.zenfyr.pulsar.registry.RegistryUtil;
+import dev.zenfyr.pulsar.api.registry.RegistryUtil;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;

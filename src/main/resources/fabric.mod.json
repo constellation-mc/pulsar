@@ -11,10 +11,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "dev.zenfyr.pulsar.client.PulsarClient"
+      "dev.zenfyr.pulsar.impl.client.PulsarClient"
     ],
     "main": [
-      "dev.zenfyr.pulsar.Pulsar"
+      "dev.zenfyr.pulsar.impl.Pulsar"
     ]
   },
   "mixins": [
@@ -32,7 +32,7 @@
     },
     "loom:injected_interfaces": {
       "net/minecraft/server/MinecraftServer": [
-        "dev/zenfyr/pulsar/resources/DataPackContentsAccessor"
+        "dev/zenfyr/pulsar/api/resources/DataPackContentsAccessor"
       ]
     }
   }

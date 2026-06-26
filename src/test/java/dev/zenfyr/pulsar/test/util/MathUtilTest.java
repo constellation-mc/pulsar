@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.test.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import dev.zenfyr.pulsar.util.MathUtil;
+import dev.zenfyr.pulsar.api.util.MathUtil;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
 

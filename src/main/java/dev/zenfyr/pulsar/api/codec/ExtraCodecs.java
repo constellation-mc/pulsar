@@ -1,0 +1,128 @@
+package dev.zenfyr.pulsar.api.codec;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import dev.zenfyr.pulsar.api.util.ColorUtil;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import lombok.experimental.UtilityClass;
+import net.minecraft.world.entity.ai.behavior.ShufflingList;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+@UtilityClass
+public class ExtraCodecs {
+
+  /**
+   * a color codec encoded as either an integer, or an array of RGB values.
+   */
+  public static final Codec<Integer> COLOR = either(
+          Codec.INT, Codec.intRange(0, 255).listOf())
+      .comapFlatMap(
+          e -> e.map(DataResult::success, integers -> {
+            if (integers.size() != 3)
+              return DataResult.error(() -> "colors array must contain exactly 3 colors (RGB)");
+            return DataResult.success(
+                ColorUtil.toColor(integers.get(0), integers.get(1), integers.get(2)));
+          }),
+          Either::left);
+
+  /**
+   * a 'safe' either {@link Codec}, which returns errors from both codecs if they fail.
+   */
+  @Contract(value = "_, _ -> new", pure = true)
+  public static <F, S> @NotNull Codec<Either<F, S>> either(
+      final Codec<F> first, final Codec<S> second) {
+    return new SafeEitherCodec<>(first, second);
+  }
+
+  /**
+   * a 'safe' either {@link MapCodec}, which returns errors from both codecs if they fail.
+   */
+  @Contract("_, _ -> new")
+  public static <F, S> @NotNull MapCodec<Either<F, S>> either(
+      final MapCodec<F> first, final MapCodec<S> second) {
+    return new SafeEitherMapCodec<>(first, second);
+  }
+
+  /**
+   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec, boolean)}) this codec does not ignore exceptions.
+   */
+  public static <F> MapCodec<F> optional(
+      final String name, final Codec<F> elementCodec, F defaultValue) {
+    return optional(name, elementCodec)
+        .xmap(
+            f -> f.orElse(defaultValue),
+            f -> Objects.equals(f, defaultValue) ? Optional.empty() : Optional.of(f));
+  }
+
+  /**
+   * Unlike the vanilla alternative, ({@link Codec#optionalField(String, Codec, boolean)}) this codec does not ignore exceptions.
+   */
+  @Contract("_, _ -> new")
+  public static <F> @NotNull MapCodec<Optional<F>> optional(
+      final String name, final Codec<F> elementCodec) {
+    return new SafeOptionalCodec<>(name, elementCodec);
+  }
+
+  /**
+   * A list codec which accepts both lists and singular entries.
+   */
+  public static <T> Codec<List<T>> list(Codec<T> codec) {
+    return either(codec, codec.listOf())
+        .xmap(e -> e.map(ImmutableList::of, Function.identity()), Either::right);
+  }
+
+  /**
+   * A shuffling list codec which accepts both lists and singular entries.
+   */
+  public static <T> Codec<ShufflingList<T>> weightedList(Codec<T> codec) {
+    return either(codec, ShufflingList.codec(codec))
+        .xmap(
+            e -> e.map(
+                entry -> {
+                  ShufflingList<T> list = new ShufflingList<>();
+                  list.add(entry, 1);
+                  return list;
+                },
+                Function.identity()),
+            Either::right);
+  }
+
+  /**
+   * a {@link Codec}, which uses a bidirectional map to en/decode objects.
+   */
+  public static <K, V> Codec<V> mapLookup(@NotNull Codec<K> keyCodec, @NotNull BiMap<K, V> lookup) {
+    return keyCodec.flatXmap(
+        key -> Optional.ofNullable(lookup.get(key))
+            .map(DataResult::success)
+            .orElseGet(() -> DataResult.error(() -> "Unknown type: %s".formatted(key))),
+        eventType -> Optional.ofNullable(lookup.inverse().get(eventType))
+            .map(DataResult::success)
+            .orElseGet(() -> DataResult.error(() -> "Unknown type: %s".formatted(eventType))));
+  }
+
+  /**
+   * an {@link Enum} codec, which uses enum constant names to en/decode values.
+   */
+  @ApiStatus.Experimental
+  public static <T extends Enum<T>> Codec<T> enumCodec(Class<T> cls) {
+    return Codec.STRING.comapFlatMap(
+        string -> {
+          try {
+            return DataResult.success(Enum.valueOf(cls, string.toUpperCase(Locale.ROOT)));
+          } catch (IllegalArgumentException e) {
+            return DataResult.error(() -> "No such enum constant %s!".formatted(string));
+          }
+        },
+        t -> t.name().toLowerCase(Locale.ROOT));
+  }
+}

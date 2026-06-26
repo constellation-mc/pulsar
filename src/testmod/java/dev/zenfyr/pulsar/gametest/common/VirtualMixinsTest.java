@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.gametest.common;
 
-import dev.zenfyr.pulsar.mixin.VirtualMixins;
+import dev.zenfyr.pulsar.api.mixin.VirtualMixins;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import net.fabricmc.api.ModInitializer;
