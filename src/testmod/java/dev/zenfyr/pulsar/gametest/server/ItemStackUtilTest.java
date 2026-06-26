@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.gametest.server;
 
-import dev.zenfyr.pulsar.itemstack.ItemStackUtil;
+import dev.zenfyr.pulsar.api.itemstack.ItemStackUtil;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;

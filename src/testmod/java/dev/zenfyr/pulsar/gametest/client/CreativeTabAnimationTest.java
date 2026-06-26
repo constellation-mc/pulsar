@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.gametest.client;
 
 import com.mojang.math.Axis;
-import dev.zenfyr.pulsar.creativetab.CreativeModeTabAnimaton;
+import dev.zenfyr.pulsar.api.creativetab.CreativeModeTabAnimaton;
 import dev.zenfyr.pulsar.gametest.common.CreativeTabBuilderTest;
 import dev.zenfyr.pulsar.gametest.util.AutoTest;
 import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;

@@ -1,10 +1,10 @@
 package dev.zenfyr.pulsar.gametest.client;
 
-import dev.zenfyr.pulsar.client.particles.ItemStackParticle;
-import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
+import dev.zenfyr.pulsar.api.client.particles.ItemStackParticle;
+import dev.zenfyr.pulsar.api.client.particles.ScreenParticleHelper;
+import dev.zenfyr.pulsar.api.util.MathUtil;
 import dev.zenfyr.pulsar.gametest.util.AutoTest;
 import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
-import dev.zenfyr.pulsar.util.MathUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.ParticleTypes;
