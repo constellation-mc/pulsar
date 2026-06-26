@@ -3,7 +3,6 @@ package dev.zenfyr.pulsar.client.particles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,7 +14,6 @@ public abstract class AbstractScreenParticle implements Renderable {
   public double prevX, prevY;
   public int age = 0, deathAge = 200;
   protected Minecraft client;
-  protected Gui gui;
   public boolean removed = false;
   protected Screen screen;
 
@@ -49,7 +47,7 @@ public abstract class AbstractScreenParticle implements Renderable {
   @ApiStatus.Internal
   public final void extractRenderStateInternal(
       GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-    if (removed || (screen != null && gui.screen() != screen)) return;
+    if (removed || (screen != null && client.gui.screen() != screen)) return;
     extractRenderState(graphics, mouseX, mouseY, delta);
   }
 
@@ -61,6 +59,6 @@ public abstract class AbstractScreenParticle implements Renderable {
     tick();
     age++;
     this.removed = checkRemoval();
-    if (screen != null && gui.screen() != screen) removed = true;
+    if (screen != null && client.gui.screen() != screen) removed = true;
   }
 }

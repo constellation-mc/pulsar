@@ -53,6 +53,6 @@ public class VanillaParticle extends AbstractScreenParticle {
 
   @Override
   protected boolean checkRemoval() {
-    return !particle.isAlive() || (screen != null && gui.screen() != screen);
+    return !particle.isAlive() || (screen != null && client.gui.screen() != screen);
   }
 }
