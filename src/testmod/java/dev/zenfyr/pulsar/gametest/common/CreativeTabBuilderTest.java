@@ -1,8 +1,8 @@
 package dev.zenfyr.pulsar.gametest.common;
 
-import dev.zenfyr.pulsar.creativetab.CreativeModeTabBuilder;
+import dev.zenfyr.pulsar.api.creativetab.CreativeModeTabBuilder;
+import dev.zenfyr.pulsar.api.util.SupportUtil;
 import dev.zenfyr.pulsar.gametest.util.Utils;
-import dev.zenfyr.pulsar.util.SupportUtil;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;

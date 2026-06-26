@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.test.util;
 
-import dev.zenfyr.pulsar.util.MakeSure;
+import dev.zenfyr.pulsar.api.util.MakeSure;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.test.util;
 
-import dev.zenfyr.pulsar.util.functions.Memoize;
+import dev.zenfyr.pulsar.api.util.functions.Memoize;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
