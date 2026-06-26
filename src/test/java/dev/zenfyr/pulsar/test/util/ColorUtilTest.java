@@ -1,6 +1,6 @@
 package dev.zenfyr.pulsar.test.util;
 
-import dev.zenfyr.pulsar.util.ColorUtil;
+import dev.zenfyr.pulsar.api.util.ColorUtil;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.params.ParameterizedTest;

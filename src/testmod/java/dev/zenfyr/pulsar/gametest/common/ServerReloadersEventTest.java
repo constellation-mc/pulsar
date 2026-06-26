@@ -1,9 +1,9 @@
 package dev.zenfyr.pulsar.gametest.common;
 
+import dev.zenfyr.pulsar.api.resources.ReloaderType;
+import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
 import dev.zenfyr.pulsar.gametest.util.Utils;
-import dev.zenfyr.pulsar.resources.ReloaderType;
-import dev.zenfyr.pulsar.resources.ServerReloadersEvent;
-import dev.zenfyr.pulsar.util.PulsarLog;
+import dev.zenfyr.pulsar.impl.PulsarLog;
 import java.util.Objects;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
