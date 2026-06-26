@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.test.util;
+package dev.zenfyr.pulsar.gametest.util;
 
 import java.time.Duration;
 import java.util.function.Function;

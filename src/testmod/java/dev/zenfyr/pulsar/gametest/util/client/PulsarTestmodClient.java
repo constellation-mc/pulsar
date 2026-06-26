@@ -1,8 +1,9 @@
-package dev.zenfyr.pulsar.test.client;
+package dev.zenfyr.pulsar.gametest.util.client;
 
 import com.mojang.logging.LogUtils;
 import dev.zenfyr.pulsar.client.events.AfterFirstReload;
-import dev.zenfyr.pulsar.test.util.Utils;
+import dev.zenfyr.pulsar.gametest.util.TestRunner;
+import dev.zenfyr.pulsar.gametest.util.Utils;
 import java.util.regex.Pattern;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -32,10 +33,10 @@ public class PulsarTestmodClient implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
     if (!Utils.ENABLED) return;
+    Minecraft client = Minecraft.getInstance();
 
-    AfterFirstReload.EVENT.register(() -> Minecraft.getInstance().execute(() -> {
+    AfterFirstReload.EVENT.register(() -> client.execute(() -> {
       try {
-        Minecraft client = Minecraft.getInstance();
         String levelName = "pulsar_test_"
             + FabricLoader.getInstance()
                 .getModContainer("minecraft")
@@ -81,20 +82,20 @@ public class PulsarTestmodClient implements ClientModInitializer {
     var thread = new Thread(() -> {
       try {
         log.info("Started client test.");
-        ClientTestContext context = new ClientTestContext(Minecraft.getInstance());
+        ClientTestContext context = new ClientTestContext(client);
         context.waitForLevelTicks(200);
-        GLFW.glfwShowWindow(context.client().getWindow().handle());
+        GLFW.glfwShowWindow(client.getWindow().handle());
 
         FabricLoader.getInstance()
-            .invokeEntrypoints(
-                "pulsar:client_test", ClientTestEntrypoint.class, e -> e.onClientTest(context));
+            .getEntrypoints("pulsar:client_test", Object.class)
+            .forEach(entrypoint -> TestRunner.runTests(entrypoint, context));
         MixinEnvironment.getCurrentEnvironment().audit();
 
         Utils.runChecks(log);
-        Minecraft.getInstance().stop();
+        client.stop();
       } catch (Throwable t) {
         log.error("Failed client test!", t);
-        System.exit(1);
+        System.exit(-1);
       }
     });
     thread.start();

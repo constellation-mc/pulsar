@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.test.autotest;
+package dev.zenfyr.pulsar.gametest.common;
 
 import dev.zenfyr.pulsar.registry.RegistryUtil;
 import net.fabricmc.api.ModInitializer;

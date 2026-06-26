@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.test.util;
+package dev.zenfyr.pulsar.gametest.util;
 
 import com.mojang.logging.LogUtils;
 import java.lang.reflect.InvocationTargetException;

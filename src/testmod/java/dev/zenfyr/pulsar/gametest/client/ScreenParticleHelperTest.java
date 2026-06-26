@@ -1,10 +1,9 @@
-package dev.zenfyr.pulsar.test.autotest.client;
+package dev.zenfyr.pulsar.gametest.client;
 
 import dev.zenfyr.pulsar.client.particles.ItemStackParticle;
 import dev.zenfyr.pulsar.client.particles.ScreenParticleHelper;
-import dev.zenfyr.pulsar.test.client.ClientTestContext;
-import dev.zenfyr.pulsar.test.client.ClientTestEntrypoint;
-import dev.zenfyr.pulsar.test.util.AutoTest;
+import dev.zenfyr.pulsar.gametest.util.AutoTest;
+import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
 import dev.zenfyr.pulsar.util.MathUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,7 +11,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.item.Items;
 
 @Environment(EnvType.CLIENT)
-public class ScreenParticleHelperTest implements ClientTestEntrypoint {
+public class ScreenParticleHelperTest {
 
   @AutoTest
   void testCustomScreenParticles(ClientTestContext context) {
