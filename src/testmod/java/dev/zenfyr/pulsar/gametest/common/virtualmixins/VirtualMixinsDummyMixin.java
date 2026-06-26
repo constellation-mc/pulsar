@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.test.autotest.util.virtualmixins;
+package dev.zenfyr.pulsar.gametest.common.virtualmixins;
 
-import dev.zenfyr.pulsar.test.autotest.util.VirtualMixinsDummyTarget;
+import dev.zenfyr.pulsar.gametest.common.VirtualMixinsDummyTarget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

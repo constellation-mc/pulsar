@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.test.client;
+package dev.zenfyr.pulsar.gametest.util.client;
 
-import dev.zenfyr.pulsar.test.util.TestContext;
+import dev.zenfyr.pulsar.gametest.util.TestContext;
 import java.time.Duration;
 import java.util.function.BiFunction;
 import java.util.function.Function;

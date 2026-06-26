@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.test.autotest.util;
+package dev.zenfyr.pulsar.gametest.common;
 
 // dummy target for the virtual mixins test
 public class VirtualMixinsDummyTarget {

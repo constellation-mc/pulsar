@@ -1,8 +1,8 @@
-package dev.zenfyr.pulsar.test.autotest;
+package dev.zenfyr.pulsar.gametest.common;
 
+import dev.zenfyr.pulsar.gametest.util.Utils;
 import dev.zenfyr.pulsar.resources.ReloaderType;
 import dev.zenfyr.pulsar.resources.ServerReloadersEvent;
-import dev.zenfyr.pulsar.test.util.Utils;
 import dev.zenfyr.pulsar.util.PulsarLog;
 import java.util.Objects;
 import net.fabricmc.api.ModInitializer;

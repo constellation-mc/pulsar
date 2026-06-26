@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.zenfyr.pulsar.test.client;
+package dev.zenfyr.pulsar.gametest.util.client;
 
-import dev.zenfyr.pulsar.test.util.Utils;
+import dev.zenfyr.pulsar.gametest.util.Utils;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
