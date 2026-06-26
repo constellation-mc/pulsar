@@ -1,7 +1,7 @@
-package dev.zenfyr.pulsar.impl.mixins.client.itemgroup;
+package dev.zenfyr.pulsar.impl.mixins.client.creativetab;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.impl.creativetab.CreativeModeTabExtensions;
+import dev.zenfyr.pulsar.impl.client.creativetab.CreativeModeTabExtensions;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
