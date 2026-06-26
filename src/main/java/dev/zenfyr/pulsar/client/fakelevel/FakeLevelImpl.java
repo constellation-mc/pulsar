@@ -5,6 +5,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.extract.LevelExtractor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -42,6 +43,49 @@ class FakeLevelImpl extends ClientLevel {
 
   // since we can't call the ctx, we init fields like this.
   public void initHook() {}
+
+  @Override
+  public void addParticle(
+      ParticleOptions particleData,
+      double x,
+      double y,
+      double z,
+      double xSpeed,
+      double ySpeed,
+      double zSpeed) {}
+
+  @Override
+  public void addParticle(
+      ParticleOptions particle,
+      boolean overrideLimiter,
+      boolean alwaysShow,
+      double x,
+      double y,
+      double z,
+      double xSpeed,
+      double ySpeed,
+      double zSpeed) {}
+
+  @Override
+  public void addAlwaysVisibleParticle(
+      ParticleOptions particleData,
+      double x,
+      double y,
+      double z,
+      double xSpeed,
+      double ySpeed,
+      double zSpeed) {}
+
+  @Override
+  public void addAlwaysVisibleParticle(
+      ParticleOptions particleData,
+      boolean ignoreRange,
+      double x,
+      double y,
+      double z,
+      double xSpeed,
+      double ySpeed,
+      double zSpeed) {}
 
   @Override
   public BlockState getBlockState(BlockPos blockPos) {
