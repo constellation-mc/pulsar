@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.test.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import dev.zenfyr.pulsar.util.Utilities;
+import dev.zenfyr.pulsar.api.util.Utilities;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;

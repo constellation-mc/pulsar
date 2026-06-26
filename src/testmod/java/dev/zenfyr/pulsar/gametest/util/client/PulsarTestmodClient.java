@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.gametest.util.client;
 
 import com.mojang.logging.LogUtils;
-import dev.zenfyr.pulsar.client.events.AfterFirstReload;
+import dev.zenfyr.pulsar.api.client.events.AfterFirstReload;
 import dev.zenfyr.pulsar.gametest.util.TestRunner;
 import dev.zenfyr.pulsar.gametest.util.Utils;
 import java.util.regex.Pattern;
