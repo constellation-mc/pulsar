@@ -1,4 +1,4 @@
-package dev.zenfyr.pulsar.test.autotest;
+package dev.zenfyr.pulsar.gametest.server;
 
 import dev.zenfyr.pulsar.itemstack.ItemStackUtil;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;

@@ -9,28 +9,25 @@
   ],
   "entrypoints": {
     "fabric-gametest": [
-      "dev.zenfyr.pulsar.test.autotest.BaseGameTest",
-      "dev.zenfyr.pulsar.test.autotest.ItemStackUtilTest"
+      "dev.zenfyr.pulsar.gametest.server.ItemStackUtilTest",
+      "dev.zenfyr.pulsar.gametest.server.BaseGameTest"
     ],
     "pulsar:client_test": [
-      "dev.zenfyr.pulsar.test.autotest.client.CreativeTabAnimationTest",
-      "dev.zenfyr.pulsar.test.autotest.client.ScreenParticleHelperTest"
+      "dev.zenfyr.pulsar.gametest.client.CreativeTabAnimationTest",
+      "dev.zenfyr.pulsar.gametest.client.ScreenParticleHelperTest"
     ],
     "preLaunch": [
-      "dev.zenfyr.pulsar.test.autotest.VirtualMixinsTest"
+      "dev.zenfyr.pulsar.gametest.common.VirtualMixinsTest"
     ],
     "main": [
-      "dev.zenfyr.pulsar.test.autotest.CreativeTabBuilderTest",
-      "dev.zenfyr.pulsar.test.autotest.ServerReloadersEventTest",
-      "dev.zenfyr.pulsar.test.autotest.RegistryUtilTest",
-      "dev.zenfyr.pulsar.test.autotest.VirtualMixinsTest"
-    ],
-    "server": [
-      "dev.zenfyr.pulsar.test.server.PulsarTestmodServer"
+      "dev.zenfyr.pulsar.gametest.common.CreativeTabBuilderTest",
+      "dev.zenfyr.pulsar.gametest.common.ServerReloadersEventTest",
+      "dev.zenfyr.pulsar.gametest.common.RegistryUtilTest",
+      "dev.zenfyr.pulsar.gametest.common.VirtualMixinsTest"
     ],
     "client": [
-      "dev.zenfyr.pulsar.test.client.PulsarTestmodClient",
-      "dev.zenfyr.pulsar.test.autotest.client.CreativeTabAnimationTest"
+      "dev.zenfyr.pulsar.gametest.util.client.PulsarTestmodClient",
+      "dev.zenfyr.pulsar.gametest.client.CreativeTabAnimationTest"
     ]
   }
 }
