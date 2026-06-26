@@ -28,20 +28,20 @@ public class TestRunner {
     tests.sort(
         Comparator.comparingInt(value -> value.getAnnotation(AutoTest.class).priority()));
 
-    log.info("Running {} {} tests...", tests.size(), entrypoint.getClass().getName());
+    log.info("Running {} {} tests...", tests.size(), entrypoint.getClass().getSimpleName());
     for (int i = 0; i < tests.size(); i++) {
       Method test = tests.get(i);
       try {
         test.invoke(entrypoint, context);
         log.info(
             "Completed {}#{} [{}/{}]...",
-            entrypoint.getClass().getName(),
+            entrypoint.getClass().getSimpleName(),
             test.getName(),
             i + 1,
             tests.size());
       } catch (IllegalAccessException | InvocationTargetException e) {
         throw new RuntimeException(
-            "Test %s#%s failed!".formatted(entrypoint.getClass().getName(), test.getName()),
+            "Test %s#%s failed!".formatted(entrypoint.getClass().getSimpleName(), test.getName()),
             e instanceof InvocationTargetException ite ? ite.getCause() : e);
       }
     }
