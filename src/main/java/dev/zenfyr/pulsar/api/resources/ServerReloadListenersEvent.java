@@ -12,15 +12,16 @@ import net.minecraft.world.flag.FeatureFlagSet;
  * The Fabric API is side-agnostic, so you have to rely on static hooks. It also lacks a way to retrieve {@link RegistryAccess}.
  * </p>
  */
-public interface ServerReloadersEvent {
+public interface ServerReloadListenersEvent {
 
-  Bus<ServerReloadersEvent> EVENT = Bus.create(ServerReloadersEvent.class, events -> (c) -> {
-    for (ServerReloadersEvent event : events) {
-      event.onServerReloaders(c);
-    }
-  });
+  Bus<ServerReloadListenersEvent> EVENT =
+      Bus.create(ServerReloadListenersEvent.class, events -> (c) -> {
+        for (ServerReloadListenersEvent event : events) {
+          event.onServerReload(c);
+        }
+      });
 
-  void onServerReloaders(Context context);
+  void onServerReload(Context context);
 
   interface Context {
     RegistryAccess registryAccess();
@@ -33,6 +34,6 @@ public interface ServerReloadersEvent {
      * Returns a reloader by type. <br/>
      * Due to a design oversight, calling this method during the event will crash the game. Using it during {@code prepare} and {@code apply} is fine.
      */
-    <T extends PreparableReloadListener> T reloader(ReloaderType<T> type);
+    <T extends PreparableReloadListener> T getListener(ReloadListenerType<T> type);
   }
 }

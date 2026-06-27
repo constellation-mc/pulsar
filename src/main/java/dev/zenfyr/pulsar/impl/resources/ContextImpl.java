@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.resources;
 
-import dev.zenfyr.pulsar.api.resources.ReloaderType;
-import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
+import dev.zenfyr.pulsar.api.resources.ReloadListenerType;
+import dev.zenfyr.pulsar.api.resources.ServerReloadListenersEvent;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -14,8 +14,8 @@ public record ContextImpl(
     RegistryAccess registryAccess,
     FeatureFlagSet featureFlags,
     Consumer<IdentifiableResourceReloadListener> registrar,
-    Function<ReloaderType<?>, PreparableReloadListener> provider)
-    implements ServerReloadersEvent.Context {
+    Function<ReloadListenerType<?>, PreparableReloadListener> provider)
+    implements ServerReloadListenersEvent.Context {
 
   @Override
   public void register(ResourceLocation location, PreparableReloadListener reloadListener) {
@@ -28,7 +28,7 @@ public record ContextImpl(
   }
 
   @Override
-  public <T extends PreparableReloadListener> T reloader(ReloaderType<T> type) {
+  public <T extends PreparableReloadListener> T getListener(ReloadListenerType<T> type) {
     return (T) provider().apply(type);
   }
 }

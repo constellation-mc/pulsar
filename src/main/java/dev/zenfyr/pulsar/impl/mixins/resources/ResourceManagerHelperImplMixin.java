@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.impl.mixins.resources;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
+import dev.zenfyr.pulsar.api.resources.ServerReloadListenersEvent;
 import dev.zenfyr.pulsar.impl.resources.ContextImpl;
 import dev.zenfyr.pulsar.impl.resources.InternalContentsAccessor;
 import dev.zenfyr.pulsar.impl.resources.InternalContext;
@@ -41,10 +41,10 @@ public class ResourceManagerHelperImplMixin {
             }
             toAdd.add(listener);
           },
-          reloaderType ->
-              ((InternalContentsAccessor) internal.contents()).pulsar$getReloader(reloaderType));
+          reloaderType -> ((InternalContentsAccessor) internal.contents())
+              .pulsar$getReloadListener(reloaderType));
 
-      ServerReloadersEvent.EVENT.invoker().onServerReloaders(context);
+      ServerReloadListenersEvent.EVENT.invoker().onServerReload(context);
     }
     return lastSize;
   }

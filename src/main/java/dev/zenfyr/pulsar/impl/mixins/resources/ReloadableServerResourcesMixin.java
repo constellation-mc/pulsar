@@ -3,7 +3,7 @@ package dev.zenfyr.pulsar.impl.mixins.resources;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.api.resources.ReloaderType;
+import dev.zenfyr.pulsar.api.resources.ReloadListenerType;
 import dev.zenfyr.pulsar.impl.resources.InternalContentsAccessor;
 import dev.zenfyr.pulsar.impl.resources.InternalContext;
 import dev.zenfyr.pulsar.impl.resources.WrappedReloader;
@@ -29,11 +29,12 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
   @Unique private final Map<ResourceLocation, PreparableReloadListener> reloadersByIdentifier =
       new HashMap<>();
 
-  @Unique private final IdentityHashMap<ReloaderType<?>, PreparableReloadListener> reloadersByType =
+  @Unique private final IdentityHashMap<ReloadListenerType<?>, PreparableReloadListener> reloadersByType =
       new IdentityHashMap<>();
 
   @Override
-  public <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type) {
+  public <T extends PreparableReloadListener> T pulsar$getReloadListener(
+      ReloadListenerType<T> type) {
     PreparableReloadListener reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {

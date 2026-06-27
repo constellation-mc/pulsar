@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.gametest.common;
 
-import dev.zenfyr.pulsar.api.resources.ReloaderType;
-import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
+import dev.zenfyr.pulsar.api.resources.ReloadListenerType;
+import dev.zenfyr.pulsar.api.resources.ServerReloadListenersEvent;
 import dev.zenfyr.pulsar.gametest.util.Utils;
 import dev.zenfyr.pulsar.impl.PulsarLog;
 import java.util.Objects;
@@ -13,13 +13,13 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
 public class ServerReloadersEventTest implements ModInitializer {
 
-  public static final ReloaderType<TestReloader> TYPE =
-      ReloaderType.create(new ResourceLocation("pulsar", "test-reloader"));
+  public static final ReloadListenerType<TestReloader> TYPE =
+      ReloadListenerType.create(new ResourceLocation("pulsar", "test-reloader"));
   private static String trigger = null;
 
   @Override
   public void onInitialize() {
-    ServerReloadersEvent.EVENT.listen(
+    ServerReloadListenersEvent.EVENT.listen(
         context -> context.register(TYPE.location(), new TestReloader(context)));
 
     // make sure that the reloader triggered
@@ -28,9 +28,9 @@ public class ServerReloadersEventTest implements ModInitializer {
 
   public static class TestReloader implements ResourceManagerReloadListener {
 
-    private final ServerReloadersEvent.Context context;
+    private final ServerReloadListenersEvent.Context context;
 
-    public TestReloader(ServerReloadersEvent.Context context) {
+    public TestReloader(ServerReloadListenersEvent.Context context) {
       this.context = context;
     }
 
@@ -40,7 +40,7 @@ public class ServerReloadersEventTest implements ModInitializer {
       PulsarLog.logger()
           .info(
               "reload {}: {}",
-              context.reloader(TYPE),
+              context.getListener(TYPE),
               context
                   .registryAccess()
                   .registryOrThrow(Registries.DIMENSION_TYPE)
