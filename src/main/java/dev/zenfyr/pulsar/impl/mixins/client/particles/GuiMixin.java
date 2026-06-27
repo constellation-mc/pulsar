@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixins.client.particles;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.api.client.particles.ScreenParticleHelper;
+import dev.zenfyr.pulsar.impl.client.particles.ScreenParticlesDuck;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -34,6 +34,6 @@ public class GuiMixin {
       CallbackInfo ci,
       @Local GuiGraphicsExtractor graphics) {
     // graphics.nextStratum();
-    ScreenParticleHelper.extractParticleRenderState(this.minecraft, graphics);
+    ((ScreenParticlesDuck) this.minecraft).pulsar$getScreenParticles().extractRenderState(graphics);
   }
 }
