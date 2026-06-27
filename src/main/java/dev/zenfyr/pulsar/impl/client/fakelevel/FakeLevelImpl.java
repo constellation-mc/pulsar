@@ -1,5 +1,8 @@
 package dev.zenfyr.pulsar.impl.client.fakelevel;
 
+import com.google.common.base.Suppliers;
+import dev.zenfyr.pulsar.api.client.events.AfterFirstReload;
+import java.util.function.Supplier;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -14,8 +17,24 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import sun.misc.Unsafe;
 
 public class FakeLevelImpl extends ClientLevel {
+
+  public static final Supplier<ClientLevel> INSTANCE = Suppliers.memoize(() -> {
+    try {
+      var field = Unsafe.class.getDeclaredField("theUnsafe");
+      field.setAccessible(true);
+      Unsafe unsafe = (Unsafe) field.get(null);
+
+      var level = (FakeLevelImpl) unsafe.allocateInstance(FakeLevelImpl.class);
+      level.initHook();
+      return level;
+
+    } catch (NoSuchFieldException | IllegalAccessException | InstantiationException e) {
+      throw new RuntimeException("Failed to init FakeLevelImpl!", e);
+    }
+  });
 
   public FakeLevelImpl(
       ClientPacketListener clientPacketListener,
@@ -30,6 +49,10 @@ public class FakeLevelImpl extends ClientLevel {
       int k) {
     super(
         clientPacketListener, clientLevelData, resourceKey, holder, i, j, levelRenderer, bl, l, k);
+  }
+
+  public static void init() {
+    AfterFirstReload.EVENT.listen(INSTANCE::get);
   }
 
   // since we can't call the ctx, we init fields like this.
