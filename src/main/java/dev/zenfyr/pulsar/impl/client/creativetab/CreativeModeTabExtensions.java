@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.impl.creativetab;
+package dev.zenfyr.pulsar.impl.client.creativetab;
 
-import dev.zenfyr.pulsar.api.creativetab.CreativeModeTabAnimaton;
+import dev.zenfyr.pulsar.api.client.creativetab.CreativeModeTabAnimation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.item.CreativeModeTab;
@@ -8,11 +8,11 @@ import net.minecraft.world.item.CreativeModeTab;
 @Environment(EnvType.CLIENT)
 public interface CreativeModeTabExtensions {
 
-  default CreativeModeTab pulsar$setIconAnimation(CreativeModeTabAnimaton animation) {
+  default CreativeModeTab pulsar$setIconAnimation(CreativeModeTabAnimation animation) {
     throw new IllegalStateException("Interface not implemented");
   }
 
-  default CreativeModeTabAnimaton pulsar$getIconAnimation() {
+  default CreativeModeTabAnimation pulsar$getIconAnimation() {
     throw new IllegalStateException("Interface not implemented");
   }
 }
