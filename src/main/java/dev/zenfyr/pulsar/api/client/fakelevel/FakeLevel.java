@@ -52,6 +52,6 @@ public class FakeLevel {
 
   @ApiStatus.Internal
   public static void init() {
-    AfterFirstReload.EVENT.register(INSTANCE::get);
+    AfterFirstReload.EVENT.listen(INSTANCE::get);
   }
 }

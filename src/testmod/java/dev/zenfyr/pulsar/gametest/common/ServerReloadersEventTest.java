@@ -20,7 +20,7 @@ public class ServerReloadersEventTest implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    ServerReloadersEvent.EVENT.register(
+    ServerReloadersEvent.EVENT.listen(
         context -> context.register(TYPE.identifier(), new TestReloader(context)));
 
     // make sure that the reloader triggered
