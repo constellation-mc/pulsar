@@ -7,6 +7,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A custom tab entries impl, which removes some restrictions, mainly on duplicate items.
+ */
 public interface PulsarEntries {
   void add(ItemStack stack, Visibility visibility);
 
