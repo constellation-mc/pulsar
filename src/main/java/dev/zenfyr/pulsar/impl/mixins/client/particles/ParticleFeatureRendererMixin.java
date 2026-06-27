@@ -32,7 +32,7 @@ public class ParticleFeatureRendererMixin {
       method = "prepareRenderPass")
   private GpuTextureView pulsar$setLightTextureForParticles(GpuTextureView original) {
     return GuiParticleRenderer.RENDERING.get()
-        ? BrightLightTexture.INSTANCE.getTextureView()
+        ? BrightLightTexture.getInstance().getTextureView()
         : original;
   }
 }
