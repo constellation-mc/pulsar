@@ -1,40 +1,36 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
-package dev.zenfyr.pulsar.api.codec;
+package dev.zenfyr.pulsar.impl.codec;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.*;
 import java.util.Objects;
+import java.util.stream.Stream;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
-  private final Codec<F> first;
-  private final Codec<S> second;
+public final class SafeEitherMapCodec<F, S> extends MapCodec<Either<F, S>> {
+  private final MapCodec<F> first;
+  private final MapCodec<S> second;
 
-  public SafeEitherCodec(final Codec<F> first, final Codec<S> second) {
+  public SafeEitherMapCodec(final MapCodec<F> first, final MapCodec<S> second) {
     this.first = first;
     this.second = second;
   }
 
   @Override
-  public <T> DataResult<Pair<Either<F, S>, T>> decode(final DynamicOps<T> ops, final T input) {
-    final DataResult<Pair<Either<F, S>, T>> firstRead =
-        first.decode(ops, input).map(vo -> vo.mapFirst(Either::left));
+  public <T> DataResult<Either<F, S>> decode(final DynamicOps<T> ops, final MapLike<T> input) {
+    final DataResult<Either<F, S>> firstRead = first.decode(ops, input).map(Either::left);
     if (firstRead.result().isPresent()) return firstRead;
-    final DataResult<Pair<Either<F, S>, T>> secondRead =
-        second.decode(ops, input).map(vo -> vo.mapFirst(Either::right));
+    final DataResult<Either<F, S>> secondRead = second.decode(ops, input).map(Either::right);
     if (secondRead.result().isPresent()) return secondRead;
     return secondRead.mapError(string ->
         "first: [" + firstRead.error().orElseThrow().message() + "]\n\t second: [" + string + "]");
   }
 
   @Override
-  public <T> DataResult<T> encode(
-      final Either<F, S> input, final DynamicOps<T> ops, final T prefix) {
+  public <T> RecordBuilder<T> encode(
+      final Either<F, S> input, final DynamicOps<T> ops, final RecordBuilder<T> prefix) {
     return input.map(
         value1 -> first.encode(value1, ops, prefix), value2 -> second.encode(value2, ops, prefix));
   }
@@ -47,7 +43,7 @@ final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    final SafeEitherCodec<?, ?> eitherCodec = ((SafeEitherCodec<?, ?>) o);
+    final SafeEitherMapCodec<?, ?> eitherCodec = ((SafeEitherMapCodec<?, ?>) o);
     return Objects.equals(first, eitherCodec.first) && Objects.equals(second, eitherCodec.second);
   }
 
@@ -58,6 +54,11 @@ final class SafeEitherCodec<F, S> implements Codec<Either<F, S>> {
 
   @Override
   public String toString() {
-    return "SafeEitherCodec[" + first + ", " + second + ']';
+    return "SafeEitherMapCodec[" + first + ", " + second + ']';
+  }
+
+  @Override
+  public <T> Stream<T> keys(final DynamicOps<T> ops) {
+    return Stream.concat(first.keys(ops), second.keys(ops));
   }
 }
