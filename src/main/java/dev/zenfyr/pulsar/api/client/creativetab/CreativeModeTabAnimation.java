@@ -30,7 +30,7 @@ public interface CreativeModeTabAnimation {
    * @param itemX the x-coordinate of the icon
    * @param itemY the y-coordinate of the icon
    */
-  void animateIcon(
+  void renderTabIcon(
       CreativeModeTab tab,
       GuiGraphics graphics,
       int itemX,
