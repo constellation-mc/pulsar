@@ -64,7 +64,7 @@ public class VanillaParticleManager {
 
     // without this, the particles will use the world's light texture,
     // which in turn makes them appear dark at night.
-    BrightLightTexture.INSTANCE.turnOnLightLayer();
+    BrightLightTexture.getInstance().turnOnLightLayer();
     Tesselator tessellator = Tesselator.getInstance();
     BufferBuilder bufferBuilder = tessellator.getBuilder();
 
@@ -91,7 +91,7 @@ public class VanillaParticleManager {
       type.end(tessellator);
     });
 
-    BrightLightTexture.INSTANCE.turnOffLightLayer();
+    BrightLightTexture.getInstance().turnOffLightLayer();
     poseStack.popPose();
     RenderSystem.applyModelViewMatrix();
     pose.popPose();
