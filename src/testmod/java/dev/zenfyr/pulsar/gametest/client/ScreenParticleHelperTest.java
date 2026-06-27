@@ -6,12 +6,9 @@ import dev.zenfyr.pulsar.api.client.particles.VanillaParticles;
 import dev.zenfyr.pulsar.api.util.MathUtil;
 import dev.zenfyr.pulsar.gametest.util.AutoTest;
 import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.item.Items;
 
-@Environment(EnvType.CLIENT)
 public class ScreenParticleHelperTest {
 
   @AutoTest
