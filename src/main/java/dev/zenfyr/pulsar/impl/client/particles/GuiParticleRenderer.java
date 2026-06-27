@@ -30,7 +30,7 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
     if (renderState.count() <= 0) return;
     Minecraft minecraft = Minecraft.getInstance();
 
-    BrightLightTexture.INSTANCE.turnOnLightLayer();
+    BrightLightTexture.getInstance().turnOnLightLayer();
 
     FeatureRenderDispatcher featureRenderDispatcher =
         minecraft.gameRenderer.getFeatureRenderDispatcher();
@@ -57,7 +57,7 @@ public class GuiParticleRenderer extends PictureInPictureRenderer<GuiParticleRen
     renderState.state().reset();
     stack.popMatrix();
 
-    BrightLightTexture.INSTANCE.turnOffLightLayer();
+    BrightLightTexture.getInstance().turnOffLightLayer();
   }
 
   @Override

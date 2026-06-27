@@ -31,6 +31,6 @@ public class ParticleFeatureRendererMixin {
                   "Lnet/minecraft/client/renderer/GameRenderer;lightTexture()Lnet/minecraft/client/renderer/LightTexture;"),
       method = "prepareRenderPass")
   private LightTexture pulsar$setLightTextureForParticles(LightTexture original) {
-    return GuiParticleRenderer.RENDERING.get() ? BrightLightTexture.INSTANCE : original;
+    return GuiParticleRenderer.RENDERING.get() ? BrightLightTexture.getInstance() : original;
   }
 }
