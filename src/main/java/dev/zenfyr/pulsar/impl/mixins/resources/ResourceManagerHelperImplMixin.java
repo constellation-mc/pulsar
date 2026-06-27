@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixins.resources;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
+import dev.zenfyr.pulsar.api.resources.ServerReloadListenersEvent;
 import dev.zenfyr.pulsar.impl.resources.ContextImpl;
 import dev.zenfyr.pulsar.impl.resources.InternalContentsAccessor;
 import java.util.Map;
@@ -38,8 +38,9 @@ public class ResourceManagerHelperImplMixin {
         marker.registries(),
         marker.featureSet(),
         (location, listener) -> reloadersToAdd.add(Map.entry(location, listener)),
-        type -> ((InternalContentsAccessor) marker.dataPackContents()).pulsar$getReloader(type));
-    ServerReloadersEvent.EVENT.invoker().onServerReloaders(context);
+        type ->
+            ((InternalContentsAccessor) marker.dataPackContents()).pulsar$getReloadListener(type));
+    ServerReloadListenersEvent.EVENT.invoker().onServerReload(context);
   }
 
   @Inject(at = @At("TAIL"), method = "collectReloadersToAdd", remap = false)
