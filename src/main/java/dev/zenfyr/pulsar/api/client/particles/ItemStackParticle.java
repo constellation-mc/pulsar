@@ -3,8 +3,6 @@ package dev.zenfyr.pulsar.api.client.particles;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.zenfyr.pulsar.api.util.MathUtil;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -12,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Example screen particle which renders an item with basic physics simulation.
  */
-@Environment(EnvType.CLIENT)
 public class ItemStackParticle extends AbstractScreenParticle {
 
   public final ItemStack stack;
