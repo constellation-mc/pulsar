@@ -36,6 +36,9 @@ public class RegistryUtil {
         });
       });
 
+  /**
+   * Reverse block -> blockentity lookup.
+   */
   @Contract("null -> null")
   public <T extends BlockEntity> BlockEntityType<T> asBlockEntity(@Nullable Block block) {
     if (block == null) return null;

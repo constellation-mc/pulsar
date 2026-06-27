@@ -16,13 +16,13 @@ import org.spongepowered.asm.service.MixinService;
 /**
  * Allows adding new "virtual" mixin configs. This temporarily replaces the mixin service and injects the configs using a ThreadLocal. This <b>MUST</b> be run at preLaunch, while no classes are transformed!
  * <p>
- * I recommend decorating your configs with {@code 'fabric-modId'} to help with debugging.
+ * It's recommended to decorate the configs with {@code 'fabric-modId'} to help with debugging.
  * </p>
  * <p>
  * There's no reason to use this for regular configs, which are available on the classpath.
  * </p>
  * <p>
- * The Mixin framework does not seem to care about the "realness" of the configs, but you might run into some issues with static analysis tools. (e.g. Connector before beta 38)
+ * The Mixin framework does not seem to care about the "realness" of the configs, but some static analysis tools might run into issues. (e.g. Connector before beta 38)
  * </p>
  */
 @ApiStatus.Experimental
