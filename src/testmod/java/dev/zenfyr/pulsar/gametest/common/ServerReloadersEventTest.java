@@ -19,7 +19,7 @@ public class ServerReloadersEventTest implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    ServerReloadersEvent.EVENT.register(context -> context.register(new TestReloader(context)));
+    ServerReloadersEvent.EVENT.listen(context -> context.register(new TestReloader(context)));
 
     // make sure that the reloader triggered
     Utils.addLateCheck("reload listener trigger set", () -> Objects.requireNonNull(trigger));

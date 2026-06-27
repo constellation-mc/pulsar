@@ -1,7 +1,6 @@
 package dev.zenfyr.pulsar.api.resources;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import dev.zenfyr.pulsar.api.event.Bus;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -16,12 +15,11 @@ import net.minecraft.world.flag.FeatureFlagSet;
  */
 public interface ServerReloadersEvent {
 
-  Event<ServerReloadersEvent> EVENT =
-      EventFactory.createArrayBacked(ServerReloadersEvent.class, events -> (c) -> {
-        for (ServerReloadersEvent event : events) {
-          event.onServerReloaders(c);
-        }
-      });
+  Bus<ServerReloadersEvent> EVENT = Bus.create(ServerReloadersEvent.class, events -> (c) -> {
+    for (ServerReloadersEvent event : events) {
+      event.onServerReloaders(c);
+    }
+  });
 
   void onServerReloaders(Context context);
 

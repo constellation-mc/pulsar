@@ -36,7 +36,7 @@ public class PulsarTestmodClient implements ClientModInitializer {
     if (!Utils.ENABLED) return;
     Minecraft client = Minecraft.getInstance();
 
-    AfterFirstReload.EVENT.register(() -> client.execute(() -> {
+    AfterFirstReload.EVENT.listen(() -> client.execute(() -> {
       try {
         String levelName = "pulsar_test_"
             + FabricLoader.getInstance()
