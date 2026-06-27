@@ -32,7 +32,7 @@ public class VanillaParticleManager {
 
   private final Map<ParticleRenderType, GroupWrapper> particleGroups = Maps.newIdentityHashMap();
 
-  public void tickParticles() {
+  public void tick() {
     this.particleGroups.values().forEach(GroupWrapper::tickParticles);
   }
 

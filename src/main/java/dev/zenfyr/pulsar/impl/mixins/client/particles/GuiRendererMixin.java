@@ -2,7 +2,7 @@ package dev.zenfyr.pulsar.impl.mixins.client.particles;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.zenfyr.pulsar.api.client.particles.ScreenParticleHelper;
+import dev.zenfyr.pulsar.impl.client.particles.ScreenParticlesDuck;
 import dev.zenfyr.pulsar.impl.client.particles.VanillaParticleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.GuiRenderer;
@@ -31,7 +31,10 @@ public abstract class GuiRendererMixin {
               shift = At.Shift.AFTER))
   private void pulsar$blitFallback(GpuBufferSlice fogBuffer, CallbackInfo ci) {
     var minecraft = Minecraft.getInstance();
-    var state = ScreenParticleHelper.extractState(minecraft);
+    var particles = ((ScreenParticlesDuck) minecraft).pulsar$getScreenParticles();
+    if (particles == null) return;
+
+    var state = particles.extractState();
     if (state.count() <= 0) return;
 
     var oldSlice = RenderSystem.getProjectionMatrixBuffer();

@@ -2,8 +2,8 @@ package dev.zenfyr.pulsar.impl.mixins.client.particles;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.zenfyr.pulsar.api.client.fakelevel.BrightLightTexture;
-import dev.zenfyr.pulsar.api.client.particles.ScreenParticleHelper;
 import dev.zenfyr.pulsar.impl.client.particles.GuiParticleRenderer;
+import dev.zenfyr.pulsar.impl.client.particles.ScreenParticlesDuck;
 import dev.zenfyr.pulsar.impl.client.particles.VanillaParticleManager;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,7 @@ public class GameRendererMixin {
   private void pulsar$renderScreenParticles(
       DeltaTracker deltaTracker, boolean bl, CallbackInfo ci, @Local GuiGraphics graphics) {
     graphics.nextStratum();
-    ScreenParticleHelper.renderParticles(this.minecraft, graphics);
+    ((ScreenParticlesDuck) this.minecraft).pulsar$getScreenParticles().render(graphics);
   }
 
   @Inject(at = @At("TAIL"), method = "close")
