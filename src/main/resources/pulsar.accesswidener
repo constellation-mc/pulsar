@@ -1,53 +1,24 @@
 accessWidener  v2	official
 # client.particles
-transitive-accessible field net/minecraft/client/particle/Particle hasPhysics Z
+accessible field net/minecraft/client/particle/Particle hasPhysics Z
 
 # codec
 accessible method net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener <init> (Lcom/mojang/serialization/DynamicOps;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/FileToIdConverter;)V
 
 # creativetab
-transitive-accessible class net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder
-transitive-accessible class net/minecraft/world/item/CreativeModeTab$TabVisibility
-transitive-mutable  field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder tabContents Ljava/util/Collection;
+accessible class net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder
+accessible class net/minecraft/world/item/CreativeModeTab$TabVisibility
+mutable  field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder tabContents Ljava/util/Collection;
 accessible field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder tabContents Ljava/util/Collection;
-transitive-mutable  field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder searchTabContents Ljava/util/Set;
+mutable  field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder searchTabContents Ljava/util/Set;
 accessible field net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder searchTabContents Ljava/util/Set;
 
 # resources
-transitive-accessible class net/minecraft/server/MinecraftServer$ReloadableResources
+accessible class net/minecraft/server/MinecraftServer$ReloadableResources
 
 # registry
-transitive-accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
-transitive-accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
-transitive-accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V
-transitive-accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
+accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
+accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V
+accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
-
-# legacy wideners
-transitive-accessible class net/minecraft/core/RegistrySetBuilder$BuildState
-transitive-accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
-transitive-accessible class net/minecraft/world/item/CreativeModeTab$Output
-transitive-accessible class net/minecraft/world/item/CreativeModeTab$ItemDisplayBuilder
-transitive-accessible class net/minecraft/world/item/CreativeModeTab$TabVisibility
-transitive-accessible class net/minecraft/world/entity/raid/Raid$RaiderType
-transitive-accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
-transitive-accessible class net/minecraft/server/MinecraftServer$ReloadableResources
-
-transitive-accessible method net/minecraft/client/gui/screens/worldselection/WorldOpenFlows createWorldAccess (Ljava/lang/String;)Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;
-transitive-accessible method net/minecraft/world/entity/projectile/Projectile <init> (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V
-transitive-accessible method net/minecraft/world/entity/item/FallingBlockEntity <init> (Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/level/block/state/BlockState;)V
-transitive-accessible method net/minecraft/network/chat/TextColor <init> (ILjava/lang/String;)V
-transitive-accessible method net/minecraft/world/entity/vehicle/VehicleEntity getDropItem ()Lnet/minecraft/world/item/Item;
-transitive-accessible method net/minecraft/client/multiplayer/ClientLevel getEntities ()Lnet/minecraft/world/level/entity/LevelEntityGetter;
-transitive-accessible method net/minecraft/world/level/Level getEntities ()Lnet/minecraft/world/level/entity/LevelEntityGetter;
-
-transitive-accessible field net/minecraft/world/entity/Entity level Lnet/minecraft/world/level/Level;
-transitive-accessible field net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen selectedTab Lnet/minecraft/world/item/CreativeModeTab;
-transitive-accessible field net/minecraft/core/MappedRegistry frozen Z
-transitive-accessible field net/minecraft/world/entity/ai/goal/TemptGoal calmDown I
-transitive-accessible field net/minecraft/world/entity/ai/goal/TemptGoal targetingConditions Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;
-transitive-accessible field net/minecraft/world/entity/item/ItemEntity DATA_ITEM Lnet/minecraft/network/syncher/EntityDataAccessor;
-transitive-accessible field net/minecraft/client/gui/screens/inventory/tooltip/ClientTextTooltip text Lnet/minecraft/util/FormattedCharSequence;
-transitive-mutable field net/minecraft/network/chat/TextColor NAMED_COLORS Ljava/util/Map;
-transitive-accessible field net/minecraft/network/chat/TextColor NAMED_COLORS Ljava/util/Map;
-transitive-accessible field net/minecraft/network/chat/TextColor name Ljava/lang/String;
