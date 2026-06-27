@@ -9,5 +9,5 @@ public interface DataPackContentsAccessor {
     return server;
   }
 
-  <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type);
+  <T extends PreparableReloadListener> T pulsar$getReloadListener(ReloadListenerType<T> type);
 }
