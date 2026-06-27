@@ -1,6 +1,6 @@
-package dev.zenfyr.pulsar.api.creativetab;
+package dev.zenfyr.pulsar.api.client.creativetab;
 
-import dev.zenfyr.pulsar.impl.creativetab.CreativeModeTabExtensions;
+import dev.zenfyr.pulsar.impl.client.creativetab.CreativeModeTabExtensions;
 import java.util.Optional;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,15 +9,15 @@ import net.minecraft.world.item.CreativeModeTab;
 
 @FunctionalInterface
 @Environment(EnvType.CLIENT)
-public interface CreativeModeTabAnimaton {
+public interface CreativeModeTabAnimation {
 
   static CreativeModeTab setIconAnimation(
-      CreativeModeTab group, CreativeModeTabAnimaton animation) {
+      CreativeModeTab group, CreativeModeTabAnimation animation) {
     ((CreativeModeTabExtensions) group).pulsar$setIconAnimation(animation);
     return group;
   }
 
-  static Optional<CreativeModeTabAnimaton> getIconAnimation(CreativeModeTab group) {
+  static Optional<CreativeModeTabAnimation> getIconAnimation(CreativeModeTab group) {
     return Optional.ofNullable(((CreativeModeTabExtensions) group).pulsar$getIconAnimation());
   }
 

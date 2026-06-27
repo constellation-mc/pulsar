@@ -10,8 +10,8 @@
   ],
   "client": [
     "client.events.MinecraftMixin",
-    "client.itemgroup.CreativeModeInventoryScreenMixin",
-    "client.itemgroup.CreativeModeTabMixin",
+    "client.creativetab.CreativeModeInventoryScreenMixin",
+    "client.creativetab.CreativeModeTabMixin",
     "client.particles.GameRendererMixin",
     "client.particles.GuiMixin",
     "client.particles.GuiRendererMixin",
