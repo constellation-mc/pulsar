@@ -4,12 +4,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.ApiStatus;
 
 @Environment(EnvType.CLIENT)
-public abstract class AbstractScreenParticle implements Renderable {
+public abstract class AbstractScreenParticle {
   public double x, y, velX, velY;
   public double prevX, prevY;
   public int age = 0, deathAge = 200;
@@ -27,7 +26,6 @@ public abstract class AbstractScreenParticle implements Renderable {
     this.client = Minecraft.getInstance();
   }
 
-  @Override
   @ApiStatus.OverrideOnly
   public abstract void extractRenderState(
       GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta);
@@ -45,14 +43,14 @@ public abstract class AbstractScreenParticle implements Renderable {
   }
 
   @ApiStatus.Internal
-  public final void extractRenderStateInternal(
+  public final void extractParticleRenderState(
       GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
     if (removed || (screen != null && client.screen != screen)) return;
     extractRenderState(graphics, mouseX, mouseY, delta);
   }
 
   @ApiStatus.Internal
-  public final void tickInternal() {
+  public final void tickParticle() {
     this.prevX = x;
     this.prevY = y;
 
