@@ -8,7 +8,6 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import java.util.*;
 import java.util.function.BiConsumer;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -16,8 +15,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadListener
-    implements IdentifiableResourceReloadListener {
+public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadListener {
 
   @Contract("_, _, _ -> new")
   public static <T> @NotNull JsonCodecDataLoader<T> simple(
@@ -30,7 +28,6 @@ public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadLis
     };
   }
 
-  private final ResourceLocation location;
   private final Codec<T> codec;
   private final DynamicOps<JsonElement> dynamicOps;
 
@@ -44,13 +41,7 @@ public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadLis
       DynamicOps<JsonElement> dynamicOps, ResourceLocation location, Codec<T> codec) {
     super(new Gson(), location.toString().replace(':', '/'));
     this.dynamicOps = dynamicOps;
-    this.location = location;
     this.codec = codec;
-  }
-
-  @Override
-  public final ResourceLocation getFabricId() {
-    return this.location;
   }
 
   @Override
