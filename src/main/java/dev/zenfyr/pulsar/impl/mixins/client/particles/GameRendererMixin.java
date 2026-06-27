@@ -1,7 +1,7 @@
 package dev.zenfyr.pulsar.impl.mixins.client.particles;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.zenfyr.pulsar.api.client.particles.ScreenParticleHelper;
+import dev.zenfyr.pulsar.impl.client.particles.ScreenParticlesDuck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -29,7 +29,7 @@ public class GameRendererMixin {
   private void pulsar$renderScreenParticles(
       float tickDelta, long startTime, boolean tick, CallbackInfo ci, @Local GuiGraphics graphics) {
     this.minecraft.getProfiler().push("pulsar_particles");
-    ScreenParticleHelper.renderParticles(this.minecraft, graphics);
+    ((ScreenParticlesDuck) this.minecraft).pulsar$getScreenParticles().render(graphics);
     this.minecraft.getProfiler().pop();
   }
 }

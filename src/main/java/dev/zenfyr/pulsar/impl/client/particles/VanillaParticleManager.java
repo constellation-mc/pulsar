@@ -28,16 +28,17 @@ public class VanillaParticleManager {
 
   public static final ThreadLocal<ClientLevel> LEVEL = ThreadLocal.withInitial(() -> null);
   private static final Camera CAMERA = new Camera();
-  private final Set<AbstractScreenParticle> screenParticles;
+  private final Minecraft client;
+  private final Collection<AbstractScreenParticle> screenParticles;
 
-  public VanillaParticleManager(Set<AbstractScreenParticle> screenParticles) {
+  public VanillaParticleManager(
+      Minecraft client, Collection<AbstractScreenParticle> screenParticles) {
+    this.client = client;
     this.screenParticles = screenParticles;
   }
 
   // this method is an almost direct copy of the one in the particle engine
   public void render(GuiGraphics graphics) {
-    Minecraft client = Minecraft.getInstance();
-
     Map<ParticleRenderType, List<VanillaParticle>> particles = new IdentityHashMap<>();
     this.screenParticles.forEach(particle1 -> {
       if (particle1 instanceof VanillaParticle vp && vp.particle != null && !vp.checkRemoval()) {
@@ -56,7 +57,7 @@ public class VanillaParticleManager {
     poseStack.pushPose();
     poseStack.translate(0, 0, 500);
     poseStack.scale(24, 24, 1);
-    poseStack.translate(0, client.getWindow().getGuiScaledHeight() / 24f, 0);
+    poseStack.translate(0, this.client.getWindow().getGuiScaledHeight() / 24f, 0);
     poseStack.scale(1, -1, 1);
     poseStack.mulPoseMatrix(pose.last().pose());
     RenderSystem.applyModelViewMatrix();
@@ -71,11 +72,11 @@ public class VanillaParticleManager {
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
     particles.forEach((type, particles1) -> {
-      type.begin(bufferBuilder, client.getTextureManager());
+      type.begin(bufferBuilder, this.client.getTextureManager());
 
       for (VanillaParticle vp : particles1) {
         try {
-          vp.particle.render(bufferBuilder, CAMERA, client.getFrameTime());
+          vp.particle.render(bufferBuilder, CAMERA, this.client.getFrameTime());
         } catch (Throwable var17) {
           CrashReport crashReport =
               CrashReport.forThrowable(var17, "[Pulsar] Rendering Particle On Screen");
