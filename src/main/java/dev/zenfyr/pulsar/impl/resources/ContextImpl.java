@@ -4,7 +4,6 @@ import dev.zenfyr.pulsar.api.resources.ReloaderType;
 import dev.zenfyr.pulsar.api.resources.ServerReloadersEvent;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -16,11 +15,6 @@ public record ContextImpl(
     BiConsumer<ResourceLocation, PreparableReloadListener> registrar,
     Function<ReloaderType<?>, PreparableReloadListener> provider)
     implements ServerReloadersEvent.Context {
-
-  @Deprecated
-  public void register(IdentifiableResourceReloadListener listener) {
-    registrar().accept(listener.getFabricId(), listener);
-  }
 
   @Override
   public void register(ResourceLocation location, PreparableReloadListener reloadListener) {

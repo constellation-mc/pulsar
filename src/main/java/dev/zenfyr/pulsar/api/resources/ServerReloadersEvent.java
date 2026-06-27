@@ -1,7 +1,6 @@
 package dev.zenfyr.pulsar.api.resources;
 
 import dev.zenfyr.pulsar.api.event.Bus;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -28,9 +27,6 @@ public interface ServerReloadersEvent {
     HolderLookup.Provider registryAccess();
 
     FeatureFlagSet featureFlags();
-
-    @Deprecated
-    void register(IdentifiableResourceReloadListener reloadListener);
 
     void register(ResourceLocation location, PreparableReloadListener reloadListener);
 
