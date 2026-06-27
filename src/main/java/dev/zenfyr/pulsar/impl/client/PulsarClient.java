@@ -10,6 +10,6 @@ public class PulsarClient implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
     FakeLevel.init();
-    AfterFirstReload.EVENT.register(BrightLightTexture::init);
+    AfterFirstReload.EVENT.listen(BrightLightTexture::init);
   }
 }
