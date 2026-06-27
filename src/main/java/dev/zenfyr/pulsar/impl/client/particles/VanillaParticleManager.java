@@ -105,7 +105,7 @@ public class VanillaParticleManager {
       T options, double x, double y, double velocityX, double velocityY, double velocityZ) {
     Particle particle;
     try {
-      LEVEL.set(FakeLevel.INSTANCE.get());
+      LEVEL.set(FakeLevel.getInstance());
       particle = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine)
           .pulsar$createParticle(
               options,
