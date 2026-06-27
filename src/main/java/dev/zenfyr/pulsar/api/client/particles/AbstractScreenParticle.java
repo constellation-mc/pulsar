@@ -7,6 +7,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Base screen particle class.
+ */
 @Environment(EnvType.CLIENT)
 public abstract class AbstractScreenParticle {
   public double x, y, velX, velY;
@@ -38,10 +41,18 @@ public abstract class AbstractScreenParticle {
     return age >= deathAge;
   }
 
+  /**
+   * 'Binds' a particle to a specific screen, if the screen is closed,
+   * the particle will be removed.
+   * @param screen the screen to bind to.
+   */
   public void bindToScreen(Screen screen) {
     this.screen = screen;
   }
 
+  /**
+   * Internal method. Do Not Call
+   */
   @ApiStatus.Internal
   public final void extractParticleRenderState(
       GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
@@ -49,6 +60,9 @@ public abstract class AbstractScreenParticle {
     extractRenderState(graphics, mouseX, mouseY, delta);
   }
 
+  /**
+   * Internal method. Do Not Call
+   */
   @ApiStatus.Internal
   public final void tickParticle() {
     this.prevX = x;
