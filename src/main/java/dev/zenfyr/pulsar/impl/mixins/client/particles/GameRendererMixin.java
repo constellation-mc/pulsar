@@ -47,6 +47,6 @@ public class GameRendererMixin {
 
   @Inject(at = @At("TAIL"), method = "close")
   private void pulsar$closeBrightLightmap(CallbackInfo ci) {
-    BrightLightTexture.INSTANCE.close();
+    BrightLightTexture.getInstance().close();
   }
 }
