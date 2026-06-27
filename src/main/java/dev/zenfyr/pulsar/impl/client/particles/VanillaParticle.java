@@ -1,15 +1,12 @@
 package dev.zenfyr.pulsar.impl.client.particles;
 
 import dev.zenfyr.pulsar.api.client.particles.AbstractScreenParticle;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.particle.Particle;
 
 /**
  * Inspired by the removed {@code gesundheit} module of <a href="https://git.sleeping.town/unascribed-mods/Lib39">Lib39</a>
  */
-@Environment(EnvType.CLIENT)
 public class VanillaParticle extends AbstractScreenParticle {
 
   final Particle particle;

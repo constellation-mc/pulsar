@@ -1,7 +1,5 @@
 package dev.zenfyr.pulsar.api.client.particles;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -10,7 +8,6 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Base screen particle class.
  */
-@Environment(EnvType.CLIENT)
 public abstract class AbstractScreenParticle {
   public double x, y, velX, velY;
   public double prevX, prevY;
