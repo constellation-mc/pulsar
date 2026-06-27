@@ -41,12 +41,17 @@ public class ServerReloadersEventTest implements ModInitializer {
       PulsarLog.logger()
           .info(
               "reload {}: {}",
-              TYPE.identifier(),
+              context.reloader(TYPE),
               context
                   .registryAccess()
                   .lookupOrThrow(Registries.DIMENSION_TYPE)
                   .get(ResourceKey.create(
                       Registries.DIMENSION_TYPE, Identifier.withDefaultNamespace("overworld"))));
+    }
+
+    @Override
+    public String toString() {
+      return TYPE.identifier().toString();
     }
   }
 }
