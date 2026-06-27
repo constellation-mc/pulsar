@@ -1,7 +1,6 @@
 package dev.zenfyr.pulsar.api.client.events;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import dev.zenfyr.pulsar.api.event.Bus;
 
 /**
  * This event fires right after the first successful client reload,
@@ -9,12 +8,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
  */
 public interface AfterFirstReload {
 
-  Event<AfterFirstReload> EVENT =
-      EventFactory.createArrayBacked(AfterFirstReload.class, afterFirstReload -> () -> {
-        for (AfterFirstReload resourceReload : afterFirstReload) {
-          resourceReload.afterFirstReload();
-        }
-      });
+  Bus<AfterFirstReload> EVENT = Bus.create(AfterFirstReload.class, afterFirstReload -> () -> {
+    for (AfterFirstReload resourceReload : afterFirstReload) {
+      resourceReload.afterFirstReload();
+    }
+  });
 
   void afterFirstReload();
 }
