@@ -6,10 +6,10 @@ import dev.zenfyr.pulsar.gametest.util.Utils;
 import dev.zenfyr.pulsar.impl.PulsarLog;
 import java.util.Objects;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
 public class ServerReloadersEventTest implements ModInitializer {
 
@@ -19,13 +19,14 @@ public class ServerReloadersEventTest implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    ServerReloadersEvent.EVENT.listen(context -> context.register(new TestReloader(context)));
+    ServerReloadersEvent.EVENT.listen(
+        context -> context.register(TYPE.location(), new TestReloader(context)));
 
     // make sure that the reloader triggered
     Utils.addLateCheck("reload listener trigger set", () -> Objects.requireNonNull(trigger));
   }
 
-  public static class TestReloader implements SimpleSynchronousResourceReloadListener {
+  public static class TestReloader implements ResourceManagerReloadListener {
 
     private final ServerReloadersEvent.Context context;
 
@@ -34,21 +35,21 @@ public class ServerReloadersEventTest implements ModInitializer {
     }
 
     @Override
-    public ResourceLocation getFabricId() {
-      return TYPE.location();
-    }
-
-    @Override
     public void onResourceManagerReload(ResourceManager manager) {
       trigger = "set";
       PulsarLog.logger()
           .info(
               "reload {}: {}",
-              context.reloader(TYPE).getFabricId(),
+              context.reloader(TYPE),
               context
                   .registryAccess()
                   .registryOrThrow(Registries.DIMENSION_TYPE)
                   .get(new ResourceLocation("overworld")));
+    }
+
+    @Override
+    public String toString() {
+      return TYPE.location().toString();
     }
   }
 }

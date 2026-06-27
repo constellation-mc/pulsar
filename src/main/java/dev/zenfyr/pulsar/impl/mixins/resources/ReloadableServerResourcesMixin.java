@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.zenfyr.pulsar.api.resources.ReloaderType;
 import dev.zenfyr.pulsar.impl.resources.InternalContentsAccessor;
 import dev.zenfyr.pulsar.impl.resources.InternalContext;
+import dev.zenfyr.pulsar.impl.resources.WrappedReloader;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -25,15 +26,15 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = ReloadableServerResources.class, priority = 1100)
 abstract class ReloadableServerResourcesMixin implements InternalContentsAccessor {
 
-  @Unique private final Map<ResourceLocation, IdentifiableResourceReloadListener> reloadersByIdentifier =
+  @Unique private final Map<ResourceLocation, PreparableReloadListener> reloadersByIdentifier =
       new HashMap<>();
 
-  @Unique private final IdentityHashMap<ReloaderType<?>, IdentifiableResourceReloadListener>
-      reloadersByType = new IdentityHashMap<>();
+  @Unique private final IdentityHashMap<ReloaderType<?>, PreparableReloadListener> reloadersByType =
+      new IdentityHashMap<>();
 
   @Override
   public <T extends PreparableReloadListener> T pulsar$getReloader(ReloaderType<T> type) {
-    var reloader = this.reloadersByType.get(type);
+    PreparableReloadListener reloader = this.reloadersByType.get(type);
     if (reloader == null) {
       synchronized (this.reloadersByIdentifier) {
         reloader = this.reloadersByIdentifier.get(type.location());
@@ -41,6 +42,9 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
           throw new NoSuchElementException("Missing reloader %s".formatted(type.location()));
         this.reloadersByType.put(type, reloader);
       }
+    }
+    if (reloader instanceof WrappedReloader wrapped) {
+      reloader = wrapped.delegate();
     }
     return (T) reloader;
   }
