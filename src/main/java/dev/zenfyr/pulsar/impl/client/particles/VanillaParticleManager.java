@@ -113,7 +113,7 @@ public class VanillaParticleManager {
     Particle particle;
     var window = Minecraft.getInstance().getWindow();
     try {
-      LEVEL.set(FakeLevel.INSTANCE.get());
+      LEVEL.set(FakeLevel.getInstance());
       particle = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine)
           .pulsar$createParticle(
               options,
