@@ -2,8 +2,6 @@ package dev.zenfyr.pulsar.api.client.creativetab;
 
 import dev.zenfyr.pulsar.impl.client.creativetab.CreativeModeTabExtensions;
 import java.util.Optional;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.CreativeModeTab;
 
@@ -11,7 +9,6 @@ import net.minecraft.world.item.CreativeModeTab;
  * Utils to set a custom icon for creative mod tabs.
  */
 @FunctionalInterface
-@Environment(EnvType.CLIENT)
 public interface CreativeModeTabAnimation {
 
   static CreativeModeTab setIconAnimation(

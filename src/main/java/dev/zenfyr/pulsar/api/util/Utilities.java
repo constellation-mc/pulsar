@@ -8,7 +8,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,10 +47,6 @@ public final class Utilities {
   public static <T> T supply(T obj, @NotNull Consumer<T> consumer) {
     consumer.accept(obj);
     return obj;
-  }
-
-  public static boolean isDev() {
-    return FabricLoader.getInstance().isDevelopmentEnvironment();
   }
 
   public static String getCallerName() {

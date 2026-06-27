@@ -5,12 +5,9 @@ import dev.zenfyr.pulsar.gametest.common.CreativeTabBuilderTest;
 import dev.zenfyr.pulsar.gametest.util.AutoTest;
 import dev.zenfyr.pulsar.gametest.util.client.ClientTestContext;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.util.Util;
 
-@Environment(EnvType.CLIENT)
 public class CreativeTabAnimationTest implements ClientModInitializer {
 
   @Override
