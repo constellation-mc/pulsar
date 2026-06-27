@@ -14,6 +14,10 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * JSON data reload listener which uses a codec to parse the files.
+ * @param <T> Deserialized type
+ */
 public abstract class JsonCodecDataLoader<T> extends SimpleJsonResourceReloadListener<T> {
 
   @Contract("_, _, _ -> new")

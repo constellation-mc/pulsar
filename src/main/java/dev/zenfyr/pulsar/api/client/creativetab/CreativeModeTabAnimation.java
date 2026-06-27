@@ -7,6 +7,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.CreativeModeTab;
 
+/**
+ * Utils to set a custom icon for creative mod tabs.
+ */
 @FunctionalInterface
 @Environment(EnvType.CLIENT)
 public interface CreativeModeTabAnimation {
