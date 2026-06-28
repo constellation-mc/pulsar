@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
-import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.ServerFunctionLibrary;
@@ -20,15 +19,16 @@ import org.jetbrains.annotations.NotNull;
 @Accessors(fluent = true)
 public final class ReloadListenerType<T extends PreparableReloadListener> {
 
-  public static final ReloadListenerType<TagManager> TAGS = create(ResourceReloadListenerKeys.TAGS);
+  public static final ReloadListenerType<TagManager> TAGS =
+      create(ResourceLocation.tryParse("minecraft:tags"));
   public static final ReloadListenerType<RecipeManager> RECIPES =
-      create(ResourceReloadListenerKeys.RECIPES);
+      create(ResourceLocation.tryParse("minecraft:recipes"));
   public static final ReloadListenerType<ServerAdvancementManager> ADVANCEMENTS =
-      create(ResourceReloadListenerKeys.ADVANCEMENTS);
+      create(ResourceLocation.tryParse("minecraft:advancements"));
   public static final ReloadListenerType<ServerFunctionLibrary> FUNCTIONS =
-      create(ResourceReloadListenerKeys.FUNCTIONS);
+      create(ResourceLocation.tryParse("minecraft:functions"));
   public static final ReloadListenerType<LootDataManager> LOOT_TABLES =
-      create(ResourceReloadListenerKeys.LOOT_TABLES);
+      create(ResourceLocation.tryParse("minecraft:loot_tables"));
 
   private final ResourceLocation location;
 
