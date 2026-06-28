@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
-import net.fabricmc.fabric.api.resource.v1.reloader.ResourceReloaderKeys;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.ServerFunctionLibrary;
@@ -19,11 +18,11 @@ import org.jetbrains.annotations.NotNull;
 public final class ReloadListenerType<T extends PreparableReloadListener> {
 
   public static final ReloadListenerType<RecipeManager> RECIPES =
-      create(ResourceReloaderKeys.Server.RECIPES);
+      create(Identifier.tryParse("minecraft:recipes"));
   public static final ReloadListenerType<ServerAdvancementManager> ADVANCEMENTS =
-      create(ResourceReloaderKeys.Server.ADVANCEMENTS);
+      create(Identifier.tryParse("minecraft:advancements"));
   public static final ReloadListenerType<ServerFunctionLibrary> FUNCTIONS =
-      create(ResourceReloaderKeys.Server.FUNCTIONS);
+      create(Identifier.tryParse("minecraft:functions"));
 
   private final Identifier identifier;
 
