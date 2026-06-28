@@ -10,7 +10,6 @@ import dev.zenfyr.pulsar.impl.resources.WrappedReloader;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
@@ -51,13 +50,11 @@ abstract class ReloadableServerResourcesMixin implements InternalContentsAccesso
   }
 
   @Override
-  public void pulsar$setReloaders(List<IdentifiableResourceReloadListener> reloaders) {
+  public void pulsar$setReloaders(Map<ResourceLocation, PreparableReloadListener> reloaders) {
     this.reloadersByIdentifier.clear();
     this.reloadersByType.clear();
 
-    for (IdentifiableResourceReloadListener reloader : reloaders) {
-      this.reloadersByIdentifier.put(reloader.getFabricId(), reloader);
-    }
+    this.reloadersByIdentifier.putAll(reloaders);
   }
 
   @WrapOperation(

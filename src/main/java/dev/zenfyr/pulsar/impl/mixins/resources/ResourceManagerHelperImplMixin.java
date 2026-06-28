@@ -8,6 +8,8 @@ import dev.zenfyr.pulsar.impl.resources.InternalContentsAccessor;
 import dev.zenfyr.pulsar.impl.resources.InternalContext;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.impl.resource.loader.ResourceManagerHelperImpl;
 import net.minecraft.resources.ResourceLocation;
@@ -55,8 +57,11 @@ public class ResourceManagerHelperImplMixin {
       var internal = InternalContext.LOCAL.get();
       var cls = IdentifiableResourceReloadListener.class;
       ((InternalContentsAccessor) internal.contents())
-          .pulsar$setReloaders(
-              listeners.stream().filter(cls::isInstance).map(cls::cast).toList());
+          .pulsar$setReloaders(listeners.stream()
+              .filter(cls::isInstance)
+              .map(cls::cast)
+              .collect(Collectors.toMap(
+                  IdentifiableResourceReloadListener::getFabricId, Function.identity())));
     }
   }
 }
