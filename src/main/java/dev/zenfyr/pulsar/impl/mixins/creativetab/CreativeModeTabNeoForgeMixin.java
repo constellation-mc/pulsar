@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(CreativeModeTab.class)
-public class CreativeModeTabForgeMixin {
+public class CreativeModeTabNeoForgeMixin {
 
   @WrapOperation(
       at =
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraftforge/common/ForgeHooks;onCreativeModeTabBuildContents(Lnet/minecraft/world/item/CreativeModeTab;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/CreativeModeTab$DisplayItemsGenerator;Lnet/minecraft/world/item/CreativeModeTab$ItemDisplayParameters;Lnet/minecraft/world/item/CreativeModeTab$Output;)V"),
+                  "Lnet/neoforged/neoforge/event/EventHooks;onCreativeModeTabBuildContents(Lnet/minecraft/world/item/CreativeModeTab;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/CreativeModeTab$DisplayItemsGenerator;Lnet/minecraft/world/item/CreativeModeTab$ItemDisplayParameters;Lnet/minecraft/world/item/CreativeModeTab$Output;)V"),
       method = "buildContents",
       require = 0)
   private void pulsar$disableForgeEvent(
