@@ -4,14 +4,16 @@
   "package": "dev.zenfyr.pulsar.impl.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "creativetab.CreativeModeTabForgeMixin",
+    "creativetab.CreativeModeTabMixin",
     "resources.MinecraftServerMixin",
     "resources.ReloadableServerResourcesMixin",
     "resources.ResourceManagerHelperImplMixin"
   ],
   "client": [
-    "client.events.MinecraftMixin",
     "client.creativetab.CreativeModeInventoryScreenMixin",
     "client.creativetab.CreativeModeTabMixin",
+    "client.events.MinecraftMixin",
     "client.particles.GameRendererMixin",
     "client.particles.GuiRendererMixin",
     "client.particles.MinecraftMixin",
