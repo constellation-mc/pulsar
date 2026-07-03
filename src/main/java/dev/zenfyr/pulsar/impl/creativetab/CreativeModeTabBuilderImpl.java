@@ -69,6 +69,7 @@ public class CreativeModeTabBuilderImpl implements CreativeModeTabBuilder {
         (displayContext, entries1) -> this.entries.collect(new PulsarEntriesImpl(entries1)));
 
     CreativeModeTab group = builder.build();
+    ((CreativeModeTabDuck) group).pulsar$isPulsarTab(true);
     Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, this.identifier, group);
     return group;
   }
