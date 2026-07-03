@@ -27,6 +27,7 @@
     "minecraft": "${minecraft_version}"
   },
   "custom": {
+    "launchpad:compatible": true,
     "modmenu": {
       "badges": [ "library" ]
     },
